@@ -1,43 +1,45 @@
 require 'rubygems'
 require 'sinatra'
 
-configure do
-  enable :sessions
-end
+require_relative 'routes/init'
+require_relative 'models/init'
 
-helpers do
-  def username
-    session[:identity] ? session[:identity] : 'Hello stranger'
+class CallController < Sinatra::Application
+  configure do
+    set :public_folder, Proc.new { File.join(root, "public/") }
+    # set :environment, :production
+    enable :sessions
   end
-end
 
-before '/secure/*' do
-  unless session[:identity]
-    session[:previous_url] = request.path
-    @error = 'Sorry, you need to be logged in to visit ' + request.path
-    halt erb(:login_form)
+  helpers do
+    def user
+      if session[:username]
+        User.first(:username => session[:username])
+      else
+        nil
+      end
+    end
+    def timezone
+      session[:timezone] ? session[:timezone] : "UTC"
+    end
+    def t(*args)
+      I18n.t(*args)
+    end
   end
-end
 
-get '/' do
-  erb 'Can you handle a <a href="/secure/place">secret</a>?'
-end
+  before do
+    loc = request.env["HTTP_ACCEPT_LANGUAGE"] ? request.env["HTTP_ACCEPT_LANGUAGE"][0,2] : "en"
+    I18n.locale = I18n.available_locales.map(&:to_s).include?(loc) ? loc : "en"
+  end
 
-get '/login/form' do
-  erb :login_form
-end
-
-post '/login/attempt' do
-  session[:identity] = params['username']
-  where_user_came_from = session[:previous_url] || '/'
-  redirect to where_user_came_from
-end
-
-get '/logout' do
-  session.delete(:identity)
-  erb "<div class='alert alert-message'>Logged out</div>"
-end
-
-get '/secure/place' do
-  erb 'This is a secret place that only <%=session[:identity]%> has access to!'
+  # Check if CallController was installed or user is logged in before doing anything
+  before /^(?!\/(setup))(?!\/(login))(?!\/(logout))(^(?!\/(password\/request)))(^(?!\/(password\/reset)))/ do
+    if !File.exist? '.installed'
+      redirect '/setup'
+    else
+      if !session[:username] or User.first(:username => session[:username]).nil? then
+        redirect '/login'
+      end
+    end
+  end
 end
