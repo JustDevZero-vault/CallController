@@ -1,0 +1,205 @@
+<div class="row">
+	<div class="span6">
+		<div class="widget widget-table action-table">
+			<div class="widget-header">
+				<i class="icon-user"></i><h3><%=t('user.other')%></h3>
+			</div>
+			<div class="widget-content">
+				<div style="position:absolute; margin:10px; z-index:90;">
+					<a data-toggle="modal" href="#addUser" class="btn">
+						<%=t('user.add')%> <i class="btn-icon-only icon-plus"></i>
+					</a>
+				</div>
+				<div class="visible-phone visible-tablet"><br></br></div>
+				<table id="htable" class="stripe row-border">
+					<thead style="text-align:left;">
+						<tr>
+							<th>
+								<%=t('username')%>
+							</th>
+							<th>
+								<%=t('email')%>
+							</th>
+							<th class="td-actions">
+								<%=t('action.other')%>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<% @users.each do |user| %>
+						<tr>
+							<td>
+								<%=user.username%>
+							</td>
+							<td>
+								<%=user.email%>
+							</td>
+							<td class="td-actions">
+								<% if user.receive_notifications == true %>
+									<a data-toggle="tooltip" data-original-title="<%=t('action.notifications.disable')%>" href="/users/<%=user.username%>/notifications/disable" class="btn btn-inverse btn-mini btn-icon-only hint"><i class="btn-icon-only icon-bell"></i></a>
+								<% else %>
+									<a data-toggle="tooltip" data-original-title="<%=t('action.notifications.enable')%>" href="/users/<%=user.username%>/notifications/enable" class="btn btn-inverse disabled btn-mini btn-icon-only hint" style="cursor: pointer; cursor: hand;"><span class="btn-icon-only icon-stack" style="margin-left: -11px;"><i class="btn-icon-only icon-bell"></i><strong class="btn-icon-only icon-stack-base" style="font-size: 16px;">/</strong></span></a>
+								<% end %>
+								<a data-toggle="tooltip" data-original-title="<%=t('action.edit')%>" href="#editUser" class="btn btn-info btn-mini btn-icon-only hint" onclick="passDataToModal('<%=user.username%>', '#editUser')"><i class="btn-icon-only icon-edit"></i></a>
+								<a data-toggle="tooltip" data-original-title="<%=t('action.remove')%>" href="#delUser" class="btn btn-danger btn-mini btn-icon-only hint" onclick="passDataToModal('<%=user.username%>', '#delUser')"><i class="btn-icon-only icon-remove"></i></a>
+							</td>
+						</tr>
+						<% end %>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="span6">
+		<div class="widget widget-table action-table">
+			<div class="widget-header">
+				<i class="icon-group"></i><h3><%=t('role.other')%></h3>
+			</div>
+			<div class="widget-content">
+				<div style="position:absolute; margin:10px; z-index:90;">
+					<a data-toggle="modal" href="#addRole" class="btn">
+						<%=t('role.add')%> <i class="btn-icon-only icon-plus"></i>
+					</a>
+				</div>
+				<div class="visible-phone visible-tablet"><br></br></div>
+				<table id="hgtable" class="stripe row-border">
+					<thead style="text-align:left;">
+						<tr>
+							<th>
+								<%=t('name')%>
+							</th>
+							<th>
+								<%=t('member.other')%>
+							</th>
+							<th class="td-actions">
+								<%=t('action.other')%>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<% @roles.each do |role| %>
+						<tr>
+							<td>
+								<%=role.name%>
+							</td>
+							<td>
+								<div class="accordion-role accordion-invisible">
+									<div class="accordion-heading accordion-invisible">
+										<a data-toggle="collapse" href="#collapse<%=role.name%>" style="font-size: 8pt; color: #ffffff;" class="label label-info">&nbsp; <%=role.users.count%> &nbsp;</a>
+									</div>
+									<div id="collapse<%=role.name%>" class="accordion-body collapse accordion-invisible">
+										<div class="accordion-inner accordion-invisible">
+											<table class="table table-condensed">
+												<tbody>
+													<% role.users.each do |user| %>
+													<tr class="accordion-invisible"><td class="accordion-invisible">
+														<i class="icon-angle-right"></i>
+														<span class="label"><%= user.username %></span>
+													</td></tr>
+													<% end %>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</td>
+							<td class="td-actions">
+								<a data-toggle="tooltip" data-original-title="<%=t('action.edit')%>" href="#editRole" class="btn btn-info btn-mini btn-icon-only hint" onclick="editRole('<%=role.name%>', '#roleeditor')"><i class="btn-icon-only icon-edit"></i></a>
+								<a data-toggle="tooltip" data-original-title="<%=t('action.remove')%>" href="#delRole" class="btn btn-danger btn-mini btn-icon-only hint" onclick="passDataToModal('<%=role.name%>', '#delRole')"><i class="btn-icon-only icon-remove"></i></a>
+							</td>
+						</tr>
+						<% end %>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="addUser" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="<%=t('dialog.add_user.title')%>" aria-hidden="true">
+	<div class="modal-header">
+		<a type="button" class="close" data-dismiss="modal" aria-hidden="true">×</a>
+		<h3 id="addUserLabel"><%=t('dialog.add_user.title')%></h3>
+	</div>
+	<form id="addUserform" action="/user/add" method="post">
+		<div class="modal-body">
+			<div class="control-group"><input name='username' type="text" class="input" placeholder="<%=t('username')%>" autofocus required><span class="help-inline"><%=t('username')%></span></div>
+			<div class="control-group"><input name='email' type="email" class="input" placeholder="<%=t('email')%>" required><span class="help-inline"><%=t('email')%></span><p class="help-block"></p></div>
+			<div class="control-group"><input name='password' type="password" class="input" placeholder="<%=t('password.one')%>" required><span class="help-inline"><%=t('password.one')%></span></div>
+		</div>
+		<div class="modal-footer">
+			<a class="btn" data-dismiss="modal" aria-hidden="true"><%=t('action.cancel')%></a>
+			<button type="submit" class="btn btn-primary"><%=t('action.add')%></button>
+		</div>
+	</form>
+</div>
+
+<div id="addRole" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="<%=t('dialog.add_role.title')%>" aria-hidden="true">
+	<div class="modal-header">
+		<a type="button" class="close" data-dismiss="modal" aria-hidden="true">×</a>
+		<h3 id="addRoleLabel"><%=t('dialog.add_role.title')%></h3>
+	</div>
+	<form id="addRoleform" action="/role/add" method="post">
+		<div class="modal-body">
+			<div class="control-group"><input name='name' type="text" class="input" placeholder="<%=t('dialog.add_role.name')%>" autofocus required><span class="help-inline"><%=t('dialog.add_role.name_long')%></span></div>
+		</div>
+		<div class="modal-footer">
+			<a class="btn" data-dismiss="modal" aria-hidden="true"><%=t('action.cancel')%></a>
+			<button type="submit" class="btn btn-primary"><%=t('action.add')%></button>
+		</div>
+	</form>
+</div>
+
+<div id="delUser" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="<%=t('dialog.del_user.title')%>" aria-hidden="true">
+	<div class="modal-header">
+		<a type="button" class="close" data-dismiss="modal" aria-hidden="true">×</a>
+		<h3 id="delUserLabel"><%=t('dialog.attention')%></h3>
+	</div>
+	<div class="modal-body">
+		<p><%= t('dialog.del_user.confirm', user: '<b id="dataInput"></b>')%></p>
+	</div>
+	<div class="modal-footer">
+		<form id="delUserform" action="/user/del" method="post">
+			<input type="hidden" name="username" id="dataInput" value="">
+			<a class="btn" data-dismiss="modal" aria-hidden="true"><%=t('action.cancel')%></a>
+			<button type="submit" class="btn btn-primary"><%=t('action.del')%></button>
+		</form>
+	</div>
+</div>
+
+<div id="delRole" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="<%=t('dialog.del_role.title')%>" aria-hidden="true">
+	<div class="modal-header">
+		<a type="button" class="close" data-dismiss="modal" aria-hidden="true">×</a>
+		<h3 id="delRoleLabel"><%=t('dialog.attention')%></h3>
+	</div>
+	<div class="modal-body">
+		<p><%= t('dialog.del_role.confirm', role: '<b id="dataInput"></b>')%></p>
+	</div>
+	<div class="modal-footer">
+		<form id="delRoleform" action="/role/del" method="post">
+			<input type="hidden" name="name" id="dataInput" value="">
+			<a class="btn" data-dismiss="modal" aria-hidden="true"><%=t('action.cancel')%></a>
+			<button type="submit" class="btn btn-primary"><%=t('action.del')%></button>
+		</form>
+	</div>
+</div>
+
+<div id="editUser" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="<%=t('dialog.edit_user.title')%>" aria-hidden="true">
+	<div class="modal-header">
+		<a type="button" class="close" data-dismiss="modal" aria-hidden="true">×</a>
+		<h3 id="editUserLabel"><%=t('dialog.edit_user.title')%></h3>
+	</div>
+	<form id="editUserform" action="/user/edit" method="post">
+		<div class="modal-body">
+			<div class="control-group"><input name='username' type="text" id="dataInput" value="" readonly><span class="help-inline"><%=t('username')%></span></div>
+			<div class="control-group"><input name='email' type="email" class="input" placeholder="<%=t('email')%>"><span class="help-inline"><%=t('dialog.edit_user.change_email')%></span><p class="help-block"></p></div>
+			<div class="control-group"><input name='password' type="password" class="input" placeholder="<%=t('dialog.edit_user.new_pass')%>"><span class="help-inline"><%=t('dialog.edit_user.change_pass')%></span></div>
+		</div>
+		<div class="modal-footer">
+			<a class="btn" data-dismiss="modal" aria-hidden="true"><%=t('action.cancel')%></a>
+			<button type="submit" class="btn btn-primary"><%=t('action.edit')%></button>
+		</div>
+	</form>
+</div>
+
+<div id="roleeditor"></div>

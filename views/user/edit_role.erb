@@ -1,0 +1,46 @@
+<div id="editRole" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="<%=t('dialog.edit_role.title')%>" aria-hidden="true">
+  <div class="modal-header">
+    <a type="button" class="close" data-dismiss="modal" aria-hidden="true">×</a>
+    <h3 id="editRoleLabel"><%=t('dialog.edit_role.title')%></h3>
+  </div>
+  <form id="editRoleform" action="/role/edit" method="post">
+    <div class="modal-body">
+      <div class="control-group"><input name="name" type="text" id="name" value="<%=@role.name%>" readonly><span class="help-inline"><%=t('dialog.edit_role.name')%></span></div>
+      <br/>
+      <h4><%=t('dialog.edit_role.capabilities')%></h4>
+      <div class="control-group">
+        <%@role.capabilities.each do |cap|%>
+          <input type="checkbox" value="<%=cap%>" checked="checked"> <%=cap%>
+        <%end%>
+      </div>
+      <input type="submit" id="submit-form" class="hidden" />
+    </form>
+      <br/>
+      <h4><%=t('dialog.edit_role.members')%></h4>
+      <div class="control-group" style="margin-left: 4px; margin-top: 4px;" id="roleMembers">
+      <% @role.users.each do |user| %>
+        <div class="input-append" id="<%= user.username %>">
+          <span class="add-on" style="width: 78px;"><%= user.username %></span>
+          <button class="btn" type="button" onclick="delRoleMember('<%=@role.name%>', '<%= user.username %>')"><i class="icon-minus"></i></button>
+        </div>
+      <% end %>
+      </div>
+      <div class="control-group">
+        <div class="input-append">
+        <select name='hostname' class="input-small" id="selectAddUser">
+          <option></option>
+          <% User.all.each do |user| %>
+            <% if !@role.users.include?(user) %>
+              <option value="<%=user.username%>"><%=user.username%></option>
+            <% end %>
+          <% end %>
+        </select>
+        <button class="btn" type="button" style="margin-top: -8px;" onclick="addRoleMember('<%=@role.name%>')"><i class="icon-plus"></i></button>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <a class="btn" data-dismiss="modal" aria-hidden="true"><%=t('action.cancel')%></a>
+      <label for="submit-form" class="btn btn-primary"><%=t('action.save')%></label>
+    </div>
+</div>
