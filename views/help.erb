@@ -1,0 +1,28 @@
+<div class="row">
+  <div class="span8 offset1">
+    <h1> <%=t('callcontroller.doc')%> </h1>
+    <br></br>
+  </div>
+</div>
+<div class="row">
+  <div class="span8 offset1">
+    <div class="widget">
+      <div class="widget-content">
+        <%= flavored_markdown(@doc)%>
+      </div>
+    </div>
+  </div>
+  <div class="span2">
+    <ul class="nav nav-pills nav-stacked">
+      <li class="nav-header"><%=t('docu.index')%></li>
+      <li><a href="/help/installing.md"><%=t('docu.installing')%></a></li>
+      <li><a href="/help/basics.md"><%=t('docu.basics')%></a></li>
+      <li><a href="/help/deploys.md"><%=t('docu.deploys')%></a></li>
+      <li><a href="/help/configurations.md"><%=t('docu.configurations')%></a></li>
+      <li><a href="/help/variables.md"><%=t('docu.variables')%></a></li>
+      <li><a href="/help/conditionals.md"><%=t('docu.conditionals')%></a></li>
+      <li><a href="/help/monitoring.md"><%=t('docu.monitoring')%></a></li>
+      <li><a href="/help/solaris.md"><%=t('docu.solaris')%></a></li>
+    </ul>
+  </div>
+</div>
