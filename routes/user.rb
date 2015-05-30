@@ -19,6 +19,11 @@ class CallController < Sinatra::Application
 
   post '/user/edit' do
     un = User.first(:username => params['username'])
+    if !params['active'].nil?
+      un.update(:active => true)
+    else
+      un.update(:active => false)
+    end
     if params['email'] != ""
       un.update(:email => params['email'])
     end
