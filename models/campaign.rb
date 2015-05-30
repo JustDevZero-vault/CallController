@@ -7,6 +7,9 @@ class Campaign
 
   property :id, Serial, :key=> true
   property :external_id, String
+  property :file, String
+  property :parsed, Boolean
+  property :active, Boolean
   property :created_at, DateTime
   property :updated_by, Integer
   property :updated_at, DateTime
