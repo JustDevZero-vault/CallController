@@ -7,11 +7,11 @@ class Campaign
 
   property :id, Serial, :key=> true
   property :external_id, String
-  belongs_to :campaign_type, :model => CampaignType, :required => false
   property :created_at, DateTime
   property :updated_by, Integer
   property :updated_at, DateTime
   belongs_to :user, :model => User
+  belongs_to :campaign_type, :model => CampaignType, :required => false
   
   
   def blacklist(un)
