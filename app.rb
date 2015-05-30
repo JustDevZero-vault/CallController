@@ -7,6 +7,7 @@ require_relative 'models/init'
 class CallController < Sinatra::Application
   configure do
     set :public_folder, Proc.new { File.join(root, "public/") }
+    set :bind, '0.0.0.0'
     # set :environment, :production
     enable :sessions
   end
