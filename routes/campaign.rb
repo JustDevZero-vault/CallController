@@ -21,6 +21,10 @@ class CallController < Sinatra::Application
     erb :'campaign_edit'
   end
   
+  get '/campaign/upload' do
+    erb :'campaign_upload'
+  end
+  
   post '/campaign/add' do
     campaign = Campaign.first(:external_id => params['external_id'])
     
@@ -30,7 +34,6 @@ class CallController < Sinatra::Application
     campaignlist = '/campaign'
     redirect to campaignlist
   end
-  
   
   post '/campaign/edit' do
     campaign = Campaign.first(:id => params['id'])
@@ -57,6 +60,20 @@ class CallController < Sinatra::Application
     end
     campaignlist = '/campaign'
     redirect to campaignlist
+  end
+  
+  post '/campaign/upload' do
+    campaign = Campaign.first(:id => params['campaign_id'])
+    
+    if !campaign.nil?
+        year_month_day = Time.now.strftime("%Y/%m")
+        year_month_day_folder = 'uploads/imports' + year_month_day + '/' + campaign.external_id + '/'
+        FileUtils.mkdir_p(year_month_day_folder)  unless File.exists?(year_month_folder)
+        File.open(year_month_folder + params['myfile'][:filename], "w") do |campaign_file|
+          campaign_file.write(params['myfile'][:tempfile].read) 
+        end
+    end
+    redirect to '/origins'
   end
   
 end
