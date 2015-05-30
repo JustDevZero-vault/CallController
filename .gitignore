@@ -1,0 +1,31 @@
+# Ignore OS Related/Generic
+Thumbs.db
+Desktop.ini
+._*
+Icon?
+.DS_Store
+*.bak
+*.tmproj
+*.tmproject
+*~
+config.ru
+.htaccess
+
+# IDEs project files/settings
+nbproject/
+nbactions.xml
+.settings/
+.project
+.metadata
+.properties
+.svn
+.hg
+.installed
+
+# Helping GUIs omiting subtree repos
+modules/**/.git/*
+modules/**/.hg/*
+modules/**/.svn/*
+
+# Ignore any composer downloaded packages
+vendor/*
