@@ -11,6 +11,7 @@ class User
   property :password, BCryptHash
   property :receive_notifications, Boolean, :default => false 
   property :token, String
+  property :active, Boolean, :default => false
   property :created_at, DateTime
   property :updated_at, DateTime
   has n, :team_members
