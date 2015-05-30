@@ -2,20 +2,20 @@ class User
   include DataMapper::Resource
 
   def self.default_repository_name #here we use the users_db for the User objects
-   :users_db
+    :default
   end
 
   property :id, Serial, :key => true
   property :username, String
   property :email, String
-  property :password, BCryptHash
+  property :password, String
   property :receive_notifications, Boolean, :default => false 
   property :token, String
   property :active, Boolean, :default => false
   property :created_at, DateTime
   property :updated_at, DateTime
-  has n, :team_members
-  has n, :teams, :through => :team_members
+  has n, :role_members
+  has n, :roles, :through => :role_members
   has n, :agent_blacklist_members
   has n, :campaigns, :through => :agent_blacklist_members
 

@@ -67,11 +67,12 @@ class CallController < Sinatra::Application
     
     if !campaign.nil?
         year_month_day = Time.now.strftime("%Y/%m")
-        year_month_day_folder = 'uploads/imports' + year_month_day + '/' + campaign.external_id + '/'
+        year_month_day_folder = 'uploads/imports' + year_month_day + '/'
         FileUtils.mkdir_p(year_month_day_folder)  unless File.exists?(year_month_folder)
         File.open(year_month_folder + params['myfile'][:filename], "w") do |campaign_file|
           campaign_file.write(params['myfile'][:tempfile].read) 
         end
+      campaign.update(file => (year_month_folder + params['myfile'][:filename]))
     end
     redirect to '/origins'
   end

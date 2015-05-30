@@ -11,6 +11,7 @@ Icon?
 config.ru
 .htaccess
 Gemfile.lock
+.callcontroller.pid
 
 # IDEs project files/settings
 nbproject/
@@ -30,3 +31,6 @@ modules/**/.svn/*
 
 # Ignore any composer downloaded packages
 vendor/*
+
+# Ignore logs
+log/*

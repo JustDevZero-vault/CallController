@@ -2,18 +2,19 @@ class Role
   include DataMapper::Resource
   
   def self.default_repository_name #here we use the users_db for the User objects
-   :users_db
+    :default
   end
 
   property :id, Serial, :key => true
   property :name, String
-  property :capabilities, String, :default => 'agent'
+  property :capabilities, String
   property :created_by, Integer
   property :created_at, DateTime
   property :updated_by, Integer
   property :updated_at, DateTime
   has n, :role_members
   has n, :users, :through => :role_members
+  
 
   def add_member(user)
     self.users << user

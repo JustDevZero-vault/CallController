@@ -1,0 +1,173 @@
+en:
+  menu:
+    documentation: "Documentation"
+    manage_users: "Manage users"
+    logout: "Logout"
+    dashboard: "Dashboard"
+    servers: "Servers"
+    deploys: "Deploys"
+    monitoring: "Monitoring"
+    tasks: "Tasks"
+    login: "Login"
+
+  action:
+    one: "Action"
+    other: "Actions"
+    dismiss: "Dismiss"
+    acknowledge: "Acknowledge"
+    deploy: "Deploy!"
+    undeploy: "Undeploy"
+    cancel: "Cancel"
+    close: "Close"
+    add: "Add"
+    more: "More"
+    del: "Delete"
+    edit: "Edit"
+    remove: "Remove"
+    signin: "Sign In"
+    password_reset: "Reset Password"
+    setup: "Setup!"
+    details: "Details"
+    save: "Save"
+    saved: "Saved changes"
+    notifications:
+      enable: "Notifications Disabled -> Enable"
+      disable: "Notifications Enabled -> Disable"
+
+  callcontroller:
+    login: "CallController Login"
+    setup: "CallController Setup"
+    doc: "CaseController Documentation"
+    recovery: "Password recovery"
+
+  username: "Username"
+  token:
+    invalid: "The token received is already invalid"
+    wait: "You must wait at least 5 minutes to ask a new password"
+  password:
+    one: "Password"
+    repeat: "Repeat password"
+    match: "Password must match"
+    change: "Change password"
+    new: "New password"
+    wrong: "Wrong password"
+  email: "E-Mail"
+  name: "Name"
+  ip: "IP address"
+  used: "used"
+  total: "total"
+  deploy: "Deploy"
+  packages: "Packages"
+
+  member:
+    one: "Member"
+    other: "Members"
+
+  error:
+    not_found:
+      short: "Oops! we cannot find this place."
+      detail: "Why not try going back to the <a href='/'>dashboard</a> or using the top menu!"
+    not_authorized:
+      short: "Yikes! It seems you can&#39;t go behind this point."
+      detail: "<a href='/'>Dashboard</a> is cool, go back to it or us the top menu"
+    forbidden:
+      short: "Hmm... It looks like your pass is forbidden."
+      detail: "Why not go elsewhere, for example the <a href='/'>dashboard</a>."
+    internal500:
+      short: "Our apologies, something isn&#39;t working."
+      detail: "Thank you for your patience, as we fix that."
+    host:
+      auth: "Authentication error, please check the provided password"
+      unreach: "Host unreachable, please check the network"
+      misc: "Error adding the host"
+    email:
+      invalid: "The email doesn&#39;t exist in our database."
+
+  vars:
+    title: "Custom variables"
+    name: "variable name"
+    value: "value"
+
+  status:
+    ok: "all ok"
+    warning: "warning"
+    down: "down"
+    not_monitored: "not monitored"
+
+  user:
+    one: "User"
+    other: "Users"
+    add: "Add user"
+
+  role:
+    one: "Role"
+    other: "Roles"
+    add: "Add role"
+
+  task:
+    one: "Task"
+    other: "Tasks"
+    started: "Started on %{date}"
+    finished: "Finished on %{date}"
+    actions:
+      installing: "Installing"
+      executing: "Executing"
+    status:
+      text: "Status:"
+      in_progress: "In Progress"
+      finished: "Finished"
+      failed: "Failed"
+    notifications: "Notifications:"
+    active: "Active Tasks"
+    completed: "Completed Tasks"
+    id: "Task ID"
+    description: "Description"
+
+  dialog:
+    unique: "(must be unique)"
+    attention: "Attention!"
+    add_user:
+      title: "Add User"
+    add_team:
+      title: "Add Team"
+      name: "Team Name"
+      name_long: "name for the new team"
+    del_user:
+      title: "Remove User"
+      confirm: "Are you sure you want to remove the user %{user}?"
+    del_role:
+      title: "Remove Role"
+      confirm: "Are you sure you want to delete the role %{role}?"
+    edit_user:
+      title: "Edit User"
+      new_pass: "New Password"
+      change_pass: "Change password"
+      change_email: "Change email address"
+    edit_role:
+      title: "Edit Role"
+      name: "role name"
+      capabilities: "Capabilities:"
+      members: "Role members:"
+    install:
+      title: "Quick Install"
+      packages: "Package(s) to install (separated by spaces)"
+  docu:
+    index: "Index"
+    installing: "Installing"
+    basics: "Basics"
+    deploys: "Deploys"
+    configurations: "Configurations"
+    variables: "Variables"
+    conditionals: "Conditionals"
+    monitoring: "Monitoring"
+    solaris: "Solaris Specific"
+
+  update:
+    title: "Updating CallController"
+    upgrade: "There is an CallController update available, do you want to automatically download and install it? (CallController will be restarted)"
+    actions: "The following actions will be performed:"
+    link: "Click here to confirm the update"
+
+  dashboard:
+    task:
+      stats: "Task Stats"

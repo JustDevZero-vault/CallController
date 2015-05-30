@@ -4,14 +4,24 @@ require 'fileutils'
 require 'pathname'
 require 'find'
 require 'tempfile'
-require 'mysql'
+require 'mysql2'
 require 'scrypt'
 require 'timeout'
 require 'mail'
 require 'htmlentities'
-require_relative "user"
+require 'redcarpet'
+
+database_config = YAML.load_file( File.dirname(__FILE__) << "/../../private/configs/database.yml")
+DataMapper.setup(:default, database_config)
+
+require_relative "lib/spork"
+require_relative "lib/flavored_markdown"
 require_relative "role"
+require_relative "user"
+require_relative "setup"
+require_relative "campaign_type"
 require_relative "campaign"
 require_relative "product"
-require_relative "sale"
 require_relative "call_result"
+require_relative "origin_sales"
+require_relative "sale"

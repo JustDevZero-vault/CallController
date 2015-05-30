@@ -2,7 +2,7 @@ class Campaign
   include DataMapper::Resource
   
   def self.default_repository_name #here we use the users_db for the User objects
-   :blacklist_agent_db
+    :default
   end
 
   property :id, Serial, :key=> true
