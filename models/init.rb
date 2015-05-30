@@ -1,0 +1,17 @@
+require "data_mapper"
+require "dm-mysql-adapter"
+require 'fileutils'
+require 'pathname'
+require 'find'
+require 'tempfile'
+require 'mysql'
+require 'scrypt'
+require 'timeout'
+require 'mail'
+require 'htmlentities'
+require_relative "user"
+require_relative "role"
+require_relative "campaign"
+require_relative "product"
+require_relative "sale"
+require_relative "call_result"
