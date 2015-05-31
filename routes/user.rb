@@ -24,6 +24,12 @@ class CallController < Sinatra::Application
     else
       un.update(:active => false)
     end
+    if params['first_name'] != ""
+      un.update(:first_name => params['first_name'])
+    end
+    if params['last_name'] != ""
+      un.update(:last_name => params['last_name'])
+    end
     if params['email'] != ""
       un.update(:email => params['email'])
     end

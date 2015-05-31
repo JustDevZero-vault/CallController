@@ -22,16 +22,16 @@
     <form method="POST" action="/settings/email">
       <fieldset>
         <input type="hidden" name="method" value="smtp" />
-        <label>Host</label>
+        <label for "host">Host</label>
         <input class="input" name="host" type="text" value="<%= @host %>" required>
-        <label>Port</label>
+        <label for="port">Port</label>
         <input class="input" name="port" type="text" value="<%= @port %>" required>
-        <label class="checkbox">
+        <label for="tls" class="checkbox">
           <input type="checkbox" name="tls" value="1" <%= "checked" if @tls == true %>> SSL/TLS
         </label>
         <label>User</label>
-        <input class="input" name="user" type="text" value="<%= @user %>">
-        <label>Password</label>
+        <input for="user" class="input" name="user" type="text" value="<%= @user %>">
+        <label for="password">Password</label>
         <input class="input" name="password" type="password" value="<%= @password %>">
         <label></label>
         <button type="submit" class="btn btn-primary">Save</button>

@@ -3,8 +3,13 @@ class CallController < Sinatra::Application
     status 200
     if !File.exist? '.installed'
       redirect '/setup'
+    else
+      unless session[:username]
+        erb :'user/login', :layout => false
+      else
+        redirect '/'
+      end
     end
-    erb :'user/login', :layout => false
   end
 
   post '/login' do

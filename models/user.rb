@@ -7,6 +7,8 @@ class User
 
   property :id, Serial, :key => true
   property :username, String
+  property :first_name, String
+  property :last_name, String
   property :email, String
   property :password, BCryptHash
   property :receive_notifications, Boolean, :default => false 
@@ -44,7 +46,7 @@ class User
   end
 
   def is_admin?
-    is_admin = self.toles.count(:capabilities => 'admin')
+    is_admin = self.roles.count(:capabilities => 'admin')
     if is_admin == 0
       return false
     else

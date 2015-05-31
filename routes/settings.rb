@@ -8,7 +8,7 @@ class CallController < Sinatra::Application
       @port = cfg.port
       @tls = cfg.tls
       @user = cfg.user ? cfg.user : ""
-      @password = cfg.password ? cfg.password : ""
+      @password = cfg.password ? Base64.decode64(cfg.password) : ""
       @disclaimer = false
       if !Gem::Specification::find_all_by_name('viewpoint').any?
         @disclaimer = true
@@ -35,12 +35,12 @@ class CallController < Sinatra::Application
           cfg.tls = true
         end
         cfg.user = params['user']
-        cfg.password = params['password']
+        cfg.password = Base64.encode64(params['password'])
       elsif params['method'] == "exchange"
         cfg.method = :exchange
         cfg.host = params['host']
         cfg.user = params['user']
-        cfg.password = params['password']
+        cfg.password = Base64.encode64(params['password'])
       end
       cfg.save
       redirect to "/settings"
