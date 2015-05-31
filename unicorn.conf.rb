@@ -1,6 +1,6 @@
 $UNICORN = 1
 $CALLCONTROLLER_PID = Process.pid
-$CALLCONTROLLER_VERSION = 0.08
+$CALLCONTROLLER_VERSION = 0.01
 $DBG = 0 #debug?
 
 FileUtils.mkdir("log") unless File.directory?("log")
