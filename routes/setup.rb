@@ -5,7 +5,7 @@ class CallController < Sinatra::Application
     if File.exist? '.installed'
       redirect to home
     else
-      erb :'system/setup', layout => false
+      erb :'system/setup', :layout => false
     end
   end
 
