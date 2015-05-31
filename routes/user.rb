@@ -28,7 +28,7 @@ class CallController < Sinatra::Application
       un.update(:email => params['email'])
     end
     if params['password'] != ""
-      enc_pw = SCrypt::Password.create(params['password'])
+      enc_pw = BCrypt::Password.create(params['password'])
       un.update(:password => enc_pw)
     end
     userlist = '/users'
@@ -93,7 +93,7 @@ class CallController < Sinatra::Application
       if !un.nil?
         if un.username == params['username']
           if params['confirm_password'] == params['password']
-            encpw = SCrypt::Password.create(params['password'])
+            encpw = BCrypt::Password.create(params['password'])
             un.password = encpw
           else
             erb t('password.match')
@@ -122,7 +122,7 @@ class CallController < Sinatra::Application
     un = User.first(:username => (session[:username]))
     if un.password == params['password']
       if params['new_password'] == params['confirm_password']
-        un.password = SCrypt::Password.create(params['new_password'])
+        un.password = BCrypt::Password.create(params['new_password'])
         un.updated_at = Time.now
         un.save
         un.reload()

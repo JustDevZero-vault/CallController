@@ -14,8 +14,8 @@ class Sale
   property :phone, String
   property :city, String
   property :province, String
-  property :call_date, Integer, :default => DateTime.now
-  property :call_back_date, Integer
+  property :call_date, DateTime, :default => DateTime.now
+  property :call_back_date, DateTime
   property :call_result, Integer, :default => 3
   property :created_by, Integer
   property :created_at, DateTime

@@ -1,7 +1,7 @@
 class CallController < Sinatra::Application
   get '/login' do
     status 200
-    if !File.directory? '.installed'
+    if !File.exist? '.installed'
       redirect '/setup'
     end
     erb :'user/login', :layout => false
@@ -14,7 +14,7 @@ class CallController < Sinatra::Application
       session[:username] = u.username
       redirect '/'
     else
-      @error = "Failed login"
+      @error = "Username or password is wrong"
       erb :'user/login', :layout => false
     end
   end

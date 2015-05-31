@@ -8,7 +8,7 @@ class User
   property :id, Serial, :key => true
   property :username, String
   property :email, String
-  property :password, String
+  property :password, BCryptHash
   property :receive_notifications, Boolean, :default => false 
   property :token, String
   property :active, Boolean, :default => false
@@ -23,7 +23,7 @@ class User
     begin
       self.username = username
       self.email = email
-      enc_pw = SCrypt::Password.create(password)
+      enc_pw = BCrypt::Password.create(password)
       self.password = enc_pw
       if !self.save
         raise #couldn't save the object
@@ -44,7 +44,7 @@ class User
   end
 
   def is_admin?
-    is_admin = self.teams.count(:capabilities => 'admin')
+    is_admin = self.toles.count(:capabilities => 'admin')
     if is_admin == 0
       return false
     else
@@ -53,7 +53,7 @@ class User
   end
 
   def is_agent?
-    is_agent = self.teams.count(:capabilities => 'agent')
+    is_agent = self.roles.count(:capabilities => 'agent')
     if is_agent == 0
       return false
     else
@@ -62,7 +62,7 @@ class User
   end
 
   def is_supervisor?
-    is_supervisor = self.teams.count(:capabilities => 'supervisor')
+    is_supervisor = self.roles.count(:capabilities => 'supervisor')
     if is_supervisor == 0
       return false
     else
@@ -71,7 +71,7 @@ class User
   end
 
   def is_coacher?
-    is_coacher = self.teams.count(:capabilities => 'coacher')
+    is_coacher = self.roles.count(:capabilities => 'coacher')
     if is_coacher == 0
       return false
     else
@@ -80,7 +80,7 @@ class User
   end
 
   def is_manager?
-    is_manager = self.teams.count(:capabilities => 'manager')
+    is_manager = self.roles.count(:capabilities => 'manager')
     if is_manager == 0
       return false
     else

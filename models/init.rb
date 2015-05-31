@@ -5,7 +5,7 @@ require 'pathname'
 require 'find'
 require 'tempfile'
 require 'mysql2'
-require 'scrypt'
+require 'bcrypt'
 require 'timeout'
 require 'mail'
 require 'htmlentities'
@@ -25,3 +25,9 @@ require_relative "product"
 require_relative "call_result"
 require_relative "origin_sales"
 require_relative "sale"
+DataMapper.finalize
+
+
+if File.exist? '.installed'
+  DataMapper.auto_upgrade!(:default)
+end

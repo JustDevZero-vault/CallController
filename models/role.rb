@@ -38,7 +38,7 @@ class RoleMember
   include DataMapper::Resource
 
   def self.default_repository_name #here we use the users_db for the RoleMember relation
-   :users_db
+   :default
   end
 
   belongs_to :user,  :key => true

@@ -7,10 +7,10 @@ class CallController < Sinatra::Application
   get '/help/:doc' do
     loc = I18n.locale.to_s
     @doc = 'doc/'+loc+'/'+params[:doc]
-    if !File.exist?("static/"+@doc)
+    if !File.exist?("public/"+@doc)
       @doc = 'doc/en/'+params[:doc]
     end
-    if File.exist?("static/"+@doc)
+    if File.exist?("public/"+@doc)
       erb :help
     else
       not_found
