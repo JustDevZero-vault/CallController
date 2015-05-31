@@ -1,13 +1,13 @@
 $UNICORN = 1
-$ASYD_PID = Process.pid
-$ASYD_VERSION = 0.08
+$CALLCONTROLLER_PID = Process.pid
+$CALLCONTROLLER_VERSION = 0.08
 $DBG = 0 #debug?
 
 FileUtils.mkdir("log") unless File.directory?("log")
 
 listen 3000
 worker_processes 1
-pid ".asyd.pid"
+pid ".callcontroller.pid"
 stderr_path "log/callcontroller.log"
 stdout_path "log/callcontroller.log"
 
