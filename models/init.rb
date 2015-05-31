@@ -1,6 +1,7 @@
 require "data_mapper"
 require "dm-mysql-adapter"
 require 'fileutils'
+require 'net/http'
 require 'pathname'
 require 'find'
 require 'tempfile'
@@ -10,6 +11,7 @@ require 'timeout'
 require 'mail'
 require 'htmlentities'
 require 'redcarpet'
+require 'base64'
 
 database_config = YAML.load_file( File.dirname(__FILE__) << "/../../private/configs/database.yml")
 DataMapper.setup(:default, database_config)
@@ -19,6 +21,7 @@ require_relative "lib/flavored_markdown"
 require_relative "role"
 require_relative "user"
 require_relative "setup"
+require_relative "email"
 require_relative "campaign_type"
 require_relative "campaign"
 require_relative "product"
