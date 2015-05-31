@@ -1,0 +1,29 @@
+<form id="setup" action='/setup' method='post' enctype='multipart/form-data'>
+  <h1> <%=t('callcontroller.setup')%> </h1>
+  <legend></legend>
+  <div class="control-group">
+    <label class="control-label" for="username"><%=t('username')%></label>
+    <div class="controls">
+      <input class="input" name="username" type="text" required>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="email"><%=t('email')%></label>
+    <div class="controls">
+      <input class="input" name="email" type="email" required>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="password"><%=t('password.one')%></label>
+    <div class="controls">
+      <input class="input" id="password" name="password" type="password" required>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="passwordRepeat"><%=t('password.repeat')%></label>
+    <div class="controls">
+      <input class="input" name="passwordRepeat" type="password" data-validation-matches-match="password" data-validation-matches-message="<%=t('password.match')%>" >
+    </div>
+  </div>
+  <div class="control-group"><input class="btn" type='submit' value="<%=t('action.setup')%>"></div>
+</form>
