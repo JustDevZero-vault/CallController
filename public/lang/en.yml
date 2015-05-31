@@ -1,4 +1,5 @@
 en:
+  active: "Active"
   menu:
     documentation: "Documentation"
     manage_users: "Manage users"
@@ -98,6 +99,9 @@ en:
     one: "User"
     other: "Users"
     add: "Add user"
+    first_name: "First Name"
+    last_name: "Last Name"
+    full_name: "Full name"
 
   role:
     one: "Role"
@@ -128,10 +132,10 @@ en:
     attention: "Attention!"
     add_user:
       title: "Add User"
-    add_team:
-      title: "Add Team"
-      name: "Team Name"
-      name_long: "name for the new team"
+    add_role:
+      title: "Add Role"
+      name: "Role Name"
+      name_long: "name for the new role"
     del_user:
       title: "Remove User"
       confirm: "Are you sure you want to remove the user %{user}?"
