@@ -56,19 +56,13 @@ class Email
         end
       end
     rescue *SMTP_ERRORS => e
-      NOTEX.synchronize do
-        Notification.create(:type => :error, :sticky => false, :message => "Email error: "+e.message)
-      end
+      Notification.create(:type => :error, :sticky => false, :message => "Email error: "+e.message)
       return false
     rescue *SSL_ERRORS => e
-      NOTEX.synchronize do
-        Notification.create(:type => :error, :sticky => false, :message => "Email error: "+e.message)
-      end
+      Notification.create(:type => :error, :sticky => false, :message => "Email error: "+e.message)
       return false
     rescue => e
-      NOTEX.synchronize do
-        Notification.create(:type => :error, :sticky => false, :message => "Email error: "+e.message)
-      end
+      Notification.create(:type => :error, :sticky => false, :message => "Email error: "+e.message)
       return false
     end
   end
