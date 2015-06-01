@@ -1,5 +1,4 @@
 en:
-  active: "Active"
   menu:
     documentation: "Documentation"
     manage_users: "Manage users"
@@ -31,6 +30,8 @@ en:
     details: "Details"
     save: "Save"
     saved: "Saved changes"
+    upload: "Upload"
+    download: "Download"
     notifications:
       enable: "Notifications Disabled -> Enable"
       disable: "Notifications Enabled -> Disable"
@@ -42,6 +43,11 @@ en:
     recovery: "Password recovery"
 
   username: "Username"
+  active: "Active"
+  parsed: "Parsed"
+  unparsed: "Unparsed"
+  inactive: "Inactive"
+  parse: "Parse"
   token:
     invalid: "The token received is already invalid"
     wait: "You must wait at least 5 minutes to ask a new password"
@@ -108,7 +114,6 @@ en:
     other: "Campaigns"
     add: "Add campaign"
     external_id: "Campaign number"
-    parsed: "Parsed"
     file: "Campaign file"
     type: "Campaign type"
     types: "Campaign types"
