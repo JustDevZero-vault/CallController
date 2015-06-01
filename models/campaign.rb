@@ -7,16 +7,15 @@ class Campaign
 
   property :id, Serial, :key => true
   property :external_id, String
-  property :file, String
+  property :file_name, String
   property :parsed, Boolean, :default => false
   property :active, Boolean, :default => false
   property :created_at, DateTime
   property :updated_by, Integer
   property :updated_at, DateTime
-  belongs_to :user, :model => User
   #~ belongs_to :campaign_type, :model => CampaignType, :required => true
-  belongs_to :campaign_type, :model => CampaignType  
-  
+  belongs_to :campaign_type, :model => CampaignType
+=begin  
   def initialize(external_id, campaign_type)
     begin
       self.external_id = external_id
@@ -28,7 +27,7 @@ class Campaign
       return false
     end
   end
-  
+=end
   
   def blacklist(un)
     self.users << un
@@ -53,14 +52,14 @@ class Campaign
     include_fields[:campaign] = self
     
     FSV.foreach(self.file,
-                  :headers           => true,
-                  :header_converters => :symbol,
-                  :converters => :numeric
-                  ) do |line|
-                    line_hash = line.to_hash
-                    hash_to_import = line_hash.merge(:include_fields)
-                    OriginSales.create(hash_to_import.to_hash)
-                  end
+                :headers           => true,
+                :header_converters => :symbol,
+                :converters => :numeric
+                ) do |line|
+      line_hash = line.to_hash
+      hash_to_import = line_hash.merge(:include_fields)
+      OriginSales.create(hash_to_import.to_hash)
+    end
   end
 
 end

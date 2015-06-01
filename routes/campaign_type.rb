@@ -21,11 +21,11 @@ class CallController < Sinatra::Application
   #~ end
   
   post '/campaign/type/add' do
-    type = CampaignType.first(:name => params['name'])
+#    type = CampaignType.first(:name => params['name'])
     
-    if type.nil?
-      CampaignType.create(params['name'])
-    end
+#    if type.nil?
+      CampaignType.first_or_create(:name => params['name'])
+#    end
     campaignlist = '/campaign'
     redirect to campaignlist
   end

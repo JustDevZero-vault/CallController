@@ -12,7 +12,7 @@ class CampaignType
   property :updated_at, DateTime
   has n, :campaigns
   
-  
+=begin
   def initialize(name)
     begin
       self.name = name
@@ -23,5 +23,5 @@ class CampaignType
       return false
     end
   end
-
+=end
 end

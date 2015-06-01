@@ -19,10 +19,10 @@
 								<%=t('campaign.file')%>
 							</th>
 							<th>
-								<%=t('campaign.parsed')%>
+								<%=t('active')%>
 							</th>
 							<th>
-								<%=t('email')%>
+								<%=t('parsed')%>
 							</th>
 							<th class="td-actions">
 								<%=t('action.other')%>
@@ -36,13 +36,26 @@
 								<%=campaign.external_id%>
 							</td>
 							<td>
-								<%=campaign.file? ? "": "<a href='/campaign/upload/'" + campaign.id %>
+								<% if !campaign.file_name.nil? %>                 
+                  <a data-toggle="tooltip" data-original-title="<%=t('action.download')%>" href="<%=campaign.file_name%>" class="btn btn-default btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-save-file"></i></a>
+								<% else %>
+                  <a data-toggle="tooltip" data-original-title="<%=t('action.upload')%>" href="/campaign/upload/<%=campaign.id.to_s%>" class="btn btn-default btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-upload"></i></a>
+								<% end %>
+                
 							</td>
 							<td>
-								<%=campaign.active? ? "active":"inactive" %>
+								<% if campaign.active? %>                 
+                  <a data-toggle="tooltip" data-original-title="<%=t('active')%>" class="btn btn-default btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-plus"></i></a>
+								<% else %>
+                  <a data-toggle="tooltip" data-original-title="<%=t('inactive')%>" class="btn btn-default btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-minus"></i></a>
+								<% end %>
 							</td>
 							<td>
-								<%=campaign.parsed? ? "parsed":"unparsed" %>
+								<% if campaign.parsed? %>                 
+                  <a data-toggle="tooltip" data-original-title="<%=t('parsed')%>" class="btn btn-default btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-ok-sign"></i></a>
+								<% else %>
+                  <a data-toggle="tooltip" data-original-title="<%=t('parse')%>" class="btn btn-default btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-question-sign"></i></a>
+								<% end %>
 							</td>
 							<td class="td-actions">
 								<a data-toggle="tooltip" data-original-title="<%=t('action.edit')%>" href="#editCampaign" class="btn btn-info btn-mini btn-glyphicon-only hint" onclick="passDataToCampaignModal(['<%=campaign.external_id%>', '<%=campaign.active? ? "1":"0" %>'], '#editCampaign')"><i class="glyphicon glyphicon-edit"></i></a>
