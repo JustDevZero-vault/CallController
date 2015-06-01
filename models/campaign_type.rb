@@ -10,6 +10,18 @@ class CampaignType
   property :created_at, DateTime
   property :updated_by, Integer
   property :updated_at, DateTime
-  belongs_to :user, :model => User
+  has n, :campaigns
   
+  
+  def initialize(name)
+    begin
+      self.name = name
+      if !self.save
+        raise #couldn't save the object
+      end
+    rescue
+      return false
+    end
+  end
+
 end

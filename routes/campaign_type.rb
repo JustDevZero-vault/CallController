@@ -6,52 +6,53 @@ class CallController < Sinatra::Application
     end
   end
   
-  get '/campaign/types' do
-    @campaign_types = Campaign_Types.all()
-    erb :'campaign'
-  end
+  #~ get '/campaign/types' do
+    #~ @campaign_types = Campaign_Types.all()
+    #~ erb :'campaign'
+  #~ end
   
-  get '/campaign/type/add/' do
-    erb :'campaign_add'
-  end
+  #~ get '/campaign/type/add' do
+    #~ erb :'campaign_add'
+  #~ end
   
-  get '/campaign/type/edit/:id' do
-    @campaign = Campaign.first(:id => params['id'])
-    erb :'campaign_edit'
-  end
+  #~ get '/campaign/type/edit/:id' do
+    #~ @campaign = Campaign.first(:id => params['id'])
+    #~ erb :'campaign_edit'
+  #~ end
   
-  post '/campaign/add' do
-    campaign = Campaign.first(:external_id => params['external_id'])
+  post '/campaign/type/add' do
+    type = CampaignType.first(:name => params['name'])
     
-    if campaign.nil?
-      campaign.create(:name => params['name'])
+    if type.nil?
+      CampaignType.create(params['name'])
     end
-    campaignlist = '/campaign/types'
+    campaignlist = '/campaign'
     redirect to campaignlist
   end
   
-  post '/campaign/types/edit' do
-    campaign = Campaign.first(:id => params['id'])
+  post '/campaign/type/edit' do
+    type = CampaignType.first(:id => params['id'])
     
-    if !campaign.nil?
-        
-        if params['active'].nil?
-          campaign.active = false
-        else
-          campaign.active = true
-        end
-        
-        if params['external_id'].nil?
-            campaign.external_id = params['campaign_type']
-        end
-        
-        if params['campaign_type'].nil?
-            campaign.campaign_type = params['campaign_type']
-        end
-        
-        campaign.updated_at = Time.now
-        campaign.save
-        campaign.reload
+    if !type.nil?
+      type.update(:name => params['name'])
+    end
+    campaignlist = '/campaign'
+    redirect to campaignlist
+  end
+  
+  
+  post '/campaign/type/del' do
+    typ = CampaignType.first(:name => params['name'])
+    
+    if !typ.nil?
+      #~ campaign = Campaign.all(:campaign_type => typ)
+      #~ if !campaign.nil?
+        #~ campaign.destroy
+        #~ campaign.reload
+      #~ end
+      typ.destroy
+      typ.reload
+    else
     end
     campaignlist = '/campaign'
     redirect to campaignlist

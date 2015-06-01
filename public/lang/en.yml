@@ -103,6 +103,18 @@ en:
     last_name: "Last Name"
     full_name: "Full name"
 
+  campaign:
+    one: "Campaign"
+    other: "Campaigns"
+    add: "Add campaign"
+    external_id: "Campaign number"
+    parsed: "Parsed"
+    file: "Campaign file"
+    type: "Campaign type"
+    types: "Campaign types"
+    add_type: "Add type"
+    type_name: "Type name"
+
   role:
     one: "Role"
     other: "Roles"
@@ -139,6 +151,12 @@ en:
     del_user:
       title: "Remove User"
       confirm: "Are you sure you want to remove the user %{user}?"
+    del_campaign:
+      title: "Delete campaign"
+      confirm: "Are you sure you want to remove the campaign %{campaign}?"
+    del_campaign_type:
+      title: "Delete campaign type"
+      confirm: "Are you sure you want to remove the campaign type %{campaign_type}?"
     del_role:
       title: "Remove Role"
       confirm: "Are you sure you want to delete the role %{role}?"

@@ -8,29 +8,28 @@ class CallController < Sinatra::Application
   
   get '/campaign' do
     @campaigns = Campaign.all()
-    @campaign_types = Campaign_Types.all()
+    @campaigntypes = CampaignType.all()
     erb :'campaign'
   end
-  
-  get '/campaign/add/' do
-    erb :'campaign_add'
-  end
-  
+    
   get '/campaign/edit/:id' do
     @campaign = Campaign.first(:id => params['id'])
     erb :'campaign_edit'
   end
   
-  get '/campaign/upload' do
-    erb :'campaign_upload'
-  end
+  #~ get '/campaign/upload/:id' do
+    #~ @campaign_id = params[:id]
+    #~ erb :'campaign_upload'
+  #~ end
   
   post '/campaign/add' do
-    campaign = Campaign.first(:external_id => params['external_id'])
     
+    type = CampaignType.first(:id => params['campaign_type'])
+    campaign = Campaign.first(:external_id => params['external_id'])
     if campaign.nil?
-      campaign.create(:external_id => params['external_id'], :active=> false, :campaign_type => params['campaign_type'])
+      Campaign.new(params[:external_id], type)
     end
+    #~ Campaign.create(:external_id => params['external_id'], :campaign_type => params['campaign_type'])
     campaignlist = '/campaign'
     redirect to campaignlist
   end
@@ -73,6 +72,17 @@ class CallController < Sinatra::Application
           campaign_file.write(params['myfile'][:tempfile].read) 
         end
       campaign.update(file => (year_month_folder + params['myfile'][:filename]))
+    end
+    redirect to '/origins'
+  end
+  
+  post '/campaign/import' do
+    campaign = Campaign.first(:id => params['campaign_id'])
+    un = User.first(:username => session['username'])
+    
+    if !campaign.nil?
+      #~ CampaignInstance.create(campaign.id, un, 'import')
+      cn.process_import(un)
     end
     redirect to '/origins'
   end

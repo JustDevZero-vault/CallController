@@ -12,6 +12,8 @@ require 'mail'
 require 'htmlentities'
 require 'redcarpet'
 require 'base64'
+#~ require 'delayed_job'
+#~ require 'delayed_job_data_mapper'
 
 database_config = YAML.load_file( File.dirname(__FILE__) << "/../../private/configs/database.yml")
 DataMapper.setup(:default, database_config)
@@ -34,4 +36,6 @@ DataMapper.finalize
 
 if File.exist? '.installed'
   DataMapper.auto_upgrade!(:default)
+  #~ Delayed::Worker.backend = :data_mapper
+  #~ Delayed::Worker.backend.auto_upgrade!
 end

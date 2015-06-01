@@ -1,0 +1,9 @@
+<div class="row-fluid">
+  <form id="uploadFile" action="/campaign/upload" enctype="multipart/form-data" method="post">
+    <h4>Upload file</h4><legend></legend>
+    <input name="file" type="file" class="filestyle" required><br/>
+    <input name="id" disabled type="text" class="filestyle" value="<%= @campaign_id %>"><br/>
+    <input data-toggle="tooltip" data-original-title="Path where to upload the file (including filename)" name='path' type="text" class="input-block-level hint" placeholder="path" autofocus required><br/>
+    <button type="submit" class="btn input-block-level btn-primary">Create</button>
+  </form>
+</div>

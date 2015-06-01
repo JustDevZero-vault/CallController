@@ -14,14 +14,14 @@ Go!
 
 Download and run sinatra-bootstrap:
 
-    git clone protocol://url/repository.git
+    git clone https://github.com/JustDevZero/CallControler.git
     
-    cd sinatra-bootstrap
+    cd CallControl
     bundle install             # To install sinatra
     
-    bundle exec ruby app.rb    # To run the sample
+    sh callcontroller.sh start    # To run the sample
 	
-Then open [http://localhost:4567/](http://localhost:4567/)
+Then open [http://localhost:3000/](http://localhost:3000/)
 
 What's next?
 ============
