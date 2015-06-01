@@ -54,7 +54,7 @@ class CallController < Sinatra::Application
   end
 
   get "/password/request" do
-    erb :'user/password_request'
+    erb :'user/password_request', :layout => false
   end
 
   post "/password/request" do
