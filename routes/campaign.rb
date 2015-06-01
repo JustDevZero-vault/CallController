@@ -66,10 +66,10 @@ class CallController < Sinatra::Application
     notification = Notification.create(:type => :error, :sticky => false, :message => params)
     if !campaign.nil?
         year_month_day = Time.now.strftime("%Y/%m/%d")
-        year_month_day_folder = 'uploads/imports/' + year_month_day + '/'
+        year_month_day_folder = 'public/uploads/imports/' + year_month_day + '/'
         
-        FileUtils.mkdir_p('public/' + year_month_day_folder)  unless File.exists?(year_month_day_folder)
-        File.open( 'public/' + year_month_day_folder + params['file'][:filename], "w") do |campaign_file|
+        FileUtils.mkdir_p(year_month_day_folder)  unless File.exists?(year_month_day_folder)
+        File.open( year_month_day_folder + params['file'][:filename], "w") do |campaign_file|
           campaign_file.write(params['file'][:tempfile].read) 
         end
         final_file = year_month_day_folder + params['file'][:filename]
@@ -80,10 +80,10 @@ class CallController < Sinatra::Application
   end
   
   post '/campaign/import' do
-    campaign = Campaign.first(:id => params['campaign_id'])
+    cn = Campaign.first(:id => params['campaign_id'])
     un = User.first(:username => session['username'])
     
-    if !campaign.nil?
+    if !cn.nil?
       #~ CampaignInstance.create(campaign.id, un, 'import')
       cn.process_import(un)
     end

@@ -37,7 +37,7 @@
 							</td>
 							<td>
 								<% if !campaign.file_name.nil? %>                 
-                  <a data-toggle="tooltip" data-original-title="<%=t('action.download')%>" href="<%=campaign.file_name%>" class="btn btn-default btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-save-file"></i></a>
+                  <a data-toggle="tooltip" data-original-title="<%=t('action.download')%>" href="<%=campaign.file_name.gsub('/\public/', '')%>" class="btn btn-default btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-save-file"></i></a>
 								<% else %>
                   <a data-toggle="tooltip" data-original-title="<%=t('action.upload')%>" href="/campaign/upload/<%=campaign.id.to_s%>" class="btn btn-default btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-upload"></i></a>
 								<% end %>
@@ -52,9 +52,13 @@
 							</td>
 							<td>
 								<% if campaign.parsed? %>                 
-                  <a data-toggle="tooltip" data-original-title="<%=t('parsed')%>" class="btn btn-default btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-ok-sign"></i></a>
+                  <a data-toggle="tooltip" data-original-title="<%=t('parsed')%>" class="btn btn-default btn-mini btn-icon-only hint"></a>
 								<% else %>
-                  <a data-toggle="tooltip" data-original-title="<%=t('parse')%>" class="btn btn-default btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-question-sign"></i></a>
+          <form action="/campaign/import" method="post">
+            <input type="hidden" name="campaign_id" id="dataInput" value="<%=campaign.id%>">
+            <button type="submit" class="btn btn-default"><i class="glyphicon glyphicon-ok-sign"></i></button>
+          </form>
+                  
 								<% end %>
 							</td>
 							<td class="td-actions">

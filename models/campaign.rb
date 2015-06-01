@@ -1,5 +1,7 @@
 class Campaign
   include DataMapper::Resource
+  include Sneakers::Worker
+  from_queue 'imports'
   
   def self.default_repository_name #here we use the users_db for the User objects
     :default
@@ -51,7 +53,7 @@ class Campaign
     include_fields[:user] = un
     include_fields[:campaign] = self
     
-    FSV.foreach(self.file,
+    CSV.foreach(self.file_name,
                 :headers           => true,
                 :header_converters => :symbol,
                 :converters => :numeric

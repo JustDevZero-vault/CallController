@@ -12,8 +12,8 @@ require 'mail'
 require 'htmlentities'
 require 'redcarpet'
 require 'base64'
-#~ require 'delayed_job'
-#~ require 'delayed_job_data_mapper'
+require 'csv'
+require 'sneakers'
 
 database_config = YAML.load_file( File.dirname(__FILE__) << "/../../private/configs/database.yml")
 DataMapper.setup(:default, database_config)
@@ -22,7 +22,6 @@ require_relative "lib/spork"
 require_relative "lib/flavored_markdown"
 require_relative "role"
 require_relative "user"
-require_relative "notification"
 require_relative "setup"
 require_relative "email"
 require_relative "campaign_type"
@@ -36,6 +35,4 @@ DataMapper.finalize
 
 if File.exist? '.installed'
   DataMapper.auto_upgrade!(:default)
-  #~ Delayed::Worker.backend = :data_mapper
-  #~ Delayed::Worker.backend.auto_upgrade!
 end
