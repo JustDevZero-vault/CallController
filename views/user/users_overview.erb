@@ -45,7 +45,7 @@
                 <a data-toggle="tooltip" data-original-title="<%=t('action.notifications.enable')%>" href="/users/<%=user.username%>/notifications/enable" class="btn btn-default btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-bell"></i></a>
 								<% end %>
 								<a data-toggle="tooltip" data-original-title="<%=t('action.edit')%>" href="#editUser" class="btn btn-info btn-mini btn-glyphicon-only hint" onclick="passDataToModal(['<%=user.username%>', '<%=user.active? ? "1":"0" %>', '<%=user.email%>', '<%=user.first_name%>', '<%=user.last_name%>'], '#editUser')"><i class="glyphicon glyphicon-edit"></i></a>
-								<a data-toggle="tooltip" data-original-title="<%=t('action.remove')%>" href="#delUser" class="btn btn-danger btn-mini btn-glyphicon-only hint" onclick="passDataToModal('<%=user.username%>', '#delUser')"><i class="glyphicon glyphicon-remove"></i></a>
+								<a data-toggle="tooltip" data-original-title="<%=t('action.remove')%>" href="#delUser" class="btn btn-danger btn-mini btn-glyphicon-only hint" onclick="passDataToModal(['<%=user.username%>'], '#delUser')"><i class="glyphicon glyphicon-remove"></i></a>
                 
 							</td>
 						</tr>
@@ -108,7 +108,7 @@
 							</td>
 							<td class="td-actions">
 								<!--<a data-toggle="tooltip" data-original-title="<%=t('action.edit')%>" href="#editRole" class="btn btn-info btn-mini btn-glyphicon-only hint" onclick="editRole('<%=role.name%>', '#roleeditor')"><i class="btn-glyphicon-only glyphicon glyphicon-edit"></i></a>-->
-								<a data-toggle="tooltip" data-original-title="<%=t('action.remove')%>" href="#delRole" class="btn btn-danger btn-mini btn-glyphicon-only hint" onclick="passDataToModal('<%=role.name%>', '#delRole')"><i class="btn-glyphicon-only glyphicon glyphicon-remove"></i></a>
+								<a data-toggle="tooltip" data-original-title="<%=t('action.remove')%>" href="#delRole" class="btn btn-danger btn-mini btn-glyphicon-only hint" onclick="passDataToModal(['<%=role.name%>'], '#delRole')"><i class="btn-glyphicon-only glyphicon glyphicon-remove"></i></a>
 							</td>
 						</tr>
 						<% end %>
@@ -128,9 +128,9 @@
       </div>
       <form id="addUserform" action="/user/add" method="post">
         <div class="modal-body">
-          <div class="control-group"><input name='username' type="text" id="dataInput" value=""> <span class="help-inline"><%=t('username')%></span></div>
-          <div class="control-group"><input name='first_name' type="text" id="first_name" value=""> <span class="help-inline"><%=t('user.first_name')%></span></div>
-          <div class="control-group"><input name='last_name' type="text" id="last_name" value=""> <span class="help-inline"><%=t('user.last_name')%></span></div>
+          <div class="control-group"><input name='username' type="text" class="input" id="dataInput" value="" placeholder="<%=t('username')%>" autofocus> <span class="help-inline"><%=t('username')%></span></div>
+          <div class="control-group"><input name='first_name' type="text" class="input" id="first_name" value="" placeholder="<%=t('user.first_name')%>">> <span class="help-inline"><%=t('user.first_name')%></span></div>
+          <div class="control-group"><input name='last_name' type="text" class="input" id="last_name" value="" placeholder="<%=t('user.last_name')%>">> <span class="help-inline"><%=t('user.last_name')%></span></div>
           <div class="control-group"><input name='email' type="email" id="email" class="input" placeholder="<%=t('email')%>"> <span class="help-inline"><%=t('email')%></span><p class="help-block"></p></div>
           <div class="control-group"><input name='password' type="password" class="input" placeholder="<%=t('password.one')%>"> <span class="help-inline"><%=t('password.one')%></span></div>
           <div class="control-group"><input name='active' type="checkbox" class="input"> <span class="help-inline"><%=t('active')%></span></div>
@@ -152,7 +152,7 @@
       </div>
       <form id="addRoleform" action="/role/add" method="post">
         <div class="modal-body">
-          <div class="control-group"><input name='name' type="text" class="input" placeholder="<%=t('dialog.add_role.name')%>" autofocus required><span class="help-inline"> <%=t('dialog.add_role.name_long')%></span></div>
+          <div class="control-group"><input name='name' type="text" class="input" placeholder="<%=t('dialog.add_role.name')%>" autofocus><span class="help-inline"> <%=t('dialog.add_role.name_long')%></span></div>
         </div>
         <div class="modal-footer">
           <a class="btn" data-dismiss="modal" aria-hidden="true"><%=t('action.cancel')%></a>
