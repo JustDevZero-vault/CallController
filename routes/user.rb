@@ -12,7 +12,7 @@ class CallController < Sinatra::Application
   end
 
   post '/user/add' do
-    User.new(params['username'], params['email'], params['password'])
+    User.new(params['username'], params['email'], params['password'], params['first_name'], params['last_name'])
     userlist = '/users'
     redirect to userlist
   end

@@ -20,7 +20,7 @@ class CallController < Sinatra::Application
         halt erb(:'system/setup')
       end
       Setup.new()
-      un = User.new(params['username'], params['email'], params['password'])
+      un = User.new(params['username'], params['email'], params['password'], params['first_name'], 'last_name')
       admins = Role.new(:name => "admins", :capabilities => 'admin')
       admins.add_member(un)
       Role.create(:name => 'agents', :capabilities => 'agent')
