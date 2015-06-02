@@ -13,7 +13,6 @@ require 'htmlentities'
 require 'redcarpet'
 require 'base64'
 require 'csv'
-#require 'sneakers'
 require "dm_noisy_failures"
 
 database_config = YAML.load_file( File.dirname(__FILE__) << "/../../private/configs/database.yml")
