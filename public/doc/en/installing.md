@@ -40,6 +40,11 @@ Access your newly CallController installation from the machine itself, or using 
 the port 3000
 ([http://localhost:3000/](http://localhost:3000/))
 
+or take a look how to use it with
+[nginx](apache.md)
+or
+[apache](nginx.md).
+
 **4. Setup**
 
 Once you open CallController for the first time, it will prompt you for an user, email, password.
