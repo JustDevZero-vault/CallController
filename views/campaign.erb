@@ -37,7 +37,7 @@
 							</td>
 							<td>
 								<% if !campaign.file_name.nil? %>                 
-                  <a data-toggle="tooltip" data-original-title="<%=t('action.download')%>" href="<%=campaign.file_name.gsub('/\public/', '')%>" class="btn btn-default btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-save-file"></i></a>
+                  <a data-toggle="tooltip" data-original-title="<%=t('action.download')%>" href="<%=campaign.file_name.gsub(Regexp.new('^public'), '')%>" class="btn btn-default btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-save-file"></i></a>
 								<% else %>
                   <a data-toggle="tooltip" data-original-title="<%=t('action.upload')%>" href="/campaign/upload/<%=campaign.id.to_s%>" class="btn btn-default btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-upload"></i></a>
 								<% end %>
@@ -161,11 +161,11 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
           <h3 id="addCampaignLabel"><%=t('campaign.add')%></h3>
         </div>
-        <form id="addCampaignForm" action="/campaign/add" method="post">
+        <form id="addCampaignForm" action="/campaign/add" method="POST">
           <div class="modal-body">
-            <div class="control-group"><input name='external_id' type="text" class="input" id="external_id" value="" placeholder="<%=t('campaign.external_id')%>" autofocus> <span class="help-inline"><%=t('campaign.external_id')%></span></div>
+            <div class="control-group"><input name='external' type="text" class="input" id="external" placeholder="<%=t('campaign.external_id')%>" autofocus> <span class="help-inline"><%=t('campaign.external_id')%></span></div>
             <div class="control-group">
-              <select class="" name="campaign_type" id="campaign_type">
+              <select class="" name="campaigntype" id="campaigntype">
                 <% @campaigntypes.each do |cptype| %>
                 <option value="<%=cptype.id%>"><%=cptype.name%></option>
                 <% end %>
@@ -192,7 +192,7 @@
         <form id="editCampaignForm" action="/campaign/edit" method="post">
           <div class="modal-body">
           
-            <div class="control-group"><input name='external_id' type="text" class="input" id="external_id" value="" placeholder="<%=t('campaign.external_id')%>" autofocus> <span class="help-inline"><%=t('campaign.external_id')%></span></div>
+            <div class="control-group"><input name='external_edit' type="text" class="input" id="external_edit" value="" placeholder="<%=t('campaign.external_id')%>" autofocus> <span class="help-inline"><%=t('campaign.external_id')%></span></div>
             <div class="control-group"><input name='active' id="dataCheckbox" type="checkbox" class="input"> <span class="help-inline"><%=t('active')%></span></div>
           </div>
           <div class="modal-footer">

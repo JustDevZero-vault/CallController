@@ -24,12 +24,12 @@ class CallController < Sinatra::Application
   
   post '/campaign/add' do
     
-    type = CampaignType.first(:id => params['campaign_type'])
-#    campaign = Campaign.first(:external_id => params['external_id'])
- #   if campaign.nil?
-      Campaign.first_or_create(:external_id => params[:external_id], :campaign_type => type)
-  #  end
-    #~ Campaign.create(:external_id => params['external_id'], :campaign_type => params['campaign_type'])
+    type = CampaignType.first(:id => params['campaigntype'])
+    cp = Campaign.first(:external_id => params['external'])
+    if cp.nil?
+      Campaign.create(:external_id => params[:external], :campaign_type => type)
+    end
+    
     campaignlist = '/campaign'
     redirect to campaignlist
   end
@@ -63,7 +63,6 @@ class CallController < Sinatra::Application
   
   post '/campaign/upload' do
     campaign = Campaign.first(:id => params['campaign_id'])
-    notification = Notification.create(:type => :error, :sticky => false, :message => params)
     if !campaign.nil?
         year_month_day = Time.now.strftime("%Y/%m/%d")
         year_month_day_folder = 'public/uploads/imports/' + year_month_day + '/'

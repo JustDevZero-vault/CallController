@@ -13,13 +13,16 @@ require 'htmlentities'
 require 'redcarpet'
 require 'base64'
 require 'csv'
-require 'sneakers'
+#require 'sneakers'
+require "dm_noisy_failures"
 
 database_config = YAML.load_file( File.dirname(__FILE__) << "/../../private/configs/database.yml")
+DataMapper::Logger.new(STDOUT, :debug)
 DataMapper.setup(:default, database_config)
 
 require_relative "lib/spork"
 require_relative "lib/flavored_markdown"
+require_relative 'notification'
 require_relative "role"
 require_relative "user"
 require_relative "setup"

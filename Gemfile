@@ -5,6 +5,7 @@ Encoding.default_internal = Encoding::UTF_8
 
 gem 'activesupport'
 gem 'unicorn'
+gem 'dm-noisy-failures'
 gem 'sinatra'
 gem 'data_mapper'
 gem 'mysql2'
