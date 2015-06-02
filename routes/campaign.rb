@@ -34,6 +34,13 @@ class CallController < Sinatra::Application
     redirect to campaignlist
   end
   
+  post '/campaign/del' do
+    cpg = Campaign.first(:external_id => params['external_del_id'])
+    cpg.destroy
+    campaignlist = '/campaign'
+    redirect to campaignlist
+  end
+  
   post '/campaign/edit' do
     campaign = Campaign.first(:id => params['id'])
     
@@ -84,7 +91,11 @@ class CallController < Sinatra::Application
     
     if !cn.nil?
       #~ CampaignInstance.create(campaign.id, un, 'import')
-      cn.process_import(un)
+      
+       Thread.new do
+        cn.process_import(un)
+       end
+      
     end
     redirect to '/campaign'
   end

@@ -32,7 +32,7 @@ class CallController < Sinatra::Application
         sale.save
         sale.reload
       end
-      origins = '/origin/' + sale.campaign_id
+      origins = '/origin/campaign' + sale.campaign_id
       redirect to origins
   end
 
@@ -41,15 +41,7 @@ class CallController < Sinatra::Application
       if !origin.nil?
           OriginDatabase.create(params)
       end
-      redirect to 'origins'
-  end
-
-  post '/origin/add' do
-      origin = OriginDatabase.first(:id => param['id'])
-      if !origin.nil?
-          origin.destroy
-      end
-      redirect to 'origins'
+      redirect to '/campaign'
   end
 
 end
