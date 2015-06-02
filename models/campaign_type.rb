@@ -11,17 +11,5 @@ class CampaignType
   property :updated_by, Integer
   property :updated_at, DateTime
   has n, :campaigns
-  
-=begin
-  def initialize(name)
-    begin
-      self.name = name
-      if !self.save
-        raise #couldn't save the object
-      end
-    rescue
-      return false
-    end
-  end
-=end
+
 end
