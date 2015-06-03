@@ -14,26 +14,29 @@ class OriginSales
   property :phone, String
   property :city, String
   property :province, String
-  property :created_by, Integer
   property :created_at, DateTime
-  property :updated_by, Integer
   property :updated_at, DateTime
   belongs_to :user, :model => User
   belongs_to :campaign, :model => Campaign
   
   
-  validates_with_method :phone,
-                        :method => :is_valid_phone?
+  #~ validates_with_method :phone,
+                        #~ :method => :is_valid_phone,
+                        #~ :message => { :presence => "We need a phone", :format => "Does not look like a spanish phone"}
                         
+  validates_with_method   :phone,
+                        :method => :is_valid_phone
   validates_format_of   :email,
                         :with => :email_address
-                        
-                        
-                        
 
-                        
-  def self.is_valid_phone?
-    return !!(@self =~ /^((\+?34([ \t|\-])?)?[9|6|7]((\d{1}([ \t|\-])?[0-9]{3})|(\d{2}([ \t|\-])?[0-9]{2}))([ \t|\-])?[0-9]{2}([ \t|\-])?[0-9]{2})$/)
+
+
+  def is_valid_phone
+    result = /^((\+?34([ \t|\-])?)?[9|6|7]((\d{1}([ \t|\-])?[0-9]{3})|(\d{2}([ \t|\-])?[0-9]{2}))([ \t|\-])?[0-9]{2}([ \t|\-])?[0-9]{2})$/ === self.phone
+    if !result
+      elf.errors.add(:phone, "Phone is not valid")
+    end
+    return result
   end
   
   
