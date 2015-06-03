@@ -18,7 +18,7 @@
   <script type="text/javascript" language="javascript" src="/vendor/modernizr/js/modernizr.js"></script>
   <script type="text/javascript" language="javascript" src="/assets/js/funcs.js?v=<%= $CALLCONTROLLER_VERSION %>"></script>
   <!-- DataTables -->
-  <% if request.path_info.start_with?("/users") %>
+  <% if request.path_info.start_with?("/users") ||  request.path_info.start_with?("/campaigns")%>
 
     <script type="text/javascript" language="javascript" src="/vendor/datatables/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" language="javascript" src="/vendor/datatables/js/dataTables.tableTools.min.js"></script>
@@ -44,6 +44,14 @@
       $(document).ready(function() {
           $('#users').dataTable();
           $('#roles').dataTable();
+      } );
+    </script>
+  <% end %>
+  
+  <% if request.path_info.start_with?("/campaigns") %>
+    <script type="text/javascript">
+      $(document).ready(function() {
+          $('#campaigns').dataTable();
       } );
     </script>
   <% end %>
@@ -75,6 +83,8 @@
                   <%if user.is_admin?%>
                     <li><a href="/users"><%=t('menu.manage_users')%></a></li>
                     <li><a href="/settings">System Settings</a></li>
+                    <li class="divider"></li>
+                    <li><a href="/campaigns"><%=t('campaign.other')%></a></li>
                     <li class="divider"></li>
                   <%end%>
                   <li><a href="/password/change"><%=t('password.change')%></a></li>

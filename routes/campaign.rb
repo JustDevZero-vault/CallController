@@ -6,20 +6,15 @@ class CallController < Sinatra::Application
     end
   end
   
-  get '/campaign' do
+  get '/campaigns' do
     @campaigns = Campaign.all()
     @campaigntypes = CampaignType.all()
-    erb :'campaign'
-  end
-    
-  get '/campaign/edit/:id' do
-    @campaign = Campaign.first(:id => params['id'])
-    erb :'campaign_edit'
+    erb :'campaign/overview'
   end
   
   get '/campaign/upload/:id' do
     @campaign_id = params[:id]
-    erb :'campaign_upload'
+    erb :'campaign/upload'
   end
   
   post '/campaign/add' do
@@ -30,14 +25,14 @@ class CallController < Sinatra::Application
       Campaign.create(:external_id => params[:external], :campaign_type => type)
     end
     
-    campaignlist = '/campaign'
+    campaignlist = '/campaigns'
     redirect to campaignlist
   end
   
   post '/campaign/del' do
     cpg = Campaign.first(:external_id => params['external_del_id'])
     cpg.destroy
-    campaignlist = '/campaign'
+    campaignlist = '/campaigns'
     redirect to campaignlist
   end
   
@@ -64,7 +59,7 @@ class CallController < Sinatra::Application
         campaign.save
         campaign.reload
     end
-    campaignlist = '/campaign'
+    campaignlist = '/campaigns'
     redirect to campaignlist
   end
   
@@ -82,13 +77,13 @@ class CallController < Sinatra::Application
       campaign.update(:file_name => final_file)
      else
     end
-    redirect to '/campaign'
+    redirect to '/campaigns'
   end
   
   post '/campaign/import' do
     cn = Campaign.first(:id => params['campaign_id'])
     un = User.first(:username => session['username'])
-    
+
     if !cn.nil?
       #~ CampaignInstance.create(campaign.id, un, 'import')
       
@@ -97,7 +92,7 @@ class CallController < Sinatra::Application
        end
       
     end
-    redirect to '/campaign'
+    #~ redirect to '/campaigns'
   end
   
 end

@@ -26,7 +26,7 @@ class CallController < Sinatra::Application
 #    if type.nil?
       CampaignType.first_or_create(:name => params['name'])
 #    end
-    campaignlist = '/campaign'
+    campaignlist = '/campaigns'
     redirect to campaignlist
   end
   
@@ -36,7 +36,7 @@ class CallController < Sinatra::Application
     if !type.nil?
       type.update(:name => params['name'])
     end
-    campaignlist = '/campaign'
+    campaignlist = '/campaigns'
     redirect to campaignlist
   end
   
@@ -54,7 +54,7 @@ class CallController < Sinatra::Application
       typ.reload
     else
     end
-    campaignlist = '/campaign'
+    campaignlist = '/campaigns'
     redirect to campaignlist
   end
   

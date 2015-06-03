@@ -56,7 +56,24 @@ $(function () {
   
 });
 
-passDataToModal = function (data, modal_id) {
+var parseCampaign = function (campaignid) {
+  $.ajax({
+    method: "POST",
+    url: "/campaign/import",
+    data: { campaign_id: campaignid }
+  }).done(function() {
+    alert( "success" );
+  })
+  .fail(function() {
+    alert( "error" );
+  })
+  .always(function() {
+    alert( "complete" );
+  });
+  
+}
+
+var passDataToModal = function (data, modal_id) {
   $(".modal-body #dataInput").text(data[0]);
   $(".modal-body #dataInput").val(data[0]);
   if (data[1] == '1') {
