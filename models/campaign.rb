@@ -47,7 +47,6 @@ class Campaign
   def process_import(un)
   
     include_fields = {}
-    include_fields[:user] = un
     include_fields[:campaign] = self
     
     CSV.foreach(self.file_name,
@@ -56,8 +55,9 @@ class Campaign
                 :converters => :numeric
                 ) do |line|
       line_hash = line.to_hash
+      origin = OriginSales.first(line_hash.merge(include_fields).to_hash)
+      include_fields[:user] = un
       hash_to_import = line_hash.merge(include_fields)
-      origin = OriginSales.first(hash_to_import.to_hash)
       if origin.nil?
         OriginSales.create(hash_to_import.to_hash)
       end
