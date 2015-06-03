@@ -73,6 +73,37 @@ var parseCampaign = function (campaignid) {
   
 }
 
+var migrateCountries = function () {
+  $.ajax({
+    method: "POST",
+    url: "/country/migrate"
+  }).done(function() {
+    alert( "success" );
+  })
+  .fail(function() {
+    alert( "error" );
+  })
+  .always(function() {
+    alert( "complete" );
+  });
+  
+}
+var migrateProvinces = function () {
+  $.ajax({
+    method: "POST",
+    url: "/province/migrate"
+  }).done(function() {
+    alert( "success" );
+  })
+  .fail(function() {
+    alert( "error" );
+  })
+  .always(function() {
+    alert( "complete" );
+  });
+  
+}
+
 var passDataToModal = function (data, modal_id) {
   $(".modal-body #dataInput").text(data[0]);
   $(".modal-body #dataInput").val(data[0]);

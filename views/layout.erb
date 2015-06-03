@@ -18,7 +18,7 @@
   <script type="text/javascript" language="javascript" src="/vendor/modernizr/js/modernizr.js"></script>
   <script type="text/javascript" language="javascript" src="/assets/js/funcs.js?v=<%= $CALLCONTROLLER_VERSION %>"></script>
   <!-- DataTables -->
-  <% if request.path_info.start_with?("/users") ||  request.path_info.start_with?("/campaigns")%>
+  <% if request.path_info.start_with?("/users") ||  request.path_info.start_with?("/campaigns") || request.path_info.start_with?("/countries") %>
 
     <script type="text/javascript" language="javascript" src="/vendor/datatables/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" language="javascript" src="/vendor/datatables/js/dataTables.tableTools.min.js"></script>
@@ -56,6 +56,14 @@
     </script>
   <% end %>
 
+  <% if request.path_info.start_with?("/countries") %>
+    <script type="text/javascript">
+      $(document).ready(function() {
+          $('#countries').dataTable();
+      } );
+    </script>
+  <% end %>
+
 	</head>
 	<body>
 		<div class="container-fluid">
@@ -85,6 +93,9 @@
                     <li><a href="/settings">System Settings</a></li>
                     <li class="divider"></li>
                     <li><a href="/campaigns"><%=t('campaign.other')%></a></li>
+                    <li class="divider"></li>
+                    <li><a href="/countries"><%=t('country.other')%></a></li>
+                    <li><a href="/provinces"><%=t('province.other')%></a></li>
                     <li class="divider"></li>
                   <%end%>
                   <li><a href="/password/change"><%=t('password.change')%></a></li>

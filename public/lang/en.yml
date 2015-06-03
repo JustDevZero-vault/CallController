@@ -36,6 +36,18 @@ en:
       enable: "Notifications Disabled -> Enable"
       disable: "Notifications Enabled -> Disable"
 
+  country:
+    name: "Country"
+    other: "Countries"
+    add: "Add country"
+    migrate: "Generate countries"
+    
+  province:
+    name: "Province"
+    other: "Provinces"
+    add: "Add province"
+    migrate: "Generate provinces"
+
   callcontroller:
     login: "CallController Login"
     setup: "CallController Setup"
@@ -48,6 +60,8 @@ en:
   unparsed: "Unparsed"
   inactive: "Inactive"
   parse: "Parse"
+  iso_code: "ISO"
+  code: "Code"
   token:
     invalid: "The token received is already invalid"
     wait: "You must wait at least 5 minutes to ask a new password"
@@ -147,6 +161,24 @@ en:
   dialog:
     unique: "(must be unique)"
     attention: "Attention!"
+    add_country:
+      title: "Add country"
+    del_country:
+      title: "Remove country"
+      confirm: "Are you sure you want to remove the country %{country}?"
+    edit_country:
+      title: "Edit country"
+    migrate_country:
+      confirm: "Are you sure you want to migrate the countries?"
+    add_province:
+      title: "Add province"
+    del_province:
+      title: "Remove province"
+      confirm: "Are you sure you want to remove the province %{province}?"
+    edit_province:
+      title: "Edit province"
+    migrate_province:
+      confirm: "Are you sure you want to migrate the provinces?"
     add_user:
       title: "Add User"
     add_role:

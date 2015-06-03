@@ -1,0 +1,155 @@
+<div class="row-fluid">
+  <div class="col-md-8">
+    <div class="widget widget-table action-table">
+      <div class="widget-header">
+	<i class="glyphicon glyphicon-flag"></i><h3><%=t('province.other')%></h3>
+      </div>
+      <div class="widget-content">
+	<div style="position:absolute; z-index:90;">
+    <a data-toggle="modal" data-target="#addProvince" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus"></span> <%=t('province.add')%></a>
+	</div>
+	<div style="position:absolute; margin-left:120px; z-index:90;">
+    <a data-toggle="modal" data-target="#migrateProvince" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus"></span> <%=t('province.migrate')%></a>
+	</div>
+	<div class="visible-phone visible-tablet"><br></br></div>
+	<table id="countries" class="table table-striped table-bordered" cellspacing="0" width="100%">
+	  <thead style="text-align:left;">
+	    <tr>
+	      <th>
+          <%=t('province.name')%>
+	      </th>
+	      <th>
+          <%=t('code')%>
+	      </th>
+	      <th>
+          <%=t('country.name')%>
+	      </th>
+	      <th class="td-actions">
+          <%=t('action.other')%>
+	      </th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	    <% @provinces.each do |province| %>
+	      <tr>
+		<td>
+		  <%=province.name%>
+		</td>
+    <td>
+      <%=province.icode%>
+    </td>
+    <td>
+      <%=province.country.name%>
+    </td>
+		<td class="td-actions">
+		  <a data-toggle="tooltip" data-original-title="<%=t('action.edit')%>" href="#editProvince" class="btn btn-info btn-mini btn-glyphicon-only hint" onclick="passDataToProvince(['<%=province.id%>', '<%=province.name%>', '<%=province.code%>'], '#editProvince')"><i class="glyphicon glyphicon-edit"></i></a>
+		  <a data-toggle="tooltip" data-original-title="<%=t('action.remove')%>" href="#delProvince" class="btn btn-danger btn-mini btn-glyphicon-only hint" onclick="passDataToProvince(['<%=province.id%>', '<%=province.name%>', '<%=province.code%>'], '#delProvince')"><i class="glyphicon glyphicon-remove"></i></a>
+                  
+		</td>
+	      </tr>
+	    <% end %>
+	  </tbody>
+	</table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="addProvince" role="dialog" aria-labelledby="<%=t('dialog.add_province.title')%>" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 id="addProvinceLabel"><%=t('dialog.add_province.title')%></h3>
+      </div>
+      <form id="addProvinceform" action="/province/add" method="post">
+        <div class="modal-body">
+          <div class="control-group"><input name='new_province_name' type="text" class="input" id="new_province_name" value="" placeholder="<%=t('province.name')%>" autofocus> <span class="help-inline"><%=t('province.name')%></span></div>
+          <div class="control-group"><input name='new_province_code' type="text" class="input" id="new_province_code" value="" placeholder="<%=t('iso_code')%>">> <span class="help-inline"><%=t('iso_code')%></span></div> 
+          
+          <div class="control-group">
+            <select class="" name="new_edit_country_id" id="edit_country_id">
+              <% @countries.each do |country| %>
+              <option value="<%=country.id%>"><%=country.name%></option>
+              <% end %>
+            </select>
+          </div>
+          
+        </div>
+        <div class="modal-footer">
+          <a class="btn" data-dismiss="modal" aria-hidden="true"><%=t('action.cancel')%></a>
+          <button type="submit" class="btn btn-primary"><%=t('action.edit')%></button>
+        </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="migrateProvince" role="dialog" aria-labelledby="<%=t('province.migrate')%>" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 id="migrateProvinceLabel"><%=t('dialog.attention')%></h3>
+      </div>
+        <div class="modal-body">
+          <p><%= t('dialog.migrate_province.confirm')%></p>
+        </div>
+        <div class="modal-footer">
+          <form id="migrateProvinceform" action="/province/migrate" method="post">
+            <a class="btn" data-dismiss="modal" aria-hidden="true"><%=t('action.cancel')%></a>
+            <button type="submit" class="btn btn-primary"><%=t('action.del')%></button>
+          </form>
+        </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+ <div class="modal fade" id="delProvince" role="dialog" aria-labelledby="<%=t('dialog.del_province.title')%>" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 id="delProvinceLabel"><%=t('dialog.attention')%></h3>
+      </div>
+        <div class="modal-body">
+          <p><%= t('dialog.del_province.confirm', province: '<b id="dataInput"></b>')%></p>
+        </div>
+        <div class="modal-footer">
+            <input type="hidden" name="provinceid" id="dataInput" value="">
+            <a class="btn" data-dismiss="modal" aria-hidden="true"><%=t('action.cancel')%></a>
+            <a data-toggle="tooltip" onclick="migrateProvinces()" data-original-title="<%=t('province.migrate')%>" class="btn btn-info btn-mini btn-icon-only hint"><%=t('province.migrate')%></a>
+        </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="editProvince" role="dialog" aria-labelledby="<%=t('dialog.edit_province.title')%>" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 id="editProvinceLabel"><%=t('dialog.edit_province.title')%></h3>
+      </div>
+      <form id="editProvinceform" action="/province/edit" method="post">
+        <div class="modal-body">
+        
+          <div class="control-group"><input name='edit_province_name' type="text" class="input" id="edit_province_name" value="" placeholder="<%=t('province.name')%>" autofocus> <span class="help-inline"><%=t('iso_code')%></span></div>
+          <div class="control-group"><input name='edit_pronvince_code' type="text" class="input" id="edit_province_code" value="" placeholder="<%=t('iso_code')%>">> <span class="help-inline"><%=t('iso_code')%></span></div>
+
+          <div class="control-group">
+            <select class="" name="edit_country_id" id="edit_country_id">
+              <% @countries.each do |country| %>
+              <option value="<%=country.id%>"><%=country.name%></option>
+              <% end %>
+            </select>
+          </div>
+          
+        </div>
+        <div class="modal-footer">
+          <a class="btn" data-dismiss="modal" aria-hidden="true"><%=t('action.cancel')%></a>
+          <button type="submit" class="btn btn-primary"><%=t('action.edit')%></button>
+        </div>
+       </form>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

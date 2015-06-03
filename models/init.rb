@@ -15,6 +15,8 @@ require 'redcarpet'
 require 'base64'
 require 'fastercsv'
 require 'dm_noisy_failures'
+require 'cgi'
+
 
 database_config = YAML.load_file( File.dirname(__FILE__) << "/../../private/configs/database.yml")
 DataMapper::Logger.new(STDOUT, :debug)
