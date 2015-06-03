@@ -1,9 +1,0 @@
-<div class="row-fluid">
-  <form id="uploadFile" action="/campaign/upload" enctype="multipart/form-data" method="post">
-    <h4>Upload file</h4><legend></legend>
-    <input name="file" accept=".csv" type="file" class="filestyle" autofocus required><br/>
-     <input data-toggle="tooltip" data-original-title="Campaign number" type="text" class="input-block-level hint" placeholder="Campaign number" disabled value="<%= @campaign_id %>" /><br/>
-     <input data-toggle="tooltip" data-original-title="Campaign number" name='campaign_id' type="hidden" class="input-block-level hint" required value="<%= @campaign_id %>" /><br/>
-    <button type="submit" class="btn input-block-level btn-primary">Create</button>
-  </form>
-</div>
