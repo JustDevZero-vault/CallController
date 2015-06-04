@@ -14,7 +14,7 @@ class CallController < Sinatra::Application
    
   post '/province/add' do
     cn = Country.first(:id => params['country_id'])
-    @countries = Contry.all()
+    @countries = Country.all()
     Province.create(:country => cn, :name => html_escape(params['province_name']))
     redirect to '/provinces'
   end
@@ -42,15 +42,15 @@ class CallController < Sinatra::Application
   
   post '/province/migrate' do
     province = Province.all()
-    if province.nil?
-      countries = Countries.all
-      if !countries.nil?
-        Thread.new do
-          Province.begin_migrate
-        end
+    if province.count < 1
+      countries = Country.all()
+      if countries.all.count > 1
+        #~ Thread.new do
+          Province.begin_migrate('ES')
+        #~ end
       end
     end
-    redirect to '/countries'
+    #~ redirect to '/provinces'
   end
     
 end

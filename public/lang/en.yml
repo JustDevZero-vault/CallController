@@ -38,15 +38,19 @@ en:
 
   country:
     name: "Country"
+    spanish_name: "Spanish name"
+    french_name: "French name"
     other: "Countries"
     add: "Add country"
     migrate: "Generate countries"
+    prefix: "Country Phone Prefix"
     
   province:
     name: "Province"
     other: "Provinces"
     add: "Add province"
     migrate: "Generate provinces"
+    prefix: "Province Phone Prefix"
 
   callcontroller:
     login: "CallController Login"
@@ -60,7 +64,7 @@ en:
   unparsed: "Unparsed"
   inactive: "Inactive"
   parse: "Parse"
-  iso_code: "ISO"
+  iso_code: "ISO 3166-1"
   code: "Code"
   token:
     invalid: "The token received is already invalid"

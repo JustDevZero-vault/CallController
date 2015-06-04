@@ -104,6 +104,50 @@ var migrateProvinces = function () {
   
 }
 
+var passToDeleteCountry = function (data, modal_id) {
+  $(".modal-body #dataInput").text(data[1]);
+  $(".modal-body #dataInput").val(data[1]);
+  $(".modal-footer #delete_country_id").text(data[0]);
+  $(".modal-footer #delete_country_id").val(data[0]);
+  $(modal_id).modal('show');
+}
+
+var passDataToCountry = function (data, modal_id) {
+  $(".modal-body #edit_country_id").text(data[0]);
+  $(".modal-body #edit_country_id").val(data[0]);
+  $(".modal-body #edit_country_name").text(data[1]);
+  $(".modal-body #edit_country_name").val(data[1]);
+  $(".modal-body #edit_country_nombre").text(data[2]);
+  $(".modal-body #edit_country_nombre").val(data[2]);
+  $(".modal-body #edit_country_nom").text(data[3]);
+  $(".modal-body #edit_country_nom").val(data[3]);
+  $(".modal-body #edit_country_phone_prefix").text(data[4]);
+  $(".modal-body #edit_country_phone_prefix").val(data[4]);
+  $(".modal-body #edit_country_iso2").text(data[5]);
+  $(".modal-body #edit_country_iso2").val(data[5]);
+  $(".modal-body #edit_country_iso3").text(data[6]);
+  $(".modal-body #edit_country_iso3").val(data[6]);
+  $(modal_id).modal('show');
+}
+
+var passToDeleteProvince = function (data, modal_id) {
+  $(".modal-body #dataInput").text(data[1]);
+  $(".modal-body #dataInput").val(data[1]);
+  $(".modal-footer #delete_province_id").text(data[0]);
+  $(".modal-footer #delete_province_id").val(data[0]);
+  $(modal_id).modal('show');
+}
+
+var passDataToProvince = function (data, modal_id) {
+  $(".modal-body #edit_province_id").text(data[0]);
+  $(".modal-body #edit_province_id").val(data[0]);
+  $(".modal-body #edit_province_name").text(data[1]);
+  $(".modal-body #edit_province_name").val(data[1]);
+  $(".modal-body #edit_province_phone_prefix").text(data[2]);
+  $(".modal-body #edit_province_phone_prefix").val(data[2]);
+  $(modal_id).modal('show');
+}
+
 var passDataToModal = function (data, modal_id) {
   $(".modal-body #dataInput").text(data[0]);
   $(".modal-body #dataInput").val(data[0]);
@@ -121,7 +165,9 @@ var passDataToModal = function (data, modal_id) {
   $(".modal-body #last_name").text(data[4]);
   $(".modal-body #last_name").val(data[4]);
   
+  $(".modal-footer #dataInput").text(data[0]);
   $(".modal-footer #dataInput").val(data[0]);
+  
   $(modal_id).modal('show');
 };
 

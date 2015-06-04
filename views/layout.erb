@@ -17,14 +17,13 @@
   <script type="text/javascript" language="javascript" src="/vendor/jqBootstrapValidation/js/jqBootstrapValidation.min.js"></script>
   <script type="text/javascript" language="javascript" src="/vendor/modernizr/js/modernizr.js"></script>
   <script type="text/javascript" language="javascript" src="/assets/js/funcs.js?v=<%= $CALLCONTROLLER_VERSION %>"></script>
-  <!-- DataTables -->
-  <% if request.path_info.start_with?("/users") ||  request.path_info.start_with?("/campaigns") || request.path_info.start_with?("/countries") %>
-
+  <% if request.path_info.start_with?("/users") ||  request.path_info.start_with?("/campaigns") || request.path_info.start_with?("/countries") || request.path_info.start_with?("/provinces") %>
+    <!-- DataTables -->
     <script type="text/javascript" language="javascript" src="/vendor/datatables/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" language="javascript" src="/vendor/datatables/js/dataTables.tableTools.min.js"></script>
     <script type="text/javascript" language="javascript" src="/vendor/datatables/js/dataTables.bootstrap.js"></script>    
+    <!-- DataTables -->
   <% end %>
-  <!-- DataTables -->
   <!-- Select2 -->
   <% if request.path_info.start_with?("/campaign/upload") %>
     <link rel="stylesheet" type="text/css" href="/vendor/select2/css/select2.css">
@@ -60,6 +59,13 @@
     <script type="text/javascript">
       $(document).ready(function() {
           $('#countries').dataTable();
+      } );
+    </script>
+  <% end %>
+  <% if request.path_info.start_with?("/provinces") %>
+    <script type="text/javascript">
+      $(document).ready(function() {
+          $('#provinces').dataTable();
       } );
     </script>
   <% end %>

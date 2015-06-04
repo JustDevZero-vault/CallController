@@ -12,7 +12,7 @@
     <a data-toggle="modal" data-target="#migrateProvince" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus"></span> <%=t('province.migrate')%></a>
 	</div>
 	<div class="visible-phone visible-tablet"><br></br></div>
-	<table id="countries" class="table table-striped table-bordered" cellspacing="0" width="100%">
+	<table id="provinces" class="table table-striped table-bordered" cellspacing="0" width="100%">
 	  <thead style="text-align:left;">
 	    <tr>
 	      <th>
@@ -36,7 +36,7 @@
 		  <%=province.name%>
 		</td>
     <td>
-      <%=province.icode%>
+      <%=province.code%>
     </td>
     <td>
       <%=province.country.name%>
@@ -80,6 +80,7 @@
           <a class="btn" data-dismiss="modal" aria-hidden="true"><%=t('action.cancel')%></a>
           <button type="submit" class="btn btn-primary"><%=t('action.edit')%></button>
         </div>
+      </form>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
@@ -95,10 +96,8 @@
           <p><%= t('dialog.migrate_province.confirm')%></p>
         </div>
         <div class="modal-footer">
-          <form id="migrateProvinceform" action="/province/migrate" method="post">
-            <a class="btn" data-dismiss="modal" aria-hidden="true"><%=t('action.cancel')%></a>
-            <button type="submit" class="btn btn-primary"><%=t('action.del')%></button>
-          </form>
+          <a class="btn" data-dismiss="modal" aria-hidden="true"><%=t('action.cancel')%></a>
+          <a data-toggle="tooltip" onclick="migrateProvinces()" data-original-title="<%=t('province.migrate')%>" class="btn btn-info btn-mini btn-icon-only hint"><%=t('province.migrate')%></a>
         </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
@@ -117,7 +116,7 @@
         <div class="modal-footer">
             <input type="hidden" name="provinceid" id="dataInput" value="">
             <a class="btn" data-dismiss="modal" aria-hidden="true"><%=t('action.cancel')%></a>
-            <a data-toggle="tooltip" onclick="migrateProvinces()" data-original-title="<%=t('province.migrate')%>" class="btn btn-info btn-mini btn-icon-only hint"><%=t('province.migrate')%></a>
+            <a data-toggle="tooltip" data-original-title="<%=t('province.migrate')%>" class="btn btn-info btn-mini btn-icon-only hint"><%=t('province.migrate')%></a>
         </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
@@ -132,10 +131,8 @@
       </div>
       <form id="editProvinceform" action="/province/edit" method="post">
         <div class="modal-body">
-        
           <div class="control-group"><input name='edit_province_name' type="text" class="input" id="edit_province_name" value="" placeholder="<%=t('province.name')%>" autofocus> <span class="help-inline"><%=t('iso_code')%></span></div>
           <div class="control-group"><input name='edit_pronvince_code' type="text" class="input" id="edit_province_code" value="" placeholder="<%=t('iso_code')%>">> <span class="help-inline"><%=t('iso_code')%></span></div>
-
           <div class="control-group">
             <select class="" name="edit_country_id" id="edit_country_id">
               <% @countries.each do |country| %>
@@ -143,7 +140,6 @@
               <% end %>
             </select>
           </div>
-          
         </div>
         <div class="modal-footer">
           <a class="btn" data-dismiss="modal" aria-hidden="true"><%=t('action.cancel')%></a>

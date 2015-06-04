@@ -13,12 +13,20 @@ class CallController < Sinatra::Application
   end
    
   post '/country/add' do
-    Country.create(:external_id => params[:iso_code], :name => CGI::escapeHTML(Rack::Utils.escape_html(params['name'])))
+  ht = HTMLEntities.new
+    Country.create(
+      :name => ht.encode(params['nombre'], :named),
+      :name => ht.encode(params['name'], :named),
+      :nom => ht.encode(params['nom'], :named),
+      :iso2 => ht.encode(params['iso2'], :named),
+      :iso3 => ht.encode(params['iso3'], :named),
+      :phone_code => ht.encode(params['phone_code'], :named)
+      )
     redirect to '/countries'
   end
   
   post '/country/del' do
-    cn = Country.first(:id => params['id'])
+    cn = Country.first(:id => params['delete_country_id'])
     cn.destroy
     redirect to '/countries'
   end
@@ -26,20 +34,19 @@ class CallController < Sinatra::Application
   post '/country/edit' do
     country = Country.first(:id => params['id'])
     if !country.nil?
-      if params['iso_code'].nil?
-        country.update(:iso_code => param['iso_code'])
-      end
-      if params['name'].nil?
-        country.update(:name => CGI::escapeHTML(Rack::Utils.escape_html(param['name'])))
-      end
+      country.update(:name => ht.encode(params['nombre'], :named)) if params['nombre'].nil?
+      country.update(:name => ht.encode(params['name'], :named)) if params['name'].nil?
+      country.update(:name => ht.encode(params['nom'], :named)) if params['nom'].nil?
+      country.update(:name => ht.encode(params['iso2'], :named)) if params['iso2'].nil?
+      country.update(:name => ht.encode(params['iso3'], :named)) if params['iso3'].nil?
     end
     redirect to '/countries'
   end
   
   post '/country/migrate' do
-      Thread.new do
+      #~ Thread.new do
         Country.begin_migrate
-      end
+      #~ end
     # redirect to '/countries'
   end
     
