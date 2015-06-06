@@ -128,17 +128,18 @@
       </div>
       <form id="addUserform" action="/user/add" method="post">
         <div class="modal-body">
-          <div class="control-group"><input name='username' type="text" class="input" id="dataInput" value="" placeholder="<%=t('username')%>" autofocus> <span class="help-inline"><%=t('username')%></span></div>
-          <div class="control-group"><input name='first_name' type="text" class="input" id="first_name" value="" placeholder="<%=t('user.first_name')%>">> <span class="help-inline"><%=t('user.first_name')%></span></div>
-          <div class="control-group"><input name='last_name' type="text" class="input" id="last_name" value="" placeholder="<%=t('user.last_name')%>">> <span class="help-inline"><%=t('user.last_name')%></span></div>
-          <div class="control-group"><input name='email' type="email" id="email" class="input" placeholder="<%=t('email')%>"> <span class="help-inline"><%=t('email')%></span><p class="help-block"></p></div>
-          <div class="control-group"><input name='password' type="password" class="input" placeholder="<%=t('password.one')%>"> <span class="help-inline"><%=t('password.one')%></span></div>
-          <div class="control-group"><input name='active' type="checkbox" class="input"> <span class="help-inline"><%=t('active')%></span></div>
+          <div class="control-group"><input name='username' type="text" class="input" id="dataInput" value="" placeholder="<%=t('username')%>" autofocus /> <span class="help-inline"><%=t('username')%></span></div>
+          <div class="control-group"><input name='first_name' type="text" class="input" id="first_name" value="" placeholder="<%=t('user.first_name')%>" /> <span class="help-inline"><%=t('user.first_name')%></span></div>
+          <div class="control-group"><input name='last_name' type="text" class="input" id="last_name" value="" placeholder="<%=t('user.last_name')%>" /> <span class="help-inline"><%=t('user.last_name')%></span></div>
+          <div class="control-group"><input name='email' type="email" id="email" class="input" placeholder="<%=t('email')%>" /> <span class="help-inline"><%=t('email')%></span><p class="help-block"></p></div>
+          <div class="control-group"><input name='password' type="password" class="input" placeholder="<%=t('password.one')%>" /> <span class="help-inline"><%=t('password.one')%></span></div>
+          <div class="control-group"><input name='active' type="checkbox" class="input" /> <span class="help-inline"><%=t('active')%></span></div>
         </div>
         <div class="modal-footer">
           <a class="btn" data-dismiss="modal" aria-hidden="true"><%=t('action.cancel')%></a>
           <button type="submit" class="btn btn-primary"><%=t('action.edit')%></button>
         </div>
+      </form>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
@@ -215,13 +216,12 @@
       </div>
       <form id="editUserform" action="/user/edit" method="post">
         <div class="modal-body">
-        
-          <div class="control-group"><input name='username' type="text" id="dataInput" value="" readonly> <span class="help-inline"><%=t('username')%></span></div>
-          <div class="control-group"><input name='first_name' type="text" id="first_name" value=""> <span class="help-inline"><%=t('user.first_name')%></span></div>
-          <div class="control-group"><input name='last_name' type="text" id="last_name" value=""> <span class="help-inline"><%=t('user.last_name')%></span></div>
-          <div class="control-group"><input name='email' type="email" id="email" class="input" placeholder="<%=t('email')%>"> <span class="help-inline"><%=t('dialog.edit_user.change_email')%></span><p class="help-block"></p></div>
-          <div class="control-group"><input name='password' type="password" class="input" placeholder="<%=t('dialog.edit_user.new_pass')%>"> <span class="help-inline"><%=t('dialog.edit_user.change_pass')%></span></div>
-          <div class="control-group"><input name='active' id="dataCheckbox" type="checkbox" class="input"> <span class="help-inline"><%=t('active')%></span></div>
+          <div class="control-group"><input name='username' type="text" id="dataInput" value="" readonly /> <span class="help-inline"><%=t('username')%></span></div>
+          <div class="control-group"><input name='first_name' type="text" id="first_name" value="" /> <span class="help-inline"><%=t('user.first_name')%></span></div>
+          <div class="control-group"><input name='last_name' type="text" id="last_name" value="" /> <span class="help-inline"><%=t('user.last_name')%></span></div>
+          <div class="control-group"><input name='email' type="email" id="email" class="input" placeholder="<%=t('email')%>" /> <span class="help-inline"><%=t('dialog.edit_user.change_email')%></span><p class="help-block"></p></div>
+          <div class="control-group"><input name='password' type="password" class="input" placeholder="<%=t('dialog.edit_user.new_pass')%>" /> <span class="help-inline"><%=t('dialog.edit_user.change_pass')%></span></div>
+          <div class="control-group"><input name='active' id="dataCheckbox" type="checkbox" class="input"> <span class="help-inline" /><%=t('active')%></span></div>
         </div>
         <div class="modal-footer">
           <a class="btn" data-dismiss="modal" aria-hidden="true"><%=t('action.cancel')%></a>
