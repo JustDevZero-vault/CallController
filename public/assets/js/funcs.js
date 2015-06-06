@@ -76,31 +76,42 @@ var parseCampaign = function (campaignid) {
 var migrateCountries = function () {
   $.ajax({
     method: "POST",
-    url: "/country/migrate"
-  }).done(function() {
-    alert( "success" );
-  })
-  .fail(function() {
-    alert( "error" );
-  })
-  .always(function() {
-    alert( "complete" );
+    url: "/country/migrate",
+    success: function(){
+      location.reload();
+    }
   });
+  // }).done(function() {
+    // alert( "success" );
+  // })
+  // .fail(function() {
+    // alert( "error" );
+  // })
+  // .always(function() {
+    // alert( "complete" );
+  // });
   
 }
 var migrateProvinces = function () {
   $.ajax({
     method: "POST",
-    url: "/province/migrate"
-  }).done(function() {
-    alert( "success" );
-  })
-  .fail(function() {
-    alert( "error" );
-  })
-  .always(function() {
-    alert( "complete" );
+    url: "/province/migrate",
+    success: function(){
+      location.reload();
+    }
   });
+  // $.ajax({
+    // method: "POST",
+    // url: "/province/migrate"
+  // }).done(function() {
+    // alert( "success" );
+  // })
+  // .fail(function() {
+    // alert( "error" );
+  // })
+  // .always(function() {
+    // alert( "complete" );
+  // });
   
 }
 
@@ -139,12 +150,17 @@ var passToDeleteProvince = function (data, modal_id) {
 }
 
 var passDataToProvince = function (data, modal_id) {
-  $(".modal-body #edit_province_id").text(data[0]);
-  $(".modal-body #edit_province_id").val(data[0]);
+  $(".modal-footer #edit_province_id").text(data[0]);
+  $(".modal-footer #edit_province_id").val(data[0]);
   $(".modal-body #edit_province_name").text(data[1]);
   $(".modal-body #edit_province_name").val(data[1]);
-  $(".modal-body #edit_province_phone_prefix").text(data[2]);
-  $(".modal-body #edit_province_phone_prefix").val(data[2]);
+  $(".modal-body #edit_province_code").text(data[2]);
+  $(".modal-body #edit_province_code").val(data[2]);
+  $(".modal-body #edit_province_phone_prefix").text(data[3]);
+  $(".modal-body #edit_province_phone_prefix").val(data[3]);
+  $(".modal-body #edit_province_postal_code").text(data[4]);
+  $(".modal-body #edit_province_postal_code").val(data[4]);
+  $('.modal-body #edit_country_id').val(data[5]);
   $(modal_id).modal('show');
 }
 

@@ -34,11 +34,11 @@ class CallController < Sinatra::Application
   post '/country/edit' do
     country = Country.first(:id => params['id'])
     if !country.nil?
-      country.update(:name => ht.encode(params['nombre'], :named)) if params['nombre'].nil?
-      country.update(:name => ht.encode(params['name'], :named)) if params['name'].nil?
-      country.update(:name => ht.encode(params['nom'], :named)) if params['nom'].nil?
-      country.update(:name => ht.encode(params['iso2'], :named)) if params['iso2'].nil?
-      country.update(:name => ht.encode(params['iso3'], :named)) if params['iso3'].nil?
+      country.update(:name => ht.encode(params['nombre'], :named)) if !params['nombre'].nil?
+      country.update(:name => ht.encode(params['name'], :named)) if !params['name'].nil?
+      country.update(:name => ht.encode(params['nom'], :named)) if !params['nom'].nil?
+      country.update(:name => ht.encode(params['iso2'], :named)) if !params['iso2'].nil?
+      country.update(:name => ht.encode(params['iso3'], :named)) if !params['iso3'].nil?
     end
     redirect to '/countries'
   end

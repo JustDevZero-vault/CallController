@@ -66,6 +66,7 @@ en:
   parse: "Parse"
   iso_code: "ISO 3166-1"
   code: "Code"
+  postal_code: "Postal Code"
   token:
     invalid: "The token received is already invalid"
     wait: "You must wait at least 5 minutes to ask a new password"

@@ -13,9 +13,15 @@ class CallController < Sinatra::Application
   end
    
   post '/province/add' do
-    cn = Country.first(:id => params['country_id'])
+    cn = Country.first(:id => params['new_edit_country_id'])
     @countries = Country.all()
     Province.create(:country => cn, :name => html_escape(params['province_name']))
+    
+    if !cn.nil?
+      if !params['new_province_name'].nil? &&  !params['new_province_code'].nil? &&  !params['new_province_postal_code'].nil? &&  !params['new_province_phone_prefix'].nil? && 
+        province = Province.create(:country => cn, :name => html_escape(params['new_province_name']), :code => html_escape(params['new_province_code']), :postal_code => html_escape(params['new_province_postal_code']), :phone_code => html_escape(params['new_province_phone_prefix']))
+      end
+    end
     redirect to '/provinces'
   end
   
@@ -28,13 +34,14 @@ class CallController < Sinatra::Application
   post '/province/edit' do
     province = Province.first(:id => params['province_id'])
     if !province.nil?
-      if params['country_id'].nil?
-        cn = Country.first(:id => params['country_id'])
+      if params['edit_country_id'].nil?
+        cn = Country.first(:id => params['edit_country_id'])
         province.update(:country => cn)
       end
-      if params['name'].nil?
-        province.update(:name => html_escape(param['name']))
-      end
+      
+      province.update(:code => ht.encode(params['edit_province_code'], :named)) if !params['edit_province_code'].nil?
+      province.update(:phone_code => ht.encode(params['edit_province_phone_prefix'], :named)) if !params['edit_province_phone_prefix'].nil?
+      province.update(:name => ht.encode(params['edit_province_name'], :named)) if !params['edit_province_name'].nil?
     end
     redirect to '/provinces'
   end
