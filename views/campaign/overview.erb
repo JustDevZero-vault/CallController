@@ -29,7 +29,8 @@
                   <%=campaign.external_id%>
                 </td>
                 <td class="td-actions">
-                  <% if campaign.file_imported?  %>                 
+                  <% if campaign.file_imported?  %>
+                    <a data-toggle="tooltip" data-original-title="<%=t('action.upload')%>" href="/campaign/upload/<%=campaign.id.to_s%>" class="btn btn-default btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-upload"></i></a>
                     <a data-toggle="tooltip" data-original-title="<%=t('action.download')%>" href="<%=campaign.file_name.gsub(Regexp.new('^public'), '')%>" class="btn btn-default btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-save-file"></i></a>
                   <% else %>
                     <a data-toggle="tooltip" data-original-title="<%=t('action.upload')%>" href="/campaign/upload/<%=campaign.id.to_s%>" class="btn btn-default btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-upload"></i></a>
@@ -37,9 +38,9 @@
                 
                 
                   <% if campaign.active? %>                 
-                      <a data-toggle="tooltip" data-original-title="<%=t('inactive')%>" class="btn btn-default btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-minus"></i></a>
+                      <a data-toggle="tooltip" onclick="activateLevelCampaign('<%=campaign.id%>', '0')" data-original-title="<%=t('active')%>" class="btn btn-default btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-minus"></i></a>
                   <% else %>
-                    <a data-toggle="tooltip" data-original-title="<%=t('active')%>" class="btn btn-default btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-plus"></i></a>
+                    <a data-toggle="tooltip" onclick="activateLevelCampaign('<%=campaign.id%>', '1')" data-original-title="<%=t('inactive')%>" class="btn btn-default btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-plus"></i></a>
                   <% end %>
                 
                 

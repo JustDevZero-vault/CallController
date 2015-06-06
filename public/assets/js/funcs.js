@@ -73,6 +73,20 @@ var parseCampaign = function (campaignid) {
   
 }
 
+var activateLevelCampaign = function (campaignid, state) {
+  $.ajax({
+    method: "POST",
+    url: "/campaign/activate",
+    data: {
+      id: campaignid,
+      campaign_state: state,
+    },
+    success: function(){
+      location.reload();
+    }
+  });
+}
+
 var migrateCountries = function () {
   $.ajax({
     method: "POST",

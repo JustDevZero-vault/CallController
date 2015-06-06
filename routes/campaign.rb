@@ -17,6 +17,17 @@ class CallController < Sinatra::Application
     erb :'campaign/upload'
   end
   
+  post '/campaign/activate' do
+    cp = Campaign.first(:id => params['id'])
+    if !cp.nil?
+      if params['campaign_state'] === '1'
+        cp.update(:active => true)
+      else
+        cp.update(:active => false)
+      end
+    end
+  end  
+  
   post '/campaign/add' do
     
     type = CampaignType.first(:id => params['campaigntype'])
