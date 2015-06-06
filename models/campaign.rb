@@ -41,6 +41,7 @@ class Campaign
                 :converters => :numeric
                 ) do |line|
       line_hash = line.to_hash
+      notification = Notification.create(:type => :error, :sticky => false, :message => line_hash)
       origin = OriginSales.first(line_hash.merge(include_fields).to_hash)
       include_fields[:user] = un
       hash_to_import = line_hash.merge(include_fields)

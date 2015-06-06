@@ -98,9 +98,9 @@ class CallController < Sinatra::Application
     if !cn.nil?
       #~ CampaignInstance.create(campaign.id, un, 'import')
       
-       Thread.new do
+       # Thread.new do
         cn.process_import(un)
-       end
+       # end
       
     end
     #~ redirect to '/campaigns'
