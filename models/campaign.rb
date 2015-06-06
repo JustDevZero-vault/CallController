@@ -12,21 +12,7 @@ class Campaign
   property :active, Boolean, :default => false
   property :created_at, DateTime
   property :updated_at, DateTime
-  #~ belongs_to :campaign_type, :model => CampaignType, :required => true
   belongs_to :campaign_type, :model => CampaignType
-=begin  
-  def initialize(external_id, campaign_type)
-    begin
-      self.external_id = external_id
-      self.campaign_type = campaign_type
-      if !self.save
-        raise #couldn't save the object
-      end
-    rescue
-      return false
-    end
-  end
-=end
   
   def blacklist(un)
     self.users << un
