@@ -29,14 +29,14 @@ class OriginSales
                         :method => :is_valid_phone
   validates_format_of   :email,
                         :with => :email_address
-  # validates_format_of   :name,
-                        # :with => /^([\s-'-a-z-ñÑáéíóúÁÉÍÓÚàèìòùÀÈÌÒÙäëïöüÄËÏÖÜ])+$/i
-  # validates_format_of   :surname,
-                        # :with => /^([\s-'-a-z-ñÑáéíóúÁÉÍÓÚàèìòùÀÈÌÒÙäëïöüÄËÏÖÜ])+$/i
-  # validates_format_of   :city,
-                        # :with => /^([\s-'-a-z-ñÑáéíóúÁÉÍÓÚàèìòùÀÈÌÒÙäëïöüÄËÏÖÜ])+$/i
-  # validates_format_of   :province,
-                        # :with => /^([\s-'-a-z-ñÑáéíóúÁÉÍÓÚàèìòùÀÈÌÒÙäëïöüÄËÏÖÜ])+$/i
+  validates_format_of   :name,
+                        :with => /^[\p{L} ']+$/i, :message => 'Name with invalid characters'
+  validates_format_of   :surname,
+                        :with => /^[\p{L} ']+$/i, :message => 'Surname with invalid characters'
+  validates_format_of   :city,
+                        :with => /^[\p{L} ']+$/i, :message => 'City with invalid characters'
+  validates_format_of   :province,
+                        :with => /^[\p{L} ']+$/i, :message => 'Province with invalid characters'
 
 
 

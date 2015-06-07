@@ -35,19 +35,38 @@ class Campaign
     include_fields = {}
     include_fields[:campaign] = self
     
+    counter = 1
+    file_errors = self.file_name.gsub(Regexp.new(/.csv$/), '.errors.csv')
+    File.delete(file_errors) if File.exist?(file_errors)
     CSV.foreach(self.file_name,
                 :headers           => true,
                 :header_converters => :symbol,
                 :converters => :numeric
                 ) do |line|
       line_hash = line.to_hash
-      notification = Notification.create(:type => :error, :sticky => false, :message => line_hash)
-      origin = OriginSales.first(line_hash.merge(include_fields).to_hash)
+      line_partial = line_hash.merge(include_fields)
+      origin = OriginSales.first(line_partial.to_hash)
       include_fields[:user] = un
-      hash_to_import = line_hash.merge(include_fields)
+      hash_to_import = line_partial.merge(include_fields)
       if origin.nil?
-        OriginSales.create(hash_to_import.to_hash)
+        origin_sale = OriginSales.new(hash_to_import.to_hash)
+        begin
+          origin_sale.save
+          #~ Origin sale is saved
+          #~ origin_sale.errors.each do |e|
+        rescue DataMapper::SaveFailureError => e
+          #~ error_message = e.message << "on line " << counter.to_s
+          noti =  Notification.create(:type => :error, :sticky => false, :message => "Error importing origin sales: #{e.to_s} on line #{counter.to_s}".gsub('OriginSales: ','') )
+          column_header = line.headers
+          CSV.open(file_errors, "wt", :write_headers=> true, :headers => column_header) do |csv|
+            column_header = nil
+            csv << line
+          end
+        rescue StandardError => e
+          noti =  Notification.create(:type => :error, :sticky => false, :message => "Got an error trying to import origin sales: #{e.to_s} on line #{counter.to_s}".gsub('OriginSales: ','') )
+        end
       end
+      counter += 1
     end
   end
   
