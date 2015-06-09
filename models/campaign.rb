@@ -8,7 +8,7 @@ class Campaign
   property :id, Serial, :key => true
   property :external_id, String
   property :file_name, String
-  property :parsed, Integer, :default => 0, :max => 1
+  property :parsed, Integer, :default => 0, :max => 4
   property :active, Boolean, :default => false
   property :created_at, DateTime
   property :updated_at, DateTime
@@ -36,37 +36,62 @@ class Campaign
     include_fields[:campaign] = self
     
     counter = 1
+    write_mode = "wt"
+    write_headers = true
+    failed_imports = self.file_name.gsub(Regexp.new(/.csv$/), '.failed.csv')
     file_errors = self.file_name.gsub(Regexp.new(/.csv$/), '.errors.csv')
     File.delete(file_errors) if File.exist?(file_errors)
+    File.delete(failed_imports) if File.exist?(failed_imports)
+    self.update(:parsed => 2)
     CSV.foreach(self.file_name,
                 :headers           => true,
                 :header_converters => :symbol,
                 :converters => :numeric
                 ) do |line|
+      error_string = ""
       line_hash = line.to_hash
+      column_header = line.headers
       line_partial = line_hash.merge(include_fields)
       origin = OriginSales.first(line_partial.to_hash)
       include_fields[:user] = un
       hash_to_import = line_partial.merge(include_fields)
       if origin.nil?
         origin_sale = OriginSales.new(hash_to_import.to_hash)
-        begin
-          origin_sale.save
-          #~ Origin sale is saved
-          #~ origin_sale.errors.each do |e|
-        rescue DataMapper::SaveFailureError => e
-          #~ error_message = e.message << "on line " << counter.to_s
-          noti =  Notification.create(:type => :error, :sticky => false, :message => "Error importing origin sales: #{e.to_s} on line #{counter.to_s}".gsub('OriginSales: ','') )
-          column_header = line.headers
-          CSV.open(file_errors, "wt", :write_headers=> true, :headers => column_header) do |csv|
+        
+        error_string += "Phone is not valid on line #{counter.to_s}" if !OriginSales.is_valid_phone?(line[:phone])
+        error_string += "\nName is not valid on line #{counter.to_s}" if !(/^[\p{L} ']+$/i === line[:name])
+        error_string += "\nSurname is not valid on line #{counter.to_s}" if !(/^[\p{L} ']+$/i === line[:surname])
+        error_string += "\nCity is not valid on line #{counter.to_s}" if !(/^[\p{L} ']+$/i === line[:city])
+        error_string += "\nProvince is not valid on line #{counter.to_s}" if !(/^[\p{L} ']+$/i === line[:province])
+        #~ File.open(failed_imports,'at') {|file| file.puts "Province is not valid on line #{counter.to_s}"} if !(line.province=/^[\p{L} ']+$/i)
+        
+        if error_string.length > 0
+        self.update(:parsed => 3)
+          if counter > 1
+            write_mode = "a"
             column_header = nil
+            write_headers = false
+          end
+          CSV.open(failed_imports, write_mode, :write_headers=> write_headers, :headers => column_header) do |csv|
             csv << line
           end
-        rescue StandardError => e
-          noti =  Notification.create(:type => :error, :sticky => false, :message => "Got an error trying to import origin sales: #{e.to_s} on line #{counter.to_s}".gsub('OriginSales: ','') )
+          File.open(file_errors,'at') {|file| file.puts error_string}
+        else
+          begin
+            origin_sale.save
+          rescue StandardError => e
+            error_string += "\nGot an error trying to import origin sales: #{e.to_s} on line #{counter.to_s}".gsub('OriginSales: ','') if !(line.province=/^[\p{L} ']+$/i)
+          end
         end
+        #~ if !error_string.empty?
       end
       counter += 1
+    end
+    if File.zero?(file_errors)
+      self.update(:parsed => 1)
+    else
+      self.update(:parsed => 4)
+      noti =  Notification.create(:type => :error, :sticky => false, :message => "Error importing origin sales for campaign #{self.external_id}") if File.zero?(file_errors)
     end
   end
   

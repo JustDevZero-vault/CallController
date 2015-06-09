@@ -57,6 +57,10 @@
                   <% if campaign.parsed == 3 %>
                     <a data-toggle="tooltip" data-original-title="<%=t('failed')%>" class="btn btn-danger btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-exclamation-sign"></i></a>
                   <% end %>
+                  <% if campaign.parsed == 4 %>
+                    <a data-toggle="tooltip" data-original-title="Download lines <%=t('failed')%>" href="<%=campaign.file_name.gsub(Regexp.new('^public'), '').gsub(Regexp.new('.csv$'), '.failed.csv')%>" class="btn btn-danger btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-exclamation-sign"></i></a>
+                    <a data-toggle="tooltip" data-original-title="Download errors <%=t('failed')%>" href="<%=campaign.file_name.gsub(Regexp.new('^public'), '').gsub(Regexp.new('.csv$'), '.errors.csv')%>" class="btn btn-danger btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-eye-open"></i></a>
+                  <% end %>
                 
                 
                   <a data-toggle="tooltip" data-original-title="<%=t('action.edit')%>" href="#editCampaign" class="btn btn-info btn-mini btn-glyphicon-only hint" onclick="passDataToCampaignModal(['<%=campaign.external_id%>', '<%=campaign.active? ? "1":"0" %>'], '#editCampaign')"><i class="glyphicon glyphicon-edit"></i></a>

@@ -20,23 +20,19 @@ class OriginSales
   belongs_to :user, :model => User
   belongs_to :campaign, :model => Campaign
   
-  
-  #~ validates_with_method :phone,
-                        #~ :method => :is_valid_phone,
-                        #~ :message => { :presence => "We need a phone", :format => "Does not look like a spanish phone"}
-                        
+                         
   validates_with_method   :phone,
-                        :method => :is_valid_phone
-  validates_format_of   :email,
-                        :with => :email_address
-  validates_format_of   :name,
-                        :with => /^[\p{L} ']+$/i, :message => 'Name with invalid characters'
-  validates_format_of   :surname,
-                        :with => /^[\p{L} ']+$/i, :message => 'Surname with invalid characters'
-  validates_format_of   :city,
-                        :with => /^[\p{L} ']+$/i, :message => 'City with invalid characters'
-  validates_format_of   :province,
-                        :with => /^[\p{L} ']+$/i, :message => 'Province with invalid characters'
+                          :method => :is_valid_phone
+  validates_format_of     :email,
+                          :with => :email_address
+  validates_format_of     :name,
+                          :with => /^[\p{L} ']+$/i, :message => 'Name with invalid characters'
+  validates_format_of     :surname,
+                          :with => /^[\p{L} ']+$/i, :message => 'Surname with invalid characters'
+  validates_format_of     :city,
+                          :with => /^[\p{L} ']+$/i, :message => 'City with invalid characters'
+  validates_format_of     :province,
+                          :with => /^[\p{L} ']+$/i, :message => 'Province with invalid characters'
 
 
 
