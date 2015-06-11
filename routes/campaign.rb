@@ -85,7 +85,9 @@ class CallController < Sinatra::Application
           campaign_file.write(params['file'][:tempfile].read) 
         end
         final_file = year_month_day_folder + params['file'][:filename]
-      campaign.update(:file_name => final_file)
+        if !!!( final_file =~ /.fixed.csv$/)
+          campaign.update(:file_name => final_file)
+        end
      else
     end
     redirect to '/campaigns'

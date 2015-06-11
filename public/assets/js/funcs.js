@@ -163,6 +163,22 @@ var passToDeleteProvince = function (data, modal_id) {
   $(modal_id).modal('show');
 }
 
+var removeQueue = function (data, modal_id) {
+  $(".modal-footer #queue_del_id").text(data[1]);
+  $(".modal-footer #queue_del_id").val(data[1]);
+  $(".modal-body #del_queue_name").text(data[0]);
+  $(".modal-body #del_queue_name").val(data[0]);
+  $(modal_id).modal('show');
+}
+
+var removeRole = function (data, modal_id) {
+  $(".modal-footer #role_del_id").text(data[1]);
+  $(".modal-footer #role_del_id").val(data[1]);
+  $(".modal-body #del_role_name").text(data[0]);
+  $(".modal-body #del_role_name").val(data[0]);
+  $(modal_id).modal('show');
+}
+
 var passDataToProvince = function (data, modal_id) {
   $(".modal-footer #edit_province_id").text(data[0]);
   $(".modal-footer #edit_province_id").val(data[0]);

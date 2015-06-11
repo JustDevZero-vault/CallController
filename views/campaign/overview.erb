@@ -5,7 +5,7 @@
 				<i class="icon-user"></i><h3><%=t('campaign.other')%></h3>
 			</div>
 			<div class="widget-content">
-				<div style="position:absolute; margin:10px; z-index:90;">
+				<div style="position:absolute; z-index:90;">
           <a data-toggle="modal" data-target="#addCampaign" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus"></span> <%=t('campaign.add')%></a>
 				</div>
 				<div class="visible-phone visible-tablet"><br></br></div>
@@ -31,37 +31,51 @@
                 <td class="td-actions">
                   <% if campaign.file_imported?  %>
                     <a data-toggle="tooltip" data-original-title="<%=t('action.upload')%>" href="/campaign/upload/<%=campaign.id.to_s%>" class="btn btn-default btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-upload"></i></a>
-                    <a data-toggle="tooltip" data-original-title="<%=t('action.download')%>" href="<%=campaign.file_name.gsub(Regexp.new('^public'), '')%>" class="btn btn-default btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-save-file"></i></a>
                   <% else %>
                     <a data-toggle="tooltip" data-original-title="<%=t('action.upload')%>" href="/campaign/upload/<%=campaign.id.to_s%>" class="btn btn-default btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-upload"></i></a>
                   <% end %>
                 
                 
                   <% if campaign.active? %>                 
-                      <a data-toggle="tooltip" onclick="activateLevelCampaign('<%=campaign.id%>', '0')" data-original-title="<%=t('active')%>" class="btn btn-default btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-minus"></i></a>
+                      <a data-toggle="tooltip" onclick="activateLevelCampaign('<%=campaign.id%>', '0')" data-original-title="<%=t('action.activation.disable')%>" class="btn btn-default btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-minus"></i></a>
                   <% else %>
-                    <a data-toggle="tooltip" onclick="activateLevelCampaign('<%=campaign.id%>', '1')" data-original-title="<%=t('inactive')%>" class="btn btn-default btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-plus"></i></a>
+                    <a data-toggle="tooltip" onclick="activateLevelCampaign('<%=campaign.id%>', '1')" data-original-title="<%=t('action.activation.enable')%>" class="btn btn-default btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-plus"></i></a>
                   <% end %>
                 
                 
                  
-                  <% if campaign.parsed == 0 %>
+                  <% if campaign.parsed == 'unparsed' %>
                     <a data-toggle="tooltip" onclick="parseCampaign('<%=campaign.id%>')" data-original-title="<%=t('unparsed')%>" class="btn btn-default btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-question-sign"></i></a>
                   <% end %>
-                  <% if campaign.parsed == 1 %>
-                    <a data-toggle="tooltip" data-original-title="<%=t('parsed')%>" class="btn btn-success btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-ok-sign"></i></a>
+                  <% if campaign.parsed == 'parsed' %>
+                      <% if campaign.processed == 'unprocessed' %>
+                        <a data-toggle="tooltip" onclick="parseCampaign('<%=campaign.id%>')" data-original-title="<%=t('unparsed')%>" class="btn btn-default btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-question-sign"></i></a>
+                      <% end %>
+                      <% if campaign.processed == 'processed' %>
+                        <a data-toggle="tooltip" data-original-title="<%=t('parsed')%>" class="btn btn-success btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-ok-sign"></i></a>
+                      <% end %>
+                      <% if campaign.processed == 'processing' %>
+                        <a data-toggle="tooltip" data-original-title="<%=t('parsing')%>" class="btn btn-info btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-info-sign"></i></a>
+                      <% end %>
+                      <% if campaign.processed == 'processing_with_errors' %>
+                        <a data-toggle="tooltip" data-original-title="<%=t('failed')%>" class="btn btn-danger btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-exclamation-sign"></i></a>
+                      <% end %>
+                      <% if campaign.processed == 'processed_with_errors' %>
+                      <a data-toggle="tooltip" onclick="parseCampaign('<%=campaign.id%>')" data-original-title="<%=t('parse_again')%>" class="btn btn-default btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-question-sign"></i></a>
+                        <a data-toggle="tooltip" data-original-title="Download lines <%=t('action.download_failed.')%>" href="/origins/failed" class="btn btn-danger btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-exclamation-sign"></i></a>
+                      <% end %>
                   <% end %>
-                  <% if campaign.parsed == 2 %>
+                  <% if campaign.parsed == 'parsing' %>
                     <a data-toggle="tooltip" data-original-title="<%=t('parsing')%>" class="btn btn-info btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-info-sign"></i></a>
                   <% end %>
-                  <% if campaign.parsed == 3 %>
+                  <% if campaign.parsed == 'parsing_with_errors' %>
                     <a data-toggle="tooltip" data-original-title="<%=t('failed')%>" class="btn btn-danger btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-exclamation-sign"></i></a>
                   <% end %>
-                  <% if campaign.parsed == 4 %>
-                    <a data-toggle="tooltip" data-original-title="Download lines <%=t('failed')%>" href="<%=campaign.file_name.gsub(Regexp.new('^public'), '').gsub(Regexp.new('.csv$'), '.failed.csv')%>" class="btn btn-danger btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-exclamation-sign"></i></a>
-                    <a data-toggle="tooltip" data-original-title="Download errors <%=t('failed')%>" href="<%=campaign.file_name.gsub(Regexp.new('^public'), '').gsub(Regexp.new('.csv$'), '.errors.csv')%>" class="btn btn-danger btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-eye-open"></i></a>
+                  <% if campaign.parsed == 'parsed_with_errors' %>
+                  <a data-toggle="tooltip" onclick="parseCampaign('<%=campaign.id%>')" data-original-title="<%=t('parse_again')%>" class="btn btn-default btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-question-sign"></i></a>
+                    <a data-toggle="tooltip" data-original-title="Download lines <%=t('action.download_failed.')%>" href="<%=campaign.file_name.gsub(Regexp.new('^public'), '').gsub(Regexp.new('.csv$'), '.failed.csv')%>" class="btn btn-danger btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-exclamation-sign"></i></a>
+                    <a data-toggle="tooltip" data-original-title="Download errors <%=t('action.show_errors')%>" href="<%=campaign.file_name.gsub(Regexp.new('^public'), '').gsub(Regexp.new('.csv$'), '.errors.csv')%>" class="btn btn-danger btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-eye-open"></i></a>
                   <% end %>
-                
                 
                   <a data-toggle="tooltip" data-original-title="<%=t('action.edit')%>" href="#editCampaign" class="btn btn-info btn-mini btn-glyphicon-only hint" onclick="passDataToCampaignModal(['<%=campaign.external_id%>', '<%=campaign.active? ? "1":"0" %>'], '#editCampaign')"><i class="glyphicon glyphicon-edit"></i></a>
                   <a data-toggle="tooltip" data-original-title="<%=t('action.remove')%>" href="#delCampaign" class="btn btn-danger btn-mini btn-glyphicon-only hint" onclick="passDataToModal(['<%=campaign.external_id%>'], '#delCampaign')"><i class="glyphicon glyphicon-remove"></i></a>
@@ -82,7 +96,7 @@
 				<i class="icon-group"></i><h3><%=t('campaign.types')%></h3>
 			</div>
 			<div class="widget-content">
-				<div style="position:absolute; margin:10px; z-index:90;">
+				<div style="position:absolute; z-index:90;">
           <a data-toggle="modal" data-target="#addCampaignType" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus"></span> <%=t('campaign.add_type')%></a>
 				</div>
 				<div class="visible-phone visible-tablet"><br></br></div>
@@ -91,6 +105,9 @@
 						<tr>
 							<th>
 								<%=t('campaign.type')%>
+							</th>
+							<th>
+								<%=t('action.other')%>
 							</th>
 						</tr>
 					</thead>

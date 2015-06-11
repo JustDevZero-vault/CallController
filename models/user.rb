@@ -18,6 +18,8 @@ class User
   property :updated_at, DateTime
   has n, :role_members
   has n, :roles, :through => :role_members
+  has n, :queue_members
+  has n, :call_queues, :through => :queue_members
   has n, :agent_blacklist_members
   has n, :campaigns, :through => :agent_blacklist_members
 
@@ -49,47 +51,27 @@ class User
 
   def is_admin?
     is_admin = self.roles.count(:capabilities => 'admin')
-    if is_admin == 0
-      return false
-    else
-      return true
-    end
+    is_admin == 0 ? (return false) : (return true)
   end
 
   def is_agent?
     is_agent = self.roles.count(:capabilities => 'agent')
-    if is_agent == 0
-      return false
-    else
-      return true
-    end
+    is_agent == 0 ? (return false) : (return true)
   end
 
   def is_supervisor?
     is_supervisor = self.roles.count(:capabilities => 'supervisor')
-    if is_supervisor == 0
-      return false
-    else
-      return true
-    end
+    is_supervisor == 0 ? (return false) : (return true)
   end
 
   def is_coacher?
     is_coacher = self.roles.count(:capabilities => 'coacher')
-    if is_coacher == 0
-      return false
-    else
-      return true
-    end
+    is_coacher == 0 ? (return false) : (return true)
   end
 
   def is_manager?
     is_manager = self.roles.count(:capabilities => 'manager')
-    if is_manager == 0
-      return false
-    else
-      return true
-    end
+    is_manager == 0 ? (return false) : (return true)
   end
 
 end

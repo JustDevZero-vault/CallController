@@ -1,5 +1,5 @@
 <div class="row-fluid">
-	<div class="col-md-8">
+	<div class="col-md-4">
 		<div class="widget widget-table action-table">
 			<div class="widget-header">
 				<i class="icon-user"></i><h3><%=t('user.other')%></h3>
@@ -61,7 +61,7 @@
 				<i class="icon-group"></i><h3><%=t('role.other')%></h3>
 			</div>
 			<div class="widget-content">
-				<div style="position:absolute; margin:10px; z-index:90;">
+				<div style="position:absolute; z-index:90;">
           <a data-toggle="modal" data-target="#addRole" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus"></span> <%=t('role.add')%></a>
 				</div>
 				<div class="visible-phone visible-tablet"><br></br></div>
@@ -108,7 +108,70 @@
 							</td>
 							<td class="td-actions">
 								<!--<a data-toggle="tooltip" data-original-title="<%=t('action.edit')%>" href="#editRole" class="btn btn-info btn-mini btn-glyphicon-only hint" onclick="editRole('<%=role.name%>', '#roleeditor')"><i class="btn-glyphicon-only glyphicon glyphicon-edit"></i></a>-->
-								<a data-toggle="tooltip" data-original-title="<%=t('action.remove')%>" href="#delRole" class="btn btn-danger btn-mini btn-glyphicon-only hint" onclick="passDataToModal(['<%=role.name%>'], '#delRole')"><i class="btn-glyphicon-only glyphicon glyphicon-remove"></i></a>
+								<a data-toggle="tooltip" data-original-title="<%=t('action.edit_list')%>" href="/users/roles" class="btn btn-info btn-mini btn-glyphicon-only hint"><i class="btn-glyphicon-only glyphicon glyphicon-list"></i></a>
+								<a data-toggle="tooltip" data-original-title="<%=t('action.remove')%>" href="#delRole" class="btn btn-danger btn-mini btn-glyphicon-only hint" onclick="removeRole(['<%=role.name%>', '<%=role.id%>'], '#delRole')"><i class="btn-glyphicon-only glyphicon glyphicon-remove"></i></a>
+							</td>
+						</tr>
+						<% end %>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="widget widget-table action-table">
+			<div class="widget-header">
+				<i class="icon-group"></i><h3><%=t('queue.other')%></h3>
+			</div>
+			<div class="widget-content">
+				<div style="position:absolute; z-index:90;">
+          <a data-toggle="modal" data-target="#addQueue" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus"></span> <%=t('queue.add')%></a>
+				</div>
+				<div class="visible-phone visible-tablet"><br></br></div>
+				<table id="queues" class="table table-striped table-bordered" cellspacing="0" width="100%">
+					<thead style="text-align:left;">
+						<tr>
+							<th>
+								<%=t('name')%>
+							</th>
+							<th>
+								<%=t('member.other')%>
+							</th>
+							<th class="td-actions">
+								<%=t('action.other')%>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<% @queues.each do |queue| %>
+						<tr>
+							<td>
+								<%=queue.name%>
+							</td>
+							<td>
+								<div class="accordion-role accordion-invisible">
+									<div class="accordion-heading accordion-invisible">
+										<a data-toggle="collapse" href="#collapse<%=queue.name%>" style="font-size: 8pt; color: #ffffff;" class="label label-info">&nbsp; <%=queue.users.count%> &nbsp;</a>
+									</div>
+									<div id="collapse<%=queue.name%>" class="accordion-body collapse accordion-invisible">
+										<div class="accordion-inner accordion-invisible">
+											<table class="table table-condensed">
+												<tbody>
+													<% queue.users.each do |user| %>
+													<tr class="accordion-invisible"><td class="accordion-invisible">
+														<i class="icon-angle-right"></i>
+														<span class="label label-success"><%= user.username %></span>
+													</td></tr>
+													<% end %>
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</td>
+							<td class="td-actions">
+								<a data-toggle="tooltip" data-original-title="<%=t('action.edit')%>" href="/users/queues" class="btn btn-info btn-mini btn-glyphicon-only hint"><i class="btn-glyphicon-only glyphicon glyphicon-list"></i></a>
+								<a data-toggle="tooltip" data-original-title="<%=t('action.remove')%>" href="#delQueue" class="btn btn-danger btn-mini btn-glyphicon-only hint" onclick="removeQueue(['<%=queue.name%>', '<%=queue.id%>'], '#delQueue')"><i class="btn-glyphicon-only glyphicon glyphicon-remove"></i></a>
 							</td>
 						</tr>
 						<% end %>
@@ -154,6 +217,7 @@
       <form id="addRoleform" action="/role/add" method="post">
         <div class="modal-body">
           <div class="control-group"><input name='name' type="text" class="input" placeholder="<%=t('dialog.add_role.name')%>" autofocus><span class="help-inline"> <%=t('dialog.add_role.name_long')%></span></div>
+          <div class="control-group"><input name='capability' type="text" class="input" placeholder="<%=t('dialog.add_role.capability')%>"><span class="help-inline"> <%=t('dialog.add_role.capability_long')%></span></div>
         </div>
         <div class="modal-footer">
           <a class="btn" data-dismiss="modal" aria-hidden="true"><%=t('action.cancel')%></a>
@@ -194,11 +258,53 @@
         <h3 id="delRoleLabel"><%=t('dialog.attention')%></h3>
       </div>
         <div class="modal-body">
-          <p><%= t('dialog.del_role.confirm', role: '<b id="dataInput"></b>')%></p>
+          <p><%= t('dialog.del_role.confirm', role: '<b id="del_role_name"></b>')%></p>
         </div>
         <div class="modal-footer">
           <form id="delRoleForm" action="/role/del" method="post">
-            <input type="hidden" name="name" id="dataInput" value="">
+            <input type="hidden" name="del_role_id" id="role_del_id" value="">
+            <a class="btn" data-dismiss="modal" aria-hidden="true"><%=t('action.cancel')%></a>
+            <button type="submit" class="btn btn-primary"><%=t('action.del')%></button>
+          </form>
+        </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<div class="modal fade" id="addQueue" role="dialog" aria-labelledby="<%=t('dialog.add_queue.title')%>" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 id="addQueueLabel"><%=t('dialog.add_queue.title')%></h3>
+      </div>
+      <form id="addQueueform" action="/queue/add" method="post">
+        <div class="modal-body">
+          <div class="control-group"><input name='name' type="text" class="input" placeholder="<%=t('dialog.add_queue.name')%>" autofocus><span class="help-inline"> <%=t('dialog.add_queue.name_long')%></span></div>
+        </div>
+        <div class="modal-footer">
+          <a class="btn" data-dismiss="modal" aria-hidden="true"><%=t('action.cancel')%></a>
+          <button type="submit" class="btn btn-primary"><%=t('action.add')%></button>
+        </div>
+       </form>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="delQueue" role="dialog" aria-labelledby="<%=t('dialog.del_queue.title')%>" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 id="delRoleLabel"><%=t('dialog.attention')%></h3>
+      </div>
+        <div class="modal-body">
+          <p><%= t('dialog.del_queue.confirm', queue: '<b id="del_queue_name"></b>')%></p>
+        </div>
+        <div class="modal-footer">
+          <form id="delQueueForm" action="/queue/del" method="post">
+            <input type="hidden" name="queue_del_id" id="queue_del_id" value="">
             <a class="btn" data-dismiss="modal" aria-hidden="true"><%=t('action.cancel')%></a>
             <button type="submit" class="btn btn-primary"><%=t('action.del')%></button>
           </form>

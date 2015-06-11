@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-class OriginSales
+class OriginSale
   include DataMapper::Resource
   
   def self.default_repository_name #here we use the users_db for the User objects
@@ -11,7 +11,7 @@ class OriginSales
   property :surname, String
   property :street, String
   property :postal_code, String
-  property :email, String, :messages => {:format => "Does not lot look like an email address to me ...", :presence  => "We need your email address."}
+  property :email, String, :messages => {:format => "Does not lot look like an email address to me.", :presence  => "We need an email address."}
   property :phone, String
   property :city, String
   property :province, String
@@ -34,10 +34,8 @@ class OriginSales
   validates_format_of     :province,
                           :with => /^[\p{L} ']+$/i, :message => 'Province with invalid characters'
 
-
-
   def is_valid_phone
-    result = OriginSales.is_valid_phone?(self.phone)
+    result = OriginSale.is_valid_phone?(self.phone)
     if !result
       self.errors.add(:phone, "Phone is not valid")
     end
@@ -46,7 +44,7 @@ class OriginSales
   
   
   def self.is_valid_phone?(phone)
-    result = /^((\+?34([ \t|\-])?)?[9|6|7]((\d{1}([ \t|\-])?[0-9]{3})|(\d{2}([ \t|\-])?[0-9]{2}))([ \t|\-])?[0-9]{2}([ \t|\-])?[0-9]{2})$/ === phone
+    result = /^((\+?34([ \t|\-])?)?[9|6|7]((\d{1}([ \t|\-])?[0-9]{3})|(\d{2}([ \t|\-])?[0-9]{2}))([ \t|\-])?[0-9]{2}([ \t|\-])?[0-9]{2})$/ === phone.to_s
     return result
   end
   

@@ -7,8 +7,9 @@ class Campaign
 
   property :id, Serial, :key => true
   property :external_id, String
-  property :file_name, String
-  property :parsed, Integer, :default => 0, :max => 4
+  property :file_name, String, :length => 255
+  property :parsed, String, :default => 'unparsed'
+  property :processed, String, :default => 'unprocessed'
   property :active, Boolean, :default => false
   property :created_at, DateTime
   property :updated_at, DateTime
@@ -36,14 +37,24 @@ class Campaign
     include_fields[:campaign] = self
     
     counter = 1
+    error_counter = 0
     write_mode = "wt"
     write_headers = true
     failed_imports = self.file_name.gsub(Regexp.new(/.csv$/), '.failed.csv')
     file_errors = self.file_name.gsub(Regexp.new(/.csv$/), '.errors.csv')
     File.delete(file_errors) if File.exist?(file_errors)
     File.delete(failed_imports) if File.exist?(failed_imports)
-    self.update(:parsed => 2)
-    CSV.foreach(self.file_name,
+    self.update(:parsed => 'parsing')
+    ht = HTMLEntities.new
+    
+    file_to_parse = self.file_name
+    file_fixed = file_to_parse.gsub(Regexp.new('.csv$'), '.fixed.csv')
+    if File.exist?(file_fixed)
+      file_to_parse = file_fixed
+    else
+      file_to_parse = self.file_name
+    end
+    CSV.foreach(file_to_parse,
                 :headers           => true,
                 :header_converters => :symbol,
                 :converters => :numeric
@@ -52,13 +63,11 @@ class Campaign
       line_hash = line.to_hash
       column_header = line.headers
       line_partial = line_hash.merge(include_fields)
-      origin = OriginSales.first(line_partial.to_hash)
+      origin = OriginSale.first(line_partial.to_hash)
       include_fields[:user] = un
       hash_to_import = line_partial.merge(include_fields)
       if origin.nil?
-        origin_sale = OriginSales.new(hash_to_import.to_hash)
-        
-        error_string += "Phone is not valid on line #{counter.to_s}" if !OriginSales.is_valid_phone?(line[:phone])
+        error_string += "Phone is not valid on line #{counter.to_s} - #{line[:phone]}" if !OriginSale.is_valid_phone?(line[:phone])
         error_string += "\nName is not valid on line #{counter.to_s}" if !(/^[\p{L} ']+$/i === line[:name])
         error_string += "\nSurname is not valid on line #{counter.to_s}" if !(/^[\p{L} ']+$/i === line[:surname])
         error_string += "\nCity is not valid on line #{counter.to_s}" if !(/^[\p{L} ']+$/i === line[:city])
@@ -66,9 +75,10 @@ class Campaign
         #~ File.open(failed_imports,'at') {|file| file.puts "Province is not valid on line #{counter.to_s}"} if !(line.province=/^[\p{L} ']+$/i)
         
         if error_string.length > 0
-        self.update(:parsed => 3)
-          if counter > 1
-            write_mode = "a"
+        error_counter += 1
+        self.update(:parsed => 'parsing_with_errors')
+          if error_counter > 1
+            write_mode = "at"
             column_header = nil
             write_headers = false
           end
@@ -77,21 +87,75 @@ class Campaign
           end
           File.open(file_errors,'at') {|file| file.puts error_string}
         else
+          hash_to_import[:city] = ht.encode(hash_to_import[:city], :named)
+          hash_to_import[:province] = ht.encode(hash_to_import[:province], :named)
+          hash_to_import[:name] = ht.encode(hash_to_import[:name], :named)
+          hash_to_import[:surname] = ht.encode(hash_to_import[:surname], :named)
+          hash_to_import[:street] = ht.encode(hash_to_import[:street], :named)
+          hash_to_import[:email] = ht.encode(hash_to_import[:email], :named)
+          origin_sale = OriginSale.new(hash_to_import.to_hash)
           begin
             origin_sale.save
           rescue StandardError => e
-            error_string += "\nGot an error trying to import origin sales: #{e.to_s} on line #{counter.to_s}".gsub('OriginSales: ','') if !(line.province=/^[\p{L} ']+$/i)
+            error_string += "\nGot an error trying to import origin sales: #{e.to_s} on line #{counter.to_s}".gsub('OriginSale: ','')
           end
         end
-        #~ if !error_string.empty?
       end
       counter += 1
     end
-    if File.zero?(file_errors)
-      self.update(:parsed => 1)
+    if File.zero?(file_errors) || !File.exist?(file_errors)
+      self.update(:parsed => 'parsed')
     else
-      self.update(:parsed => 4)
+      self.update(:parsed => 'parsed_with_errors')
       noti =  Notification.create(:type => :error, :sticky => false, :message => "Error importing origin sales for campaign #{self.external_id}") if File.zero?(file_errors)
+    end
+  end
+  
+  def migrate_to_sales(queue)
+    
+    write_mode = "wt"
+    write_headers = true
+    failed_imports = self.file_name.gsub(Regexp.new(/.csv$/), '.process.failed.csv')
+    file_errors = self.file_name.gsub(Regexp.new(/.csv$/), '.process.errors.csv')
+    File.delete(file_errors) if File.exist?(file_errors)
+    File.delete(failed_imports) if File.exist?(failed_imports)
+    self.update(:migrated => 'migrating')
+    error_counter = 0
+    
+    if !queue.nil? 
+      self.origin_sales.each do |origin|
+        error_string = ""
+        if !origin.nil? && !default_call.nil?
+          province = Province.first(:name => origin.province)
+          error_string += "\nProvince is not valid for sale #{origin.id.to_s} fix it." if province.nil?
+          
+          if error_string.length > 0
+            error_counter += 1
+            self.update(:migrated => 'migrating_with_errors')
+            if error_counter > 1
+              write_mode = "at"
+              column_header = nil
+              write_headers = false
+            end
+            CSV.open(failed_imports, write_mode, :write_headers=> write_headers, :headers => column_header) do |csv|
+              csv << line
+            end
+            File.open(file_errors,'at') {|file| file.puts error_string}
+          else
+            begin
+              Sale.create( :origin => origin, :name => origin.name, :surname => origin.surname, :street => origin.street, :postal_code => origin.postal_code, :email => origin.email, :phone => origin.phone, :city => origin.city, :province => province, :call_result => default_call, :campaign => self, :queue => queue )
+            rescue StandardError => e
+              error_string += "\nGot an error trying to migrate sales: #{e.to_s} on origin sale #{origin.id.to_s}".gsub('Sale: ','')
+            end
+          end
+        end
+      end
+    end
+    if File.zero?(file_errors) && !File.exist?(file_errors)
+      self.update(:processed => 'migrated')
+    else
+      self.update(:processed => 'migrated_with_errors')
+      noti =  Notification.create(:type => :error, :sticky => false, :message => "Error processing origin sales for campaign #{self.external_id}") if File.zero?(file_errors)
     end
   end
   

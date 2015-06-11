@@ -6,21 +6,18 @@ class CallController < Sinatra::Application
   end
 
   post '/role/add' do
-    role = Role.first(:name => params['name'])
-    if role.nil?
-      role.create(:name => params['name'])
-    end
+    role = Role.first_or_create(:name => params['name'], :capabilities => params['capability'])
     userlist = '/users'
     redirect to userlist
   end
 
-  get '/role/edit/:role' do
-    @role = Role.first(:name => params[:role])
-    erb :'user/edit_role', :layout => false
-  end
+  #~ get '/role/edit/:role' do
+    #~ @role = Role.first(:name => params[:role])
+    #~ erb :'user/edit_role', :layout => false
+  #~ end
 
   post '/role/edit' do  ## TODO
-    role = Role.first(:name => params['name'])
+    role = Role.first(:id => params['role_id'])
     userlist = '/users'
     redirect to userlist
   end
@@ -32,7 +29,7 @@ class CallController < Sinatra::Application
   end
 
   post '/role/member/del' do
-    role = Role.first(:name => params['role'])
+    role = Role.first(:id => params['member_role_id'])
     un = User.first(:username => params['username'])
     role.del_member(un)
   end
@@ -41,7 +38,8 @@ class CallController < Sinatra::Application
     unless user.is_admin?
       halt 403
     end
-    role = role.first(:name => params['name'])
+    notification = Notification.create(:type => :error, :sticky => false, :message => params['del_role_id'])
+    role = Role.first(:id => params['del_role_id'])
     role.role_members.all.destroy
     role.reload
     role.destroy

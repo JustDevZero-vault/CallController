@@ -1,9 +1,9 @@
 class CallController < Sinatra::Application
   get '/' do
-    unless user.is_admin?
-      erb :dashboard
-    else
+    if user.is_admin?
       erb :admin_dashboard
+    else
+      erb :dashboard
     end
   end
 end

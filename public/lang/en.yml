@@ -32,6 +32,12 @@ en:
     saved: "Saved changes"
     upload: "Upload"
     download: "Download"
+    download_failed: "Download failed lines"
+    show_errors: "Show errors"
+    show_error: "Show error"
+    activation:
+      enable: "Unactive -> Active"
+      disable: "Active -> Unactive"
     notifications:
       enable: "Notifications Disabled -> Enable"
       disable: "Notifications Enabled -> Disable"
@@ -144,6 +150,11 @@ en:
     other: "Roles"
     add: "Add role"
 
+  queue:
+    one: "Queue"
+    other: "Queue"
+    add: "Add queue"
+
   task:
     one: "Task"
     other: "Tasks"
@@ -190,6 +201,12 @@ en:
       title: "Add Role"
       name: "Role Name"
       name_long: "name for the new role"
+      capability: "Capability"
+      name_long: "capability name for the new role"
+    add_queue:
+      title: "Add Queue"
+      name: "Queue Name"
+      name_long: "Name for the new queue"
     del_user:
       title: "Remove User"
       confirm: "Are you sure you want to remove the user %{user}?"
@@ -202,6 +219,9 @@ en:
     del_role:
       title: "Remove Role"
       confirm: "Are you sure you want to delete the role %{role}?"
+    del_queue:
+      title: "Remove Call Queue"
+      confirm: "Are you sure you want to delete the call queue %{queue}?"
     edit_user:
       title: "Edit User"
       new_pass: "New Password"
@@ -212,6 +232,10 @@ en:
       name: "role name"
       capabilities: "Capabilities:"
       members: "Role members:"
+    edit_queue:
+      title: "Edit Call Queue"
+      name: "Queue name"
+      members: "Queue members:"
     install:
       title: "Quick Install"
       packages: "Package(s) to install (separated by spaces)"

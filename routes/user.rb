@@ -8,6 +8,7 @@ class CallController < Sinatra::Application
   get '/users' do
     @users = User.all
     @roles = Role.all
+    @queues = CallQueue.all
     erb :'user/users_overview'
   end
 

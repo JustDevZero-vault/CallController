@@ -14,6 +14,7 @@
 *.htaccess      text
 *.html          text
 *.markdown      text
+*.md            text
 *.txt           text
 
 # Avoid unreadable diffs for generated text files

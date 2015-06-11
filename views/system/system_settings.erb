@@ -1,90 +1,106 @@
-<h3> E-Mail Settings </h3>
-<legend></legend>
-<ul class="nav nav-pills">
-  <li><a href="#sendmail" data-toggle="tab" class="btn <%= "active" if @method == :sendmail %>">Sendmail</a></li>
-  <li><a href="#smtp" data-toggle="tab" class="btn <%= "active" if @method == :smtp %>">SMTP</a></li>
-  <li><a href="#exchange" data-toggle="tab" class="btn <%= "active" if @method == :exchange %>">Exchange</a></li>
-</ul>
+<div class="row-fluid">
+  <h3>Default settings</h3>
+  <form class="form-horizontal" role="form" method="post" action="/settings/default">
+    <input type="hidden" name="method" value="sendmail" />
+    <div class="form-group">
+      <label class="col-lg-2 control-label" for="path">Default call type</label>
+      <div class="col-lg-10">
+      <select id="default_call_id">
+        <option>----</option>
+      </select>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+  </form>
+  <hr/>
+  <h3> E-Mail Settings </h3>
+  <legend></legend>
+  <ul class="nav nav-pills">
+    <li><a href="#sendmail" data-toggle="tab" class="btn <%= "active" if @method == :sendmail %>">Sendmail</a></li>
+    <li><a href="#smtp" data-toggle="tab" class="btn <%= "active" if @method == :smtp %>">SMTP</a></li>
+    <li><a href="#exchange" data-toggle="tab" class="btn <%= "active" if @method == :exchange %>">Exchange</a></li>
+  </ul>
 
 
-
-<div class="tab-content">
-  <div class="tab-pane <%= "active" if @method == :sendmail %>" id="sendmail">    
-    <form class="form-horizontal" role="form" method="post" action="/settings/email">
-      <input type="hidden" name="method" value="sendmail" />
-      <div class="form-group">
-        <label class="col-lg-2 control-label" for="path">Path to sendmail</label>
-        <div class="col-lg-10">
-          <input class="form-control" name="path" type="text" value="<%= @path %>" required />
+  <div class="tab-content">
+    <div class="tab-pane <%= "active" if @method == :sendmail %>" id="sendmail">    
+      <form class="form-horizontal" role="form" method="post" action="/settings/email">
+        <input type="hidden" name="method" value="sendmail" />
+        <div class="form-group">
+          <label class="col-lg-2 control-label" for="path">Path to sendmail</label>
+          <div class="col-lg-10">
+            <input class="form-control" name="path" type="text" value="<%= @path %>" required />
+          </div>
         </div>
-      </div>
-    </form>
-  </div>
-  <div class="tab-pane <%= "active" if @method == :smtp %>" id="smtp">
-    <form class="form-horizontal" role="form" method="post" action="/settings/email">
-      <div class="form-group">
-        <label class="col-lg-2 control-label" for="host">Host</label>
-        <input type="hidden" name="method" value="smtp" />
-        <div class="col-lg-10">
-          <input class="form-control" name="host" type="text" value="<%= @host %>" required />
+        <button type="submit" class="btn btn-primary">Save</button>
+      </form>
+    </div>
+    <div class="tab-pane <%= "active" if @method == :smtp %>" id="smtp">
+      <form class="form-horizontal" role="form" method="post" action="/settings/email">
+        <div class="form-group">
+          <label class="col-lg-2 control-label" for="host">Host</label>
+          <input type="hidden" name="method" value="smtp" />
+          <div class="col-lg-10">
+            <input class="form-control" name="host" type="text" value="<%= @host %>" required />
+          </div>
         </div>
-      </div>
-      <div class="form-group">
-        <label for="port" class="col-lg-2 control-label">Port</label>
-        <div class="col-lg-10">
-          <input class="form-control" name="port" type="text" value="<%= @port %>" required />
+        <div class="form-group">
+          <label for="port" class="col-lg-2 control-label">Port</label>
+          <div class="col-lg-10">
+            <input class="form-control" name="port" type="text" value="<%= @port %>" required />
+          </div>
         </div>
-      </div>
-      <div class="form-group">
-        <label for="tls" class="col-lg-2 control-label">SSL/TLS</label>
-        <div class="col-lg-10">
-          <input class="form-control" type="checkbox" name="tls" value="1" <%= "checked" if @tls == true %> />
+        <div class="form-group">
+          <label for="tls" class="col-lg-2 control-label">SSL/TLS</label>
+          <div class="col-lg-10">
+            <input class="form-control" type="checkbox" name="tls" value="1" <%= "checked" if @tls == true %> />
+          </div>
         </div>
-      </div>
-      <div class="form-group">
-        <label for="inputPassword" class="col-lg-2 control-label">Contraseña</label>
-        <div class="col-lg-10">
-          <input type="password" class="form-control" id="inputPassword" placeholder="Contraseña" name="password" />
+        <div class="form-group">
+          <label for="inputPassword" class="col-lg-2 control-label">Contraseña</label>
+          <div class="col-lg-10">
+            <input type="password" class="form-control" id="inputPassword" placeholder="Contraseña" name="password" />
+          </div>
         </div>
-      </div>
-      <div class="form-group">
-        <label for="user" class="col-lg-2 control-label">User</label>
-        <div class="col-lg-10">
-          <input type="text" class="form-control" id="user" placeholder="Contraseña" name="user" value="<%= @user %>" />
+        <div class="form-group">
+          <label for="user" class="col-lg-2 control-label">User</label>
+          <div class="col-lg-10">
+            <input type="text" class="form-control" id="user" placeholder="Contraseña" name="user" value="<%= @user %>" />
+          </div>
         </div>
-      </div>
-    </form>
-  </div>
-  <div class="tab-pane <%= "active" if @method == :exchange %>" id="exchange">
-  <% if @disclaimer %>
-    <span>
-      This feature is not installed, do you want to install it?.<br/>
-      <a href="/install/exchange" onclick="load_spinner()">Click here</a>
-    </span>
-  <% else %>     
-    <form class="form-horizontal" role="form" method="post" action="/settings/email">
-      <div class="form-group">
-        <label class="col-lg-2 control-label" for="host">Exchange Web Server URL</label>
-        <input type="hidden" name="method" value="exchange" />
-        <div class="col-lg-10">
-          <input class="form-control" name="host" type="text" value="<%= @host %>" required />
+        <button type="submit" class="btn btn-primary">Save</button>
+      </form>
+    </div>
+    <div class="tab-pane <%= "active" if @method == :exchange %>" id="exchange">
+    <% if @disclaimer %>
+      <span>
+        This feature is not installed, do you want to install it?.<br/>
+        <a href="/install/exchange" onclick="load_spinner()">Click here</a>
+      </span>
+    <% else %>     
+      <form class="form-horizontal" role="form" method="post" action="/settings/email">
+        <div class="form-group">
+          <label class="col-lg-2 control-label" for="host">Exchange Web Server URL</label>
+          <input type="hidden" name="method" value="exchange" />
+          <div class="col-lg-10">
+            <input class="form-control" name="host" type="text" value="<%= @host %>" required />
+          </div>
         </div>
-      </div>
-      <div class="form-group">
-        <label for="port" class="col-lg-2 control-label">User</label>
-        <div class="col-lg-10">
-          <input class="form-control" name="user" type="text" value="<%= @user %>" required />
+        <div class="form-group">
+          <label for="port" class="col-lg-2 control-label">User</label>
+          <div class="col-lg-10">
+            <input class="form-control" name="user" type="text" value="<%= @user %>" required />
+          </div>
         </div>
-      </div>
-      <div class="form-group">
-        <label for="inputPassword" class="col-lg-2 control-label">Contraseña</label>
-        <div class="col-lg-10">
-          <input type="password" class="form-control" id="inputPassword" placeholder="Contraseña" name="password">
+        <div class="form-group">
+          <label for="inputPassword" class="col-lg-2 control-label">Contraseña</label>
+          <div class="col-lg-10">
+            <input type="password" class="form-control" id="inputPassword" placeholder="Contraseña" name="password">
+          </div>
         </div>
-      </div>
-    </form>
-      
-    </form>
-  <% end %>
+        <button type="submit" class="btn btn-primary">Save</button>
+      </form>
+    <% end %>
+    </div>
   </div>
 </div>
