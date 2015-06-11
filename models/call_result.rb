@@ -13,5 +13,6 @@ class CallResult
   property :updated_by, Integer
   property :updated_at, DateTime
   belongs_to :user, :model => User
+  has n, :sales
   
 end

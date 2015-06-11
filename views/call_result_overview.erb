@@ -1,0 +1,132 @@
+<div class="row-fluid">
+  <div class="col-md-8">
+    <div class="widget widget-table action-table">
+      <div class="widget-header">
+	<i class="glyphicon glyphicon-flag"></i><h3><%=t('call_result.other')%></h3>
+      </div>
+      <div class="widget-content">
+	<div style="position:absolute; z-index:90;">
+    <a data-toggle="modal" data-target="#addCallType" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus"></span> <%=t('call_result.add')%></a>
+	</div>
+	<div class="visible-phone visible-tablet"><br/><br/></div>
+	<table id="call_results" class="table table-striped table-bordered" cellspacing="0" width="100%">
+	  <thead style="text-align:left;">
+	    <tr>
+        <th>
+          <%=t('call_result.code')%>
+        </th>
+        <th>
+          <%=t('call_result.description')%>
+        </th>
+        <th class="td-actions">
+          <%=t('action.other')%>
+	      </th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	    <% @call_results.each do |call_result| %>
+        <tr>
+          <td><%=call_result.code%></td>
+          <td><%=call_result.description%></td>
+          <td class="td-actions">
+            <a data-toggle="tooltip" data-original-title="<%=t('action.edit')%>" href="#editCountry" class="btn btn-info btn-mini btn-glyphicon-only hint" onclick="passDataToCountry(['<%=call_result.id%>', '<%=call_result.nombre%>', '<%=call_result.name%>', '<%=call_result.nom%>', '<%=call_result.phone_code%>', '<%=call_result.iso2%>', '<%=call_result.iso3%>'], '#editCountry')"><i class="glyphicon glyphicon-edit"></i></a>
+            <a data-toggle="tooltip" data-original-title="<%=t('action.remove')%>" href="#delCountry" class="btn btn-danger btn-mini btn-glyphicon-only hint" onclick="passToDeleteCountry(['<%=call_result.id%>', '<%=call_result.nombre%>'], '#delCountry')"><i class="glyphicon glyphicon-remove"></i></a>
+          </td>
+        </tr>
+	 <% end %>
+	  </tbody>
+	</table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="addCountry" role="dialog" aria-labelledby="<%=t('dialog.add_call_result.title')%>" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 id="addCountryLabel"><%=t('dialog.add_call_result.title')%></h3>
+      </div>
+      <form id="addCountryform" action="/call_result/add" method="post">
+        <div class="modal-body">
+        <div class="control-group"><input name='new_call_result_name' type="text" class="input" id="new_call_result_name" value="" placeholder="<%=t('call_result.name')%>" autofocus /> <span class="help-inline"><%=t('call_result.name')%></span></div>
+          <div class="control-group"><input name='new_call_result_nombre' type="text" class="input" id="new_call_result_nombre" value="" placeholder="<%=t('call_result.spanish_name')%>" /> <span class="help-inline"><%=t('call_result.spanish_name')%></span></div>
+          <div class="control-group"><input name='new_call_result_nom' type="text" class="input" id="new_call_result_nom" value="" placeholder="<%=t('call_result.french_name')%>" /> <span class="help-inline"><%=t('call_result.french_name')%></span></div>
+          <div class="control-group"><input name='new_call_result_iso2' type="text" class="input" id="new_call_result_iso2" value="" placeholder="<%=t('iso_code')%>-alpha2" /> <span class="help-inline"><%=t('iso_code')%>-alpha2</span></div> 
+          <div class="control-group"><input name='new_call_result_phone_code' type="text" class="input" id="new_call_result_phone_code" value="" placeholder="<%=t('call_result.prefix')%>-alpha2" /> <span class="help-inline"><%=t('call_result.prefix')%>-alpha2</span></div> 
+          <div class="control-group"><input name='new_call_result_iso3' type="text" class="input" id="new_call_result_iso3" value="" placeholder="<%=t('iso_code')%>-alpha3" /> <span class="help-inline"><%=t('iso_code')%>-alpha3</span></div> 
+        </div>
+        <div class="modal-footer">
+          <a class="btn" data-dismiss="modal" aria-hidden="true"><%=t('action.cancel')%></a>
+          <button type="submit" class="btn btn-primary"><%=t('action.edit')%></button>
+        </div>
+        </form>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+ <div class="modal fade" id="delCountry" role="dialog" aria-labelledby="<%=t('dialog.del_call_result.title')%>" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 id="delCountryLabel"><%=t('dialog.attention')%></h3>
+      </div>
+        <div class="modal-body">
+          <p><%= t('dialog.del_call_result.confirm', call_result: '<b id="dataInput"></b>')%></p>
+        </div>
+        <div class="modal-footer">
+          <form id="delCountryform" action="/call_result/del" method="post">
+            <input type="hidden" name="delete_call_result_id" id="delete_call_result_id" value="" />
+            <a class="btn" data-dismiss="modal" aria-hidden="true"><%=t('action.cancel')%></a>
+            <button type="submit" class="btn btn-primary"><%=t('action.del')%></button>
+          </form>
+        </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="migrateCountry" role="dialog" aria-labelledby="<%=t('call_result.migrate')%>" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 id="migrateCountryLabel"><%=t('dialog.attention')%></h3>
+      </div>
+        <div class="modal-body">
+          <p><%= t('dialog.migrate_call_result.confirm')%></p>
+        </div>
+        <div class="modal-footer">
+          <a class="btn" data-dismiss="modal" aria-hidden="true"><%=t('action.cancel')%></a>
+          <a data-toggle="tooltip" onclick="migrateCountries()" data-original-title="<%=t('call_result.migrate')%>" class="btn btn-info btn-mini btn-icon-only hint"><%=t('call_result.migrate')%></a>
+        </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="editCountry" role="dialog" aria-labelledby="<%=t('dialog.edit_call_result.title')%>" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 id="editCountryLabel"><%=t('dialog.edit_call_result.title')%></h3>
+      </div>
+      <form id="editCountryform" action="/call_result/edit" method="post">
+        <div class="modal-body">
+          <input type="hidden" value="" name="edit_call_result_id" id="edit_call_result_id"/>
+          <div class="control-group"><input name="edit_call_result_name" type="text" class="input" id="edit_call_result_name" value="" placeholder="<%=t('call_result.name')%>" autofocus /> <span class="help-inline"><%=t('call_result.name')%></span></div>
+          <div class="control-group"><input name="edit_call_result_nombre" type="text" class="input" id="edit_call_result_nombre" value="" placeholder="<%=t('call_result.spanish_name')%>"/> <span class="help-inline"><%=t('call_result.spanish_name')%></span></div>
+          <div class="control-group"><input name="edit_call_result_nom" type="text" class="input" id="edit_call_result_nom" value="" placeholder="<%=t('call_result.french_name')%>" /> <span class="help-inline"><%=t('call_result.french_name')%></span></div>
+          <div class="control-group"><input name="edit_call_result_phone_prefix" type="text" class="input" id="edit_call_result_phone_prefix" value="" placeholder="<%=t('call_result.prefix')%>-alpha2" /> <span class="help-inline"><%=t('call_result.prefix')%>-alpha2</span></div> 
+          <div class="control-group"><input name="edit_call_result_iso2" type="text" class="input" id="edit_call_result_iso2" value="" placeholder="<%=t('iso_code')%>-alpha2" /> <span class="help-inline"><%=t('iso_code')%>-alpha2</span></div> 
+          <div class="control-group"><input name="edit_call_result_iso3" type="text" class="input" id="edit_call_result_iso3" value="" placeholder="<%=t('iso_code')%>-alpha3" /> <span class="help-inline"><%=t('iso_code')%>-alpha3</span></div> 
+        </div>
+        <div class="modal-footer">
+          <a class="btn" data-dismiss="modal" aria-hidden="true"><%=t('action.cancel')%></a>
+          <button type="submit" class="btn btn-primary"><%=t('action.edit')%></button>
+        </div>
+       </form>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
