@@ -17,12 +17,12 @@
   <script type="text/javascript" language="javascript" src="/vendor/jqBootstrapValidation/js/jqBootstrapValidation.min.js"></script>
   <script type="text/javascript" language="javascript" src="/vendor/modernizr/js/modernizr.js"></script>
   <script type="text/javascript" language="javascript" src="/assets/js/funcs.js?v=<%= $CALLCONTROLLER_VERSION %>"></script>
-  <% if request.path_info.start_with?("/callresults") || request.path_info.start_with?("/users") ||  request.path_info.start_with?("/campaigns") || request.path_info.start_with?("/countries") || request.path_info.start_with?("/provinces") %>
+  <% if request.path_info.start_with?("/origin/failed") || request.path_info.start_with?("/callresults") || request.path_info.start_with?("/users") ||  request.path_info.start_with?("/campaigns") || request.path_info.start_with?("/countries") || request.path_info.start_with?("/provinces") %>
     <!-- DataTables -->
     <script type="text/javascript" language="javascript" src="/vendor/datatables/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" language="javascript" src="/vendor/datatables/js/dataTables.tableTools.min.js"></script>
     <script type="text/javascript" language="javascript" src="/vendor/datatables/js/dataTables.bootstrap.js"></script>    
-    <!-- DataTables -->
+    <!-- END DataTables -->
   <% end %>
   <!-- Select2 -->
   <% if request.path_info.start_with?("/campaign/upload") %>
@@ -39,6 +39,7 @@
   <![endif]-->
   
   <% if request.path_info.start_with?("/users") %>
+    <!-- DataTables -->
     <script type="text/javascript">
       $(document).ready(function() {
           $('#users').dataTable();
@@ -46,37 +47,56 @@
           $('#queues').dataTable();
       } );
     </script>
+    <!-- END DataTables -->
   <% end %>
   
   <% if request.path_info.start_with?("/campaigns") %>
+    <!-- DataTables -->
     <script type="text/javascript">
       $(document).ready(function() {
           $('#campaigns').dataTable();
       } );
     </script>
+    <!-- END DataTables -->
   <% end %>
   
   <% if request.path_info.start_with?("/callresults") %>
+    <!-- DataTables -->
     <script type="text/javascript">
       $(document).ready(function() {
           $('#callresults').dataTable();
       } );
     </script>
+    <!-- END DataTables -->
+  <% end %>
+  
+  <% if request.path_info.start_with?("/origin/failed") %>
+    <!-- DataTables -->
+    <script type="text/javascript">
+      $(document).ready(function() {
+          $('#origins').dataTable();
+      } );
+    </script>
+    <!-- END DataTables -->
   <% end %>
 
   <% if request.path_info.start_with?("/countries") %>
+    <!-- DataTables -->
     <script type="text/javascript">
       $(document).ready(function() {
           $('#countries').dataTable();
       } );
     </script>
+    <!-- END DataTables -->
   <% end %>
   <% if request.path_info.start_with?("/provinces") %>
+    <!-- DataTables -->
     <script type="text/javascript">
       $(document).ready(function() {
           $('#provinces').dataTable();
       } );
     </script>
+    <!-- END DataTables -->
   <% end %>
 
 	</head>

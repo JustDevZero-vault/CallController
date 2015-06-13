@@ -52,9 +52,9 @@ class CallController < Sinatra::Application
     if province.count < 1
       countries = Country.all()
       if countries.all.count > 1
-        #~ Thread.new do
+        Thread.new do
           Province.begin_migrate('ES')
-        #~ end
+        end
       end
     end
     #~ redirect to '/provinces'

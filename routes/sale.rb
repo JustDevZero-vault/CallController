@@ -22,7 +22,6 @@ class CallController < Sinatra::Application
         sale.enqueued = false
       end
       sale.updated_at = Time.now
-      sale.updated_by = un.id
       sale.save
       sale.reload
     end

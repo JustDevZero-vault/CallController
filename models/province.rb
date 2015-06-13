@@ -21,7 +21,6 @@ class Province
     ht = HTMLEntities.new
     province_file = "templates/provinces_" << iso_wanted.downcase << ".csv"
     if !country.nil? && File.exist?(province_file)
-    noti = Notification.create(:type => :error, :sticky => false, :message => country.id)
       CSV.foreach(province_file,
                 :headers           => true,
                 :header_converters => :symbol,

@@ -6,34 +6,45 @@ class CallController < Sinatra::Application
     end
   end
   
-  get '/origin/campaign/:campaign_id' do
-    erb :'origin_campaign'
-  end
-    
-  get '/origin/edit/:origin_id' do
-    erb :'origin_edit'
-  end
+  #~ get '/origin/campaign/:campaign_id' do
+    #~ erb :'origin_campaign'
+  #~ end
+    #~ 
+  #~ get '/origin/edit/:origin_id' do
+    #~ erb :'origin_edit'
+  #~ end
 
-  post '/origin' do
-    @origins = Origin.all(:campaign_id => (params['campaign_id']) )
-    erb :'origin_campaign'
+  #~ get '/origin' do
+    #~ @origins = OriginSale.all(:campaign_id => (params['campaign_id']) )
+    #~ erb :'origin_campaign'
+  #~ end
+
+  get '/origin/failed/:id' do
+    @origins = OriginSale.all(:campaign_id => (params[:id]), :review => true )
+    erb :'origin_failed'
   end
   
   post '/origin/edit' do
-      sale = Sale.first(:id => (params['id']) )
+      sale = OriginSale.first(:id => (params['origin_id']) )
       un = User.first(:id => (session[:username]) )
+      params.delete('origin_id')
+      ht = HTMLEntities.new
       if !sale.nil?
-        params.each do |key, value|
-          sale.update(key => html_escape(value))
+        params.each_pair do |key, value|
+          sale.update(key => ht.encode(value, :named))
           next
         end
-        sale.update(modified_by = user.id)
-        sale.update(modified_at = Time.now)
+        sale.update(:review => false)
         sale.save
         sale.reload
       end
-      origins = '/origin/campaign' + sale.campaign_id
-      redirect to origins
+      
+      redirect_value = '/campaigns'
+      reviews = OriginSale.all(:review => true)
+      if reviews.count > 0
+        redirect_value = '/origin/failed' + sale.campaign_id
+      end
+      redirect to redirect_value
   end
 
   post '/origin/add' do

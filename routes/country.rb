@@ -44,10 +44,10 @@ class CallController < Sinatra::Application
   end
   
   post '/country/migrate' do
-      #~ Thread.new do
+      Thread.new do
         Country.begin_migrate
-      #~ end
-    # redirect to '/countries'
+      end
+    redirect to '/countries'
   end
     
 end

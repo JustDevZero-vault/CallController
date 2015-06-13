@@ -38,7 +38,6 @@ class CallController < Sinatra::Application
     unless user.is_admin?
       halt 403
     end
-    notification = Notification.create(:type => :error, :sticky => false, :message => params['del_role_id'])
     role = Role.first(:id => params['del_role_id'])
     role.role_members.all.destroy
     role.reload

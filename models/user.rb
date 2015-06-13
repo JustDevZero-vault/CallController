@@ -23,21 +23,21 @@ class User
   has n, :agent_blacklist_members
   has n, :campaigns, :through => :agent_blacklist_members
 
-  def initialize(username, email, password, first_name='', last_name='')
-    begin
-      self.username = username
-      self.email = email
-      self.first_name = first_name
-      self.last_name = last_name
-      enc_pw = BCrypt::Password.create(password)
-      self.password = enc_pw
-      if !self.save
-        raise #couldn't save the object
-      end
-    rescue
-      return false
-    end
-  end
+  #~ def initialize(username, email, password, first_name='', last_name='')
+    #~ begin
+      #~ self.username = username
+      #~ self.email = email
+      #~ self.first_name = first_name
+      #~ self.last_name = last_name
+      #~ enc_pw = BCrypt::Password.create(password)
+      #~ self.password = enc_pw
+      #~ if !self.save
+        #~ raise #couldn't save the object
+      #~ end
+    #~ rescue
+      #~ return false
+    #~ end
+  #~ end
 
   def self.auth(username, password)
     un = username.to_s.downcase

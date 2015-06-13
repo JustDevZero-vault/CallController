@@ -15,6 +15,12 @@
 							<th>
 								<%=t('campaign.external_id')%>
 							</th>
+							<th>
+								<%=t('campaign.type')%>
+							</th>
+							<th>
+								<%=t('call_queue.one')%>
+							</th>
 							<th class="td-actions">
 								<%=t('action.other')%>
 							</th>
@@ -28,9 +34,18 @@
                 <td>
                   <%=campaign.external_id%>
                 </td>
+                <td>
+                  <%=campaign.campaign_type.name%>
+                </td>
+                <td>
+                  <%=campaign.call_queue.name%>
+                </td>
                 <td class="td-actions">
                   <% if campaign.file_imported?  %>
                     <a data-toggle="tooltip" data-original-title="<%=t('action.upload')%>" href="/campaign/upload/<%=campaign.id.to_s%>" class="btn btn-default btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-upload"></i></a>
+                    <% if campaign.processed != 'unprocessed' || campaign.parsed != 'unparsed'  %>
+                      <a data-toggle="tooltip" data-original-title="<%=t('action.purge')%>" href="#purgeCampaign" class="btn btn-warning btn-mini btn-icon-only hint" onclick="passDataToModal(['<%=campaign.external_id%>'], '#purgeCampaign')"><i class="glyphicon glyphicon-trash"></i></a>
+                    <% end %>
                   <% else %>
                     <a data-toggle="tooltip" data-original-title="<%=t('action.upload')%>" href="/campaign/upload/<%=campaign.id.to_s%>" class="btn btn-default btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-upload"></i></a>
                   <% end %>
@@ -49,27 +64,27 @@
                   <% end %>
                   <% if campaign.parsed == 'parsed' %>
                       <% if campaign.processed == 'unprocessed' %>
-                        <a data-toggle="tooltip" onclick="parseCampaign('<%=campaign.id%>')" data-original-title="<%=t('unparsed')%>" class="btn btn-default btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-question-sign"></i></a>
+                        <a data-toggle="tooltip" onclick="processCampaign('<%=campaign.id%>')" data-original-title="<%=t('unprocessed')%>" class="btn btn-default btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-info-sign"></i></a>
                       <% end %>
                       <% if campaign.processed == 'processed' %>
-                        <a data-toggle="tooltip" data-original-title="<%=t('parsed')%>" class="btn btn-success btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-ok-sign"></i></a>
+                        <a data-toggle="tooltip" data-original-title="<%=t('processed')%>" class="btn btn-success btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-ok-sign"></i></a>
                       <% end %>
                       <% if campaign.processed == 'processing' %>
-                        <a data-toggle="tooltip" data-original-title="<%=t('parsing')%>" class="btn btn-info btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-info-sign"></i></a>
+                        <a data-toggle="tooltip" data-original-title="<%=t('processing')%>" class="btn btn-info btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-info-sign"></i></a>
                       <% end %>
                       <% if campaign.processed == 'processing_with_errors' %>
-                        <a data-toggle="tooltip" data-original-title="<%=t('failed')%>" class="btn btn-danger btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-exclamation-sign"></i></a>
+                        <a data-toggle="tooltip" data-original-title="<%=t('processing')%>" class="btn btn-danger btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-exclamation-sign"></i></a>
                       <% end %>
                       <% if campaign.processed == 'processed_with_errors' %>
-                      <a data-toggle="tooltip" onclick="parseCampaign('<%=campaign.id%>')" data-original-title="<%=t('parse_again')%>" class="btn btn-default btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-question-sign"></i></a>
-                        <a data-toggle="tooltip" data-original-title="Download lines <%=t('action.download_failed.')%>" href="/origins/failed" class="btn btn-danger btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-exclamation-sign"></i></a>
+                        <a data-toggle="tooltip" onclick="processCampaign('<%=campaign.id%>')" data-original-title="<%=t('process_again')%>" class="btn btn-default btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-question-sign"></i></a>
+                        <a data-toggle="tooltip" data-original-title="<%=t('show_errors')%>" href="/origin/failed/<%=campaign.id%>" class="btn btn-danger btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-exclamation-sign"></i></a>
                       <% end %>
                   <% end %>
                   <% if campaign.parsed == 'parsing' %>
                     <a data-toggle="tooltip" data-original-title="<%=t('parsing')%>" class="btn btn-info btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-info-sign"></i></a>
                   <% end %>
                   <% if campaign.parsed == 'parsing_with_errors' %>
-                    <a data-toggle="tooltip" data-original-title="<%=t('failed')%>" class="btn btn-danger btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-exclamation-sign"></i></a>
+                    <a data-toggle="tooltip" data-original-title="<%=t('parsing')%>" class="btn btn-danger btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-exclamation-sign"></i></a>
                   <% end %>
                   <% if campaign.parsed == 'parsed_with_errors' %>
                   <a data-toggle="tooltip" onclick="parseCampaign('<%=campaign.id%>')" data-original-title="<%=t('parse_again')%>" class="btn btn-default btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-question-sign"></i></a>
@@ -77,7 +92,7 @@
                     <a data-toggle="tooltip" data-original-title="Download errors <%=t('action.show_errors')%>" href="<%=campaign.file_name.gsub(Regexp.new('^public'), '').gsub(Regexp.new('.csv$'), '.errors.csv')%>" class="btn btn-danger btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-eye-open"></i></a>
                   <% end %>
                 
-                  <a data-toggle="tooltip" data-original-title="<%=t('action.edit')%>" href="#editCampaign" class="btn btn-info btn-mini btn-glyphicon-only hint" onclick="passDataToCampaignModal(['<%=campaign.external_id%>', '<%=campaign.active? ? "1":"0" %>'], '#editCampaign')"><i class="glyphicon glyphicon-edit"></i></a>
+                  <a data-toggle="tooltip" data-original-title="<%=t('action.edit')%>" href="#editCampaign" class="btn btn-info btn-mini btn-glyphicon-only hint" onclick="passToModalCampaign(['<%=campaign.external_id%>', '<%=campaign.id%>', '<%=campaign.campaign_type.id%>', '<%=campaign.call_queue.id%>'], '#editCampaign')"><i class="glyphicon glyphicon-edit"></i></a>
                   <a data-toggle="tooltip" data-original-title="<%=t('action.remove')%>" href="#delCampaign" class="btn btn-danger btn-mini btn-glyphicon-only hint" onclick="passDataToModal(['<%=campaign.external_id%>'], '#delCampaign')"><i class="glyphicon glyphicon-remove"></i></a>
                 </td>
               </tr>
@@ -184,12 +199,28 @@
           <div class="modal-body">
             <div class="control-group"><input name='external' type="text" class="input" id="external" placeholder="<%=t('campaign.external_id')%>" autofocus> <span class="help-inline"><%=t('campaign.external_id')%></span></div>
             <div class="control-group">
-              <select class="" name="campaigntype" id="campaigntype">
-                <% @campaigntypes.each do |cptype| %>
-                <option value="<%=cptype.id%>"><%=cptype.name%></option>
-                <% end %>
-              </select>
-              <span class="help-inline"><%=t('campaign.type')%></span>
+              <% if @campaigntypes.nil?%>
+              <span class="help-inline"><%=t('campaign.type_please')%></span>
+              <% else %>
+                <select class="" name="campaigntype" id="campaigntype">
+                  <% @campaigntypes.each do |cptype| %>
+                    <option value="<%=cptype.id%>"><%=cptype.name%></option>
+                  <% end %>
+                </select>
+                <span class="help-inline"><%=t('campaign.type')%></span>
+              <% end %>
+            </div>
+            <div class="control-group">
+              <% if @call_queues.nil?%>
+                <span class="help-inline"><%=t('call_queue.please')%></span>
+              <% else %>
+                <select class="" name="call_queue" id="call_queue">
+                  <% @call_queues.each do |cqueue| %>
+                    <option value="<%=cqueue.id%>"><%=cqueue.name%></option>
+                  <% end %>
+                </select>
+                <span class="help-inline"><%=t('call_queue.one')%></span>
+              <% end %>
             </div>
           </div>
           <div class="modal-footer">
@@ -210,9 +241,32 @@
         </div>
         <form id="editCampaignForm" action="/campaign/edit" method="post">
           <div class="modal-body">
-          
+          <input type="hidden" value="" name="campaign_id_edit" id="campaign_id_edit" />
             <div class="control-group"><input name='external_edit' type="text" class="input" id="external_edit" value="" placeholder="<%=t('campaign.external_id')%>" autofocus> <span class="help-inline"><%=t('campaign.external_id')%></span></div>
-            <div class="control-group"><input name='active' id="dataCheckbox" type="checkbox" class="input"> <span class="help-inline"><%=t('active')%></span></div>
+            <div class="control-group">
+              <% if @campaigntypes.nil?%>
+              <span class="help-inline"><%=t('campaign.type_please')%></span>
+              <% else %>
+                <select class="" name="campaigntype_edit" id="campaigntype_edit">
+                  <% @campaigntypes.each do |cptype| %>
+                    <option value="<%=cptype.id%>"><%=cptype.name%></option>
+                  <% end %>
+                </select>
+                <span class="help-inline"><%=t('campaign.type')%></span>
+              <% end %>
+            </div>
+            <div class="control-group">
+              <% if @call_queues.nil?%>
+                <span class="help-inline"><%=t('call_queue.please')%></span>
+              <% else %>
+                <select class="" name="call_queue_edit" id="call_queue_edit">
+                  <% @call_queues.each do |cqueue| %>
+                    <option value="<%=cqueue.id%>"><%=cqueue.name%></option>
+                  <% end %>
+                </select>
+                <span class="help-inline"><%=t('call_queue.one')%></span>
+              <% end %>
+            </div>
           </div>
           <div class="modal-footer">
             <a class="btn" data-dismiss="modal" aria-hidden="true"><%=t('action.cancel')%></a>
@@ -222,9 +276,7 @@
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
   </div><!-- /.modal -->
-
-  <div id="roleeditor"></div>
-  
+ 
   <div class="modal fade" id="delCampaign" role="dialog" aria-labelledby="<%=t('dialog.del_campaign.title')%>" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -240,6 +292,27 @@
               <input type="hidden" name="external_del_id" id="dataInput" value="">
               <a class="btn" data-dismiss="modal" aria-hidden="true"><%=t('action.cancel')%></a>
               <button type="submit" class="btn btn-primary"><%=t('action.del')%></button>
+            </form>
+          </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+ 
+  <div class="modal fade" id="purgeCampaign" role="dialog" aria-labelledby="<%=t('dialog.purge_campaign.title')%>" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h3 id="purgeCampaignLabel"><%=t('dialog.attention')%></h3>
+        </div>
+          <div class="modal-body">
+            <p><%= t('dialog.purge_campaign.confirm', campaign: '<b id="dataInput"></b>')%></p>
+          </div>
+          <div class="modal-footer">
+            <form id="purgeCampaignform" action="/campaign/purge" method="post">
+              <input type="hidden" name="external_purge_id" id="dataInput" value="">
+              <a class="btn" data-dismiss="modal" aria-hidden="true"><%=t('action.cancel')%></a>
+              <button type="submit" class="btn btn-primary"><%=t('action.purge')%></button>
             </form>
           </div>
       </div><!-- /.modal-content -->

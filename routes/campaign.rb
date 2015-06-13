@@ -9,12 +9,23 @@ class CallController < Sinatra::Application
   get '/campaigns' do
     @campaigns = Campaign.all()
     @campaigntypes = CampaignType.all()
+    @call_queues = CallQueue.all()
     erb :'campaign/overview'
   end
   
   get '/campaign/upload/:id' do
     @campaign_id = params[:id]
     erb :'campaign/upload'
+  end
+  
+  post '/campaign/purge' do
+    cp = Campaign.first(:external_id => params['external_purge_id'])
+    sales = Sale.all(:campaign => cp)
+    origins = OriginSale.all(:campaign => cp)
+    #sales.comment.all.destroy
+    sales.destroy
+    origins.destroy
+    redirect to '/campaigns'
   end
   
   post '/campaign/activate' do
@@ -25,6 +36,8 @@ class CallController < Sinatra::Application
       else
         cp.update(:active => false)
       end
+      cp.save
+      cp.reload
     end
   end  
   
@@ -32,8 +45,9 @@ class CallController < Sinatra::Application
     
     type = CampaignType.first(:id => params['campaigntype'])
     cp = Campaign.first(:external_id => params['external'])
+    call_queue = CallQueue.first(:id => params['call_queue'])
     if cp.nil?
-      Campaign.create(:external_id => params[:external], :campaign_type => type)
+      Campaign.create(:external_id => params[:external], :campaign_type => type, :call_queue => call_queue)
     end
     
     campaignlist = '/campaigns'
@@ -48,27 +62,22 @@ class CallController < Sinatra::Application
   end
   
   post '/campaign/edit' do
-    campaign = Campaign.first(:id => params['id'])
+    campaign = Campaign.first(:id => params['campaign_id_edit'].to_i)
     
     if !campaign.nil?
-        
-        if params['active'].nil?
-          campaign.active = false
-        else
-          campaign.active = true
-        end
-        
-        if params['external_id'].nil?
-            campaign.external_id = params['campaign_type']
-        end
-        
-        if params['campaign_type'].nil?
-            campaign.campaign_type = params['campaign_type']
-        end
-        
-        campaign.updated_at = Time.now
-        campaign.save
-        campaign.reload
+      campaign.update(:external_id => params['external_edit']) if !params['external_edit'].nil?
+      
+      if !params['campaigntype_edit'].nil?
+        campaign_type = CampaignType.first(:id => params['campaigntype_edit'])
+        campaign.update(:campaign_type => campaign_type)
+      end
+      
+      if !params['call_queue_edit'].nil?
+        call_queue = CallQueue.first(:id => params['call_queue_edit'])
+        campaign.update(:call_queue => call_queue)
+      end
+      campaign.save
+      campaign.reload
     end
     campaignlist = '/campaigns'
     redirect to campaignlist
@@ -102,6 +111,21 @@ class CallController < Sinatra::Application
       
        # Thread.new do
         cn.process_import(un)
+       # end
+      
+    end
+    #~ redirect to '/campaigns'
+  end
+  
+  post '/campaign/process' do
+    cn = Campaign.first(:id => params['campaign_id'])
+    queue = CallQueue.first(:name => params['queue_name'])
+
+    if !cn.nil?
+      #~ CampaignInstance.create(campaign.id, un, 'import')
+      
+       # Thread.new do
+        cn.migrate_to_sales
        # end
       
     end

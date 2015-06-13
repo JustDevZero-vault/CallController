@@ -1,0 +1,128 @@
+<div class="row-fluid">
+	<div class="col-md-8">
+		<div class="widget widget-table action-table">
+			<div class="widget-header">
+				<i class="icon-user"></i><h3><%=t('origin.other')%></h3>
+			</div>
+			<div class="widget-content">
+				<div class="visible-phone visible-tablet"><br></br></div>
+				<table id="origins" class="table table-striped table-bordered" cellspacing="0" width="100%">
+					<thead style="text-align:left;">
+						<tr>
+							<th>
+								<%=t('user.first_name')%>
+							</th>
+							<th>
+								<%=t('user.last_name')%>
+							</th>
+							<th>
+								<%=t('street')%>
+							</th>
+							<th>
+								<%=t('postal_code')%>
+							</th>
+							<th>
+								<%=t('email')%>
+							</th>
+							<th>
+								<%=t('phone')%>
+							</th>
+							<th>
+								<%=t('city')%>
+							</th>
+							<th>
+								<%=t('province.name')%>
+							</th>
+							<th class="td-actions">
+								<%=t('action.other')%>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<% @origins.each do |review| %>
+						<tr>
+							<td>
+								<%=review.first_name%>
+							</td>
+							<td>
+								<%=review.last_name%>
+							</td>
+							<td>
+								<%=review.street%>
+							</td>
+							<td>
+								<%=review.postal_code%>
+							</td>
+							<td>
+								<%=review.email%>
+							</td>
+							<td>
+								<%=review.phone%>
+							</td>
+							<td>
+								<%=review.city%>
+							</td>
+							<td>
+								<%=review.province%>
+							</td>
+							<td class="td-actions">
+								<a data-toggle="tooltip" data-original-title="<%=t('action.edit')%>" href="#editOrigin" class="btn btn-info btn-mini btn-glyphicon-only hint" onclick="passDataToReview(['<%=review.id%>', '<%=review.first_name%>', '<%=review.last_name%>', '<%=review.street%>', '<%=review.postal_code%>', '<%=review.email%>', '<%=review.phone%>', '<%=review.city%>', '<%=review.province%>'], '#editOrigin')"><i class="glyphicon glyphicon-edit"></i></a>
+								<a data-toggle="tooltip" data-original-title="<%=t('action.remove')%>" href="#delOrigin" class="btn btn-danger btn-mini btn-glyphicon-only hint" onclick="passDataToModal(['<%=review.phone%>'], '#delOrigin')"><i class="glyphicon glyphicon-remove"></i></a>
+							</td>
+						</tr>
+						<% end %>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="delOrigin" role="dialog" aria-labelledby="<%=t('dialog.del_origin.title')%>" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 id="delOriginLabel"><%=t('dialog.attention')%></h3>
+      </div>
+        <div class="modal-body">
+          <p><%= t('dialog.del_origin.confirm', origin: '<b id="dataInput"></b>')%></p>
+        </div>
+        <div class="modal-footer">
+          <form id="delOriginform" action="/user/del" method="post">
+            <input type="hidden" name="del_origin_id" id="dataInput" value=""/>
+            <a class="btn" data-dismiss="modal" aria-hidden="true"><%=t('action.cancel')%></a>
+            <button type="submit" class="btn btn-primary"><%=t('action.del')%></button>
+          </form>
+        </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="editOrigin" role="dialog" aria-labelledby="<%=t('dialog.edit_origin.title')%>" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 id="editOriginLabel"><%=t('dialog.edit_origin.title')%></h3>
+      </div>
+      <form id="editOriginform" action="/origin/edit" method="post">
+        <div class="modal-body">
+          <input type="hidden" name="origin_id" id="origin_id" value=""/>
+          <div class="control-group"><input name='first_name' type="text" id="first_name" value="" /> <span class="help-inline"><%=t('user.first_name')%></span></div>
+          <div class="control-group"><input name='last_name' type="text" id="last_name" value="" /> <span class="help-inline"><%=t('user.last_name')%></span></div>
+          <div class="control-group"><input name='street' type="text" id="street" value="" /> <span class="help-inline"><%=t('street')%></span></div>
+          <div class="control-group"><input name='email' type="email" id="email" class="input" placeholder="<%=t('email')%>" /> <span class="help-inline"><%=t('email')%></span><p class="help-block"></p></div>
+          <div class="control-group"><input name='postal_code' type="text" id="postal_code" value="" /> <span class="help-inline"><%=t('postal_code')%></span></div>
+          <div class="control-group"><input name='phone' type="text" id="phone" value="" /> <span class="help-inline"><%=t('phone')%></span></div>
+          <div class="control-group"><input name='city' type="text" id="city" value="" /> <span class="help-inline"><%=t('city')%></span></div>
+          <div class="control-group"><input name='province' type="text" id="province" value="" /> <span class="help-inline"><%=t('province.name')%></span></div>
+        </div>
+        <div class="modal-footer">
+          <a class="btn" data-dismiss="modal" aria-hidden="true"><%=t('action.cancel')%></a>
+          <button type="submit" class="btn btn-primary"><%=t('action.edit')%></button>
+        </div>
+       </form>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

@@ -21,8 +21,9 @@ class CallController < Sinatra::Application
       end
       Setup.new()
       Country.begin()
-      Province.spanish_migrate()
-      un = User.new(params['username'], params['email'], params['password'], params['first_name'], 'last_name')
+      Province.begin_migrate('ES')
+      #~ un = User.new(params['username'], params['email'], params['password'], params['first_name'], 'last_name')
+      un = User.first_or_create(:username => params['username'], :email => params['email'], :password => BCrypt::Password.create(params['password']), :first_name => params['first_name'], :last_name => params['last_name'], :active => true)
       admins = Role.new(:name => "admins", :capabilities => 'admin')
       admins.add_member(un)
       CallResult.first_or_create(:code => 'Undefined', :code => 'Undefined', :user => un)

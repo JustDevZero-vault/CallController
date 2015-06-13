@@ -73,6 +73,23 @@ var parseCampaign = function (campaignid) {
   
 }
 
+var processCampaign = function (campaignid) {
+  $.ajax({
+    method: "POST",
+    url: "/campaign/process",
+    data: { campaign_id: campaignid }
+  }).done(function() {
+    alert( "success" );
+  })
+  .fail(function() {
+    alert( "error" );
+  })
+  .always(function() {
+    alert( "complete" );
+  });
+  
+}
+
 var activateLevelCampaign = function (campaignid, state) {
   $.ajax({
     method: "POST",
@@ -137,6 +154,17 @@ var passToDeleteCountry = function (data, modal_id) {
   $(modal_id).modal('show');
 }
 
+var passToModalCampaign = function (data, modal_id) {
+  $(".modal-body #external_edit").text(data[0]);
+  $(".modal-body #external_edit").val(data[0]);
+  $(".modal-body #campaign_id_edit").text(data[1]);
+  $(".modal-body #campaign_id_edit").val(data[1]);
+  $(".modal-body #campaigntype_edit").val(data[2]);
+  $("#campaigntype_edit option[value=" + data[2] + "]").attr('selected', 'selected'); 
+  $("#call_queue_edit option[value=" + data[3] + "]").attr('selected', 'selected'); 
+  $(modal_id).modal('show');
+}
+
 var passToDeleteCallResult = function (data, modal_id) {
   $(".modal-body #dataInput").text(data[1]);
   $(".modal-body #dataInput").val(data[1]);
@@ -157,6 +185,26 @@ var passDataToCallResult = function (data, modal_id) {
   $(modal_id).modal('show');
 }
 
+var passDataToReview = function (data, modal_id) {
+  $(".modal-body #origin_id").val(data[0]);
+  $(".modal-body #first_name").text(data[1]);
+  $(".modal-body #first_name").val(data[1]);
+  $(".modal-body #last_name").text(data[2]);
+  $(".modal-body #last_name").val(data[2]);
+  $(".modal-body #street").text(data[3]);
+  $(".modal-body #street").val(data[3]);
+  $(".modal-body #postal_code").text(data[4]);
+  $(".modal-body #postal_code").val(data[4]);
+  $(".modal-body #email").text(data[5]);
+  $(".modal-body #email").val(data[5]);
+  $(".modal-body #phone").text(data[6]);
+  $(".modal-body #phone").val(data[6]);
+  $(".modal-body #city").text(data[7]);
+  $(".modal-body #city").val(data[7]);
+  $(".modal-body #province").text(data[8]);
+  $(".modal-body #province").val(data[8]);
+  $(modal_id).modal('show');
+}
 var passDataToCountry = function (data, modal_id) {
   $(".modal-body #edit_country_id").text(data[0]);
   $(".modal-body #edit_country_id").val(data[0]);
