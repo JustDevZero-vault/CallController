@@ -22,7 +22,7 @@ class Role
   end
 
   def del_member(user)
-    member_rel = RoleMember.get(user.username, self.name)
+    member_rel = RoleMember.get(user.id, self.id)
     if member_rel.nil?
       return false
     end

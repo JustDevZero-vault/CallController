@@ -81,7 +81,7 @@
           <div class="control-group"><input name='new_province_postal_code' type="text" class="input" id="new_province_postal_code" value="" placeholder="<%=t('postal_code')%>" /> <span class="help-inline"><%=t('postal_code')%></span></div>
           <div class="control-group"><input name='new_province_phone_prefix' type="text" class="input" id="new_province_phone_prefix" value="" placeholder="<%=t('province.prefix')%>" /> <span class="help-inline"><%=t('province.prefix')%></span></div>
           <div class="control-group">
-            <select class="" name="new_edit_country_id" id="new_edit_country_id">
+            <select class="" name="new_country_id" id="new_country_id">
               <% @countries.each do |country| %>
               <option value="<%=country.id%>"><%=country.name%></option>
               <% end %>
@@ -90,7 +90,7 @@
         </div>
         <div class="modal-footer">
           <a class="btn" data-dismiss="modal" aria-hidden="true"><%=t('action.cancel')%></a>
-          <button type="submit" class="btn btn-primary"><%=t('action.edit')%></button>
+          <button type="submit" class="btn btn-primary"><%=t('action.save')%></button>
         </div>
       </form>
     </div><!-- /.modal-content -->

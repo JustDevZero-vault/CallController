@@ -1,0 +1,35 @@
+<div class="modal fade" style="background: white;" id="editQueue" role="dialog" aria-labelledby="<%=t('dialog.edit_queue.title')%>" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <a type="button" class="close" data-dismiss="modal" aria-hidden="true">×</a>
+        <h3 id="editQueueLabel"><%=t('dialog.edit_queue.title')%></h3>
+      </div>
+        <h4><%=t('dialog.edit_queue.members')%></h4>
+        <div class="control-group" style="margin-left: 4px; margin-top: 4px;" id="queueMembers">
+        <% @queue.users.each do |user| %>
+          <div class="input-append" id="<%= user.username %>">
+            <span class="add-on" style="width: 78px;"><%= user.username %></span>
+            <button type="button" onclick="delQueueMember('<%=@queue.name%>', '<%= user.username %>')"><i class="glyphicon glyphicon-minus"></i></button>
+          </div>
+        <% end %>
+        </div>
+        <div class="control-group">
+          <div class="input-append">
+            <select name='role' class="input-small" id="selectAddUser">
+              <option></option>
+              <% User.all.each do |user| %>
+                <% if !@queue.users.include?(user) %>
+                  <option value="<%=user.username%>"><%=user.username%></option>
+                <% end %>
+              <% end %>
+            </select>
+          <button type="button" style="" onclick="addQueueMember('<%=@queue.name%>')"><i class="glyphicon glyphicon-plus"></i></button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-success" data-dismiss="modal" aria-hidden="true"><%=t('action.close')%></a>
+      </div> <!-- /.modal-footer -->
+    </div> <!-- /.modal-content -->
+  </div> <!-- /.modal-dialog -->
+</div> <!-- /.modal -->

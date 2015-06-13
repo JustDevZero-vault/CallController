@@ -1,4 +1,4 @@
-class CallResult
+class Setting
   include DataMapper::Resource
   
   def self.default_repository_name #here we use the users_db for the User objects
@@ -6,11 +6,9 @@ class CallResult
   end
   
   property :id, Serial, :key => true
-  property :code, String
-  property :description, String
+  property :name, String
+  property :value, String
   property :created_at, DateTime
   property :updated_at, DateTime
-  belongs_to :user, :model => User
-  has n, :sales
   
 end

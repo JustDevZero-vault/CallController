@@ -21,13 +21,13 @@ class CallQueue
   end
 
   def del_member(un)
-    member_rel = QueueMember.get(un.username, self.name)
+    member_rel = QueueMember.get(un.id, self.id)
     if member_rel.nil?
       return false
     end
     member_rel.destroy
     self.reload
-    user.reload
+    un.reload
     return true
   end
 

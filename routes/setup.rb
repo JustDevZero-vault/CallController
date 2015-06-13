@@ -20,11 +20,12 @@ class CallController < Sinatra::Application
         halt erb(:'system/setup')
       end
       Setup.new()
-      Contry.begin()
+      Country.begin()
       Province.spanish_migrate()
       un = User.new(params['username'], params['email'], params['password'], params['first_name'], 'last_name')
       admins = Role.new(:name => "admins", :capabilities => 'admin')
       admins.add_member(un)
+      CallResult.first_or_create(:code => 'Undefined', :code => 'Undefined', :user => un)
       Role.create(:name => 'agents', :capabilities => 'agent')
       Role.create(:name => 'coachers', :capabilities => 'coacher')
       Role.create(:name => 'supervisors', :capabilities => 'supervisor')

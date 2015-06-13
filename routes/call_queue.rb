@@ -13,10 +13,10 @@ class CallController < Sinatra::Application
     redirect to userlist
   end
 
-  #~ get '/queue/edit/:role' do
-    #~ @role = Role.first(:name => params[:role])
-    #~ erb :'user/edit_role', :layout => false
-  #~ end
+  get '/queue/edit/:queue' do
+    @queue = CallQueue.first(:name => params[:queue])
+    erb :'edit_queue', :layout => false
+  end
 
   #~ post '/role/edit' do  ## TODO
     #~ role = Role.first(:name => params['name'])
@@ -25,14 +25,14 @@ class CallController < Sinatra::Application
   #~ end
 
   post '/queue/member/add' do
-    queue = CallQueue.first(:id => params['queue_id'])
-    un = User.first(:id => params['user_id'])
-    role.add_member(un)
+    queue = CallQueue.first(:name => params['queue'])
+    un = User.first(:username => params['username'])
+    queue.add_member(un)
   end
 
   post '/queue/member/del' do
-    queue = CallQueue.first(:id => params['queue_id'])
-    un = User.first(:id => params['user_id'])
+    queue = CallQueue.first(:name => params['queue'])
+    un = User.first(:username => params['username'])
     queue.del_member(un)
   end
 

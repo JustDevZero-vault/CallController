@@ -137,6 +137,26 @@ var passToDeleteCountry = function (data, modal_id) {
   $(modal_id).modal('show');
 }
 
+var passToDeleteCallResult = function (data, modal_id) {
+  $(".modal-body #dataInput").text(data[1]);
+  $(".modal-body #dataInput").val(data[1]);
+  $(".modal-footer #delete_call_result_id").text(data[0]);
+  $(".modal-footer #delete_call_result_id").val(data[0]);
+  $(modal_id).modal('show');
+}
+
+var passDataToCallResult = function (data, modal_id) { 
+  $(".modal-body #edit_call_result_id").text(data[1]);
+  $(".modal-body #edit_call_result_id").val(data[1]);
+  
+  $(".modal-body #edit_call_result_code").text(data[1]);
+  $(".modal-body #edit_call_result_code").val(data[1]);
+  
+  $(".modal-body #edit_call_result_description").text(data[2]);
+  $(".modal-body #edit_call_result_description").val(data[2]);
+  $(modal_id).modal('show');
+}
+
 var passDataToCountry = function (data, modal_id) {
   $(".modal-body #edit_country_id").text(data[0]);
   $(".modal-body #edit_country_id").val(data[0]);
@@ -224,6 +244,13 @@ var editRole = function (name) {
   });
 };
 
+var editQueue = function (name) {
+  $.get('/queue/edit/' + name, function (data) {
+    $('#queueeditor').html(data);
+    $('#editQueue').modal('show');
+  });
+};
+
 var getTaskNotifications = function (task_id, refreshing) {
   if (typeof(refreshing)==='undefined') refreshing = false;
   $.get('/notifications/bytask/' + task_id, function (data) {
@@ -269,19 +296,42 @@ var delTask = function (id) {
 // TODO: Make the backend return a json element so we can replace everything on the fly instead of simply readding elements
 var addRoleMember = function (role) {
   var username = $('#selectAddUser').val();
-  $.post('/role/add-member', {
+  $.post('/role/member/add', {
     role: role,
     username: username
   }, function () {
-    $('#roleMembers').append('<div class="input-append" id="' + username + '"><span class="add-on" style="width: 78px;">' + username + '</span><button class="btn" type="button" onclick="delRoleMember(\'' + role + '\', \'' + username + '\')"><i class="icon-minus"></i></button></div>');
+    $('#roleMembers').append('<div class="input-append" id="' + username + '"><span class="add-on" style="width: 78px;">' + username + '</span><button type="button" onclick="delRoleMember(\'' + role + '\', \'' + username + '\')"><i class="glyphicon glyphicon-minus"></i></button></div>');
     $('#selectAddUser').find('option[value="' + username + '"]').remove();
     // e.removeChild(e.options[e.selectedIndex]);
   });
 };
 
 var delRoleMember = function (role, username) {
-  $.post('/role/del-member', {
+  $.post('/role/member/del', {
     role: role,
+    username: username
+  }, function () {
+    $('#' + username).remove();
+    $('#selectAddUser').append('<option value="' + username + '">' + username + '</option>');
+  });
+};
+
+// TODO: Make the backend return a json element so we can replace everything on the fly instead of simply readding elements
+var addQueueMember = function (queue) {
+  var username = $('#selectAddUser').val();
+  $.post('/queue/member/add', {
+    queue: queue,
+    username: username
+  }, function () {
+    $('#queueMembers').append('<div class="input-append" id="' + username + '"><span class="add-on" style="width: 78px;">' + username + '</span><button type="button" onclick="delQueueMember(\'' + queue + '\', \'' + username + '\')"><i class="glyphicon glyphicon-minus"></i></button></div>');
+    $('#selectAddUser').find('option[value="' + username + '"]').remove();
+    // e.removeChild(e.options[e.selectedIndex]);
+  });
+};
+
+var delQueueMember = function (queue, username) {
+  $.post('/queue/member/del', {
+    queue: queue,
     username: username
   }, function () {
     $('#' + username).remove();

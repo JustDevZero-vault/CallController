@@ -11,10 +11,10 @@ class CallController < Sinatra::Application
     redirect to userlist
   end
 
-  #~ get '/role/edit/:role' do
-    #~ @role = Role.first(:name => params[:role])
-    #~ erb :'user/edit_role', :layout => false
-  #~ end
+  get '/role/edit/:role' do
+    @role = Role.first(:name => params[:role])
+    erb :'user/edit_role', :layout => false
+  end
 
   post '/role/edit' do  ## TODO
     role = Role.first(:id => params['role_id'])
@@ -29,7 +29,7 @@ class CallController < Sinatra::Application
   end
 
   post '/role/member/del' do
-    role = Role.first(:id => params['member_role_id'])
+    role = Role.first(:name => params['role'])
     un = User.first(:username => params['username'])
     role.del_member(un)
   end

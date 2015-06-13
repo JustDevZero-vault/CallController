@@ -1,6 +1,7 @@
 class CallController < Sinatra::Application
   get '/settings' do
     if user.is_admin?
+      @callresults = CallResult.all
       cfg = Email.first_or_create
       @method = cfg.method
       @path = cfg.path
@@ -19,6 +20,10 @@ class CallController < Sinatra::Application
     end
   end
 
+  post '/settings/default' do
+    Settings.first_or_create('defaultcall', params['default_call_result_id'])
+  end
+  
   post '/settings/email' do
     if user.is_admin?
       cfg = Email.all.first

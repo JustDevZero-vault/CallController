@@ -107,8 +107,7 @@
 								</div>
 							</td>
 							<td class="td-actions">
-								<!--<a data-toggle="tooltip" data-original-title="<%=t('action.edit')%>" href="#editRole" class="btn btn-info btn-mini btn-glyphicon-only hint" onclick="editRole('<%=role.name%>', '#roleeditor')"><i class="btn-glyphicon-only glyphicon glyphicon-edit"></i></a>-->
-								<a data-toggle="tooltip" data-original-title="<%=t('action.edit_list')%>" href="/users/roles" class="btn btn-info btn-mini btn-glyphicon-only hint"><i class="btn-glyphicon-only glyphicon glyphicon-list"></i></a>
+								<a data-toggle="tooltip" data-original-title="<%=t('action.edit')%>" href="#editRole" class="btn btn-info btn-mini btn-glyphicon-only hint" onclick="editRole('<%=role.name%>', '#roleeditor')"><i class="btn-glyphicon-only glyphicon glyphicon-edit"></i></a>
 								<a data-toggle="tooltip" data-original-title="<%=t('action.remove')%>" href="#delRole" class="btn btn-danger btn-mini btn-glyphicon-only hint" onclick="removeRole(['<%=role.name%>', '<%=role.id%>'], '#delRole')"><i class="btn-glyphicon-only glyphicon glyphicon-remove"></i></a>
 							</td>
 						</tr>
@@ -121,11 +120,11 @@
 	<div class="col-md-4">
 		<div class="widget widget-table action-table">
 			<div class="widget-header">
-				<i class="icon-group"></i><h3><%=t('queue.other')%></h3>
+				<i class="icon-group"></i><h3><%=t('call_queue.other')%></h3>
 			</div>
 			<div class="widget-content">
 				<div style="position:absolute; z-index:90;">
-          <a data-toggle="modal" data-target="#addQueue" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus"></span> <%=t('queue.add')%></a>
+          <a data-toggle="modal" data-target="#addQueue" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus"></span> <%=t('call_queue.add')%></a>
 				</div>
 				<div class="visible-phone visible-tablet"><br></br></div>
 				<table id="queues" class="table table-striped table-bordered" cellspacing="0" width="100%">
@@ -170,7 +169,7 @@
 								</div>
 							</td>
 							<td class="td-actions">
-								<a data-toggle="tooltip" data-original-title="<%=t('action.edit')%>" href="/users/queues" class="btn btn-info btn-mini btn-glyphicon-only hint"><i class="btn-glyphicon-only glyphicon glyphicon-list"></i></a>
+                <a data-toggle="tooltip" data-original-title="<%=t('action.edit')%>" href="#editQueue" class="btn btn-info btn-mini btn-glyphicon-only hint" onclick="editQueue('<%=queue.name%>', '#queueeditor')"><i class="btn-glyphicon-only glyphicon glyphicon-list"></i></a>
 								<a data-toggle="tooltip" data-original-title="<%=t('action.remove')%>" href="#delQueue" class="btn btn-danger btn-mini btn-glyphicon-only hint" onclick="removeQueue(['<%=queue.name%>', '<%=queue.id%>'], '#delQueue')"><i class="btn-glyphicon-only glyphicon glyphicon-remove"></i></a>
 							</td>
 						</tr>
@@ -339,3 +338,4 @@
 </div><!-- /.modal -->
 
 <div id="roleeditor"></div>
+<div id="queueeditor"></div>
