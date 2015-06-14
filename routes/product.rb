@@ -34,7 +34,7 @@ class CallController < Sinatra::Application
   end
   
   post '/product/edit' do
-    product = Product.first(:id => params['id'])
+    product = Product.first(:id => params['edit_product_id'])
     
     if !product.nil?
       ht = HTMLEntities.new
