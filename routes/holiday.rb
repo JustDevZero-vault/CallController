@@ -2,7 +2,7 @@
 class CallController < Sinatra::Application
  
   before /^(\/holiday)/ do
-    unless user.is_admin?
+    unless user.is_admin? || user.is_manager?
       redirect "/"
     end
   end

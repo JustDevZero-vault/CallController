@@ -2,6 +2,7 @@ en:
   menu:
     documentation: "Documentation"
     manage_users: "Manage users"
+    manage_users_queue: "Edit users & Queue"
     logout: "Logout"
     dashboard: "Dashboard"
     servers: "Servers"

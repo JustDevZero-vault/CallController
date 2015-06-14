@@ -146,9 +146,11 @@
                   <i class="glyphicon glyphicon-cog"></i> <%=user.username%> <b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu">
-                  <%if user.is_admin?%>
-                    <li><a href="/users"><%=t('menu.manage_users')%></a></li>
+                  <%if user.is_admin? || user.is_manager?%>
+                    <li><a href="/users"><%=t('menu.manage_users_queue')%></a></li>
+                    <%if user.is_admin? %>
                     <li><a href="/settings">System Settings</a></li>
+                    <%end%>
                     <li class="divider"></li>
                     <li><a href="/campaigns"><%=t('campaign.other')%></a></li>
                     <li><a href="/products"><%=t('product.other')%></a></li>
