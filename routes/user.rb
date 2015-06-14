@@ -7,14 +7,23 @@ class CallController < Sinatra::Application
   end
 
   get '/users' do
-    @users = User.all
+    @users = User.all(:username.not =>'queue')
     @roles = Role.all
     @queues = CallQueue.all
     erb :'user/users_overview'
   end
 
   post '/user/add' do
-    User.new(params['username'], params['email'], params['password'], params['first_name'], params['last_name'])
+
+    if !params['active'].nil?
+      active = true
+    else
+      active = false
+    end
+    un = User.first_or_create(:username => params['username'], :email => params['email'], :password => BCrypt::Password.create(params['password']), :first_name => params['first_name'], :last_name => params['last_name'], :active => active)
+
+    un.save
+    un.reload
     userlist = '/users'
     redirect to userlist
   end

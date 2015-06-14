@@ -23,8 +23,9 @@ class CallController < Sinatra::Application
       Setup.new()
       Country.begin_migrate
       Province.begin_migrate('ES')
-      #~ un = User.new(params['username'], params['email'], params['password'], params['first_name'], 'last_name')
       un = User.first_or_create(:username => params['username'], :email => params['email'], :password => BCrypt::Password.create(params['password']), :first_name => params['first_name'], :last_name => params['last_name'], :active => true)
+      random_string = ('a'..'z').to_a.shuffle[0,8].join
+      agent = User.first_or_create(:username => 'queue', :email => 'null@null.inc', :password => BCrypt::Password.create(random_string), :first_name => 'queue', :last_name => 'queue', :active => false)
       admins = Role.new(:name => "admins", :capabilities => 'admin')
       admins.add_member(un)
       CallResult.first_or_create(:code => 'Undefined', :code => 'Undefined', :user => un)
