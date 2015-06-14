@@ -70,6 +70,12 @@ en:
     please: "Please, import first call results"
     default: "Default Call Result"
 
+  holiday:
+    add: "Add Holiday"
+    one: "Holiday"
+    other: "Holidays"
+    description: "Holidays&#8217;s description"
+    
   username: "Username"
   active: "Active"
   processed: "Processed"
@@ -188,9 +194,14 @@ en:
     attention: "Attention!"
     add_country:
       title: "Add country"
+    add_holiday:
+      title: "Add holiday"
     del_country:
       title: "Remove country"
       confirm: "Are you sure you want to remove the country %{country}?"
+    del_holiday:
+      title: "Remove holiday"
+      confirm: "Are you sure you want to remove the holiday %{holiday}?"
     purge_campaign:
       title: "Purge campaign"
       confirm: "Are you sure you want to purge the campaign %{campaign}?<br/>Take in mind that all comments and sales will be deleted"

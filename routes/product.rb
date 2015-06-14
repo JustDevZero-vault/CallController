@@ -6,57 +6,43 @@ class CallController < Sinatra::Application
     end
   end
   
-  get '/product' do
+  get '/products' do
     @products = Product.all()
     redirect to '/products'
   end
   
-  get '/product/add/' do
-    erb :'product_add'
-  end
+  #~ get '/product/add/' do
+    #~ erb :'product_add'
+  #~ end
   
-  get '/product/edit/:id' do
-    @product = Product.first(:id => params['id'])
-    erb :'product_edit'
-  end
+  #~ get '/product/edit/:id' do
+    #~ @product = Product.first(:id => params['id'])
+    #~ erb :'product_edit'
+  #~ end
   
   post '/product/add' do
-    product = Product.first(:external_id => params['external_id'])
-    
-    if product.nil?
-      product.create(:external_id => params['external_id'], :product_type => params['name'], )
-    end
-    productlist = '/products'
-    redirect to productlist
+    ht = HTMLEntities.new
+    product = Product.first_or_create(:external_id => params['external_id'], :product_type => ht.encode(params['name'], :named))
+    redirect to '/products'
   end
   
   post '/product/delete' do
     product = Product.first(:id => params['id'])
-    
-    if product.nil?
-      product.destroy
-    end
-    productlist = '/products'
-    redirect to productlist
+    product.destroy if !product.nil?
+    redirect to '/products'
   end
   
   post '/product/edit' do
     product = Product.first(:id => params['id'])
     
     if !product.nil?
-      if params['external_id'].nil?
-        product.external_id = params['external_id']
-      end
-
-      if params['name'].nil?
-        product.name = params['name']
-      end
-      product.updated_at = Time.now
+      ht = HTMLEntities.new
+      product.update(:name => ht.encode(params['edit_name'], :named)) if !params['edit_name'].nil?
+      product.update(:external_id => params['edit_external_id']) if !params['edit_external_id'].nil?
       product.save
       product.reload
     end
-    productlist = '/products'
-    redirect to productlist
+    redirect to '/products'
   end
   
 end
