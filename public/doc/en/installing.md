@@ -20,12 +20,12 @@ On RedHat-based systems:
 Install bundler and clone the git repository
 
     gem install bundler
-    git clone https://github.com/JustDevZero/CallControler.git
+    git clone https://github.com/JustDevZero/CallController.git
 
 Or get the development branch (recommended while it is in heavy development stage,
 might be unestable though)
 
-    git clone https://github.com/JustDevZero/CallControler.git -b devel
+    git clone https://github.com/JustDevZero/CallController.git -b devel
 
 Install CallController and all the dependencies
 
