@@ -41,9 +41,9 @@ the port 3000
 ([http://localhost:3000/](http://localhost:3000/))
 
 or take a look how to use it with
-[nginx](apache.md)
+[nginx](nginx.md)
 or
-[apache](nginx.md).
+[apache](apache.md).
 
 **4. Setup**
 
