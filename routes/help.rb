@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 class CallController < Sinatra::Application
   get '/help' do
     @doc = 'doc/en/README.md'

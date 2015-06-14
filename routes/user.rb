@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 class CallController < Sinatra::Application
   before /^(\/user)/ do
     unless user.is_admin?
@@ -38,6 +39,8 @@ class CallController < Sinatra::Application
       enc_pw = BCrypt::Password.create(params['password'])
       un.update(:password => enc_pw)
     end
+    un.save
+    un.reload
     userlist = '/users'
     redirect to userlist
   end

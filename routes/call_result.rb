@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 class CallController < Sinatra::Application
   before /^(\/callresult)/ do
     unless user.is_admin?

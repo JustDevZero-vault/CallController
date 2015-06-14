@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 class CallController < Sinatra::Application
   get '/sale/edit/:id' do
       sale = Sale.first(:id => (params['id']) )

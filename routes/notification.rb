@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 class CallController < Sinatra::Application
   post '/notification/dismiss' do
     notification = Notification.first(:id => params['msg_id'].to_i)

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 class CallController < Sinatra::Application
   get '/setup' do
     status 200
@@ -20,7 +21,7 @@ class CallController < Sinatra::Application
         halt erb(:'system/setup')
       end
       Setup.new()
-      Country.begin()
+      Country.begin_migrate
       Province.begin_migrate('ES')
       #~ un = User.new(params['username'], params['email'], params['password'], params['first_name'], 'last_name')
       un = User.first_or_create(:username => params['username'], :email => params['email'], :password => BCrypt::Password.create(params['password']), :first_name => params['first_name'], :last_name => params['last_name'], :active => true)

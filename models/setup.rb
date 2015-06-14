@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 class Setup
   def initialize(*params)
     # Create directories
