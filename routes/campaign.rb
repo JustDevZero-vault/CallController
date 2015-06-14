@@ -26,6 +26,10 @@ class CallController < Sinatra::Application
     #sales.comment.all.destroy
     sales.destroy
     origins.destroy
+    cp.update(:parsed => 'unparsed')
+    cp.update(:processed => 'unprocessed')
+    cp.save
+    cp.reload
     redirect to '/campaigns'
   end
   
