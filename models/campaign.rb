@@ -124,9 +124,11 @@ class Campaign
     need_review = OriginSale.all(:review => true, :campaign => self)
     sales_to_migrate = need_review if need_review.count > 0
     
+       
     sales_to_migrate.each do |origin|
       error_string = ""
       if !origin.nil? && !default_call.nil?
+      noti =  Notification.create(:type => :error, :sticky => false, :message => "Llegas?")
         province = Province.first(:name => origin.province)
         error_string += "\nProvince is not valid for sale #{origin.id.to_s} fix it." if province.nil?
         
@@ -136,7 +138,7 @@ class Campaign
           origin.update(:review => true)
         else
           begin
-            sale = Sale.first_or_create( :origin => origin, :first_name => origin.first_name, :last_name => origin.last_name, :street => origin.street, :postal_code => origin.postal_code, :email => origin.email, :phone => origin.phone, :city => origin.city, :province => province, :call_result => default_call, :campaign => self, :user => default_user)
+            sale = Sale.first_or_create( :origin => origin, :first_name => origin.first_name, :last_name => origin.last_name, :street => origin.street, :postal_code => origin.postal_code, :email => origin.email, :phone => origin.phone, :city => origin.city, :province => province, :call_result => default_call, :campaign => self, :queue => self.queue, :user => default_user)
           rescue StandardError => e
             error_string += "\nGot an error trying to migrate sales: #{e.to_s} on origin sale #{origin.id.to_s}".gsub('Sale: ','')
           end

@@ -120,7 +120,6 @@ class CallController < Sinatra::Application
   
   post '/campaign/process' do
     cn = Campaign.first(:id => params['campaign_id'])
-    queue = CallQueue.first(:name => params['queue_name'])
 
     if !cn.nil?
       #~ CampaignInstance.create(campaign.id, un, 'import')

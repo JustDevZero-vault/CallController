@@ -14,17 +14,19 @@ class CallController < Sinatra::Application
   post '/callresult/add' do
     ht = HTMLEntities.new
     un = User.first(:username => session['username'])
-    CallResult.first_or_create(:code => params['new_call_result_code'], :description => ht.encode(params['new_call_result_description']), :user => un)
+    callresult = CallResult.first_or_create(:code => params['new_call_result_code'], :description => ht.encode(params['new_call_result_description']), :user => un)
     redirect to '/callresults'
   end
   
   post '/callresult/edit' do
     ht = HTMLEntities.new
-    callresult = CallResult.first(:id, params['edit_call_result_id'])
-    callresult.update(:code => params['edit_call_result_code']) if !params['edit_call_result_code'].nil?
-    callresult.update(:description => ht.encode(params['edit_call_result_description'])) if !params['edit_call_result_description'].nil?
-    callresult.save
-    callresult.reload
+    callresult = CallResult.first(:id => params['edit_call_result_id'])
+    if !callresult.nil?
+      callresult.update(:code => ht.encode(params['edit_call_result_code'])) if !params['edit_call_result_code'].nil?
+      callresult.update(:description => ht.encode(params['edit_call_result_description'])) if !params['edit_call_result_description'].nil?
+      callresult.save
+      callresult.reload
+    end
     redirect to '/callresults'
     
   end
