@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 class CallController < Sinatra::Application
  
   before /^(\/province)/ do
@@ -19,7 +20,7 @@ class CallController < Sinatra::Application
     
     if !cn.nil?
       if !params['new_province_name'].nil? &&  !params['new_province_code'].nil? &&  !params['new_province_postal_code'].nil? &&  !params['new_province_phone_prefix'].nil? && 
-        province = Province.create(:country => cn, :name => html_escape(params['new_province_name']), :code => html_escape(params['new_province_code']), :postal_code => html_escape(params['new_province_postal_code']), :phone_code => html_escape(params['new_province_phone_prefix']))
+        province = Province.create(:country => cn, :name => ht.encode(params['new_province_name']), :code => ht.encode(params['new_province_code']), :postal_code => ht.encode(params['new_province_postal_code']), :phone_code => ht.encode(params['new_province_phone_prefix']))
       end
     end
     redirect to '/provinces'
@@ -32,16 +33,17 @@ class CallController < Sinatra::Application
   end
   
   post '/province/edit' do
-    province = Province.first(:id => params['province_id'])
+    province = Province.first(:id => params['edit_province_id'])
     if !province.nil?
+      ht = HTMLEntities.new
       if params['edit_country_id'].nil?
         cn = Country.first(:id => params['edit_country_id'])
         province.update(:country => cn)
       end
-      
-      province.update(:code => ht.encode(params['edit_province_code'], :named)) if !params['edit_province_code'].nil?
-      province.update(:phone_code => ht.encode(params['edit_province_phone_prefix'], :named)) if !params['edit_province_phone_prefix'].nil?
-      province.update(:name => ht.encode(params['edit_province_name'], :named)) if !params['edit_province_name'].nil?
+      province.update(:code => ht.encode(params['edit_province_code'], :named)) if !params['edit_province_code'].nil? && !params['edit_province_code'].empty?
+      province.update(:postal_code => ht.encode(params['edit_province_postal_code'], :named)) if !params['edit_province_postal_code'].nil? && !params['edit_province_postal_code'].empty?
+      province.update(:phone_code => ht.encode(params['edit_province_phone_prefix'], :named)) if !params['edit_province_phone_prefix'].nil? && !params['edit_province_phone_prefix'].empty?
+      province.update(:name => ht.encode(params['edit_province_name'], :named)) if !params['edit_province_name'].nil? && !params['edit_province_name'].empty?
     end
     redirect to '/provinces'
   end
