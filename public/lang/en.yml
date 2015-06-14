@@ -75,6 +75,12 @@ en:
     one: "Holiday"
     other: "Holidays"
     description: "Holidays&#8217;s description"
+  
+  product:
+    one: "Product"
+    other: "Products"
+    add: "Add a product"
+    external_id: "External ID"
     
   username: "Username"
   active: "Active"
@@ -196,9 +202,14 @@ en:
       title: "Add country"
     add_holiday:
       title: "Add holiday"
+    add_product:
+      title: "Add product"
     del_country:
       title: "Remove country"
       confirm: "Are you sure you want to remove the country %{country}?"
+    del_product:
+      title: "Remove product"
+      confirm: "Are you sure you want to remove the product %{product}?"
     del_holiday:
       title: "Remove holiday"
       confirm: "Are you sure you want to remove the holiday %{holiday}?"

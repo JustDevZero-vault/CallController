@@ -146,11 +146,23 @@ var migrateProvinces = function () {
   
 }
 
+var passDataToProduct = function (data, modal_id) {
+  //~ $(".modal-body #edit_holiday_id").text(data[0]);
+  $(".modal-body #edit_product_id").val(data[0]);
+  $(".modal-footer #del_product_id").val(data[0]);
+  $(".modal-body #edit_product_name").val(data[1]);
+  $(".modal-body #edit_product_name").val(data[1]);
+  $(".modal-body #edit_product_external_id").val(data[2]);
+  $(".modal-body #edit_product_external_id").val(data[2]);
+  $(".modal-body #dataInput").text(data[1]);
+  $(".modal-body #dataInput").val(data[1]);
+  $(modal_id).modal('show');
+}
+
 var passDataToDatepicker = function (data, modal_id) {
   //~ $(".modal-body #edit_holiday_id").text(data[0]);
   $(".modal-body #edit_holiday_id").val(data[0]);
   $(".modal-body #edit_holiday_id").val(data[0]);
-  $(".modal-footer #del_holiday_id").val(data[0]);
   $(".modal-footer #del_holiday_id").val(data[0]);
   $(".modal-body #edit_holiday_date").text(data[1]);
   $(".modal-body #edit_holiday_date").val(data[1]);

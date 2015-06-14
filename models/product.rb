@@ -11,6 +11,5 @@ class Product
   property :created_at, DateTime
   property :updated_by, Integer
   property :updated_at, DateTime
-  belongs_to :user, :model => User
   
 end

@@ -1,0 +1,110 @@
+<div class="row-fluid">
+  <div class="col-md-8">
+    <div class="widget widget-table action-table">
+      <div class="widget-header">
+        <i class="glyphicon glyphicon-calendar"></i><h3><%=t('product.other')%></h3>
+      </div>
+      <div class="widget-content">
+        <div style="position:absolute; z-index:90;">
+          <a data-toggle="modal" data-target="#addProduct" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus"></span> <%=t('product.add')%></a>
+        </div>
+        <div class="visible-phone visible-tablet"><br/><br/></div>
+        <table id="products" class="table table-striped table-bordered" cellspacing="0" width="100%">
+          <thead style="text-align:left;">
+            <tr>
+              <th>
+          <%=t('product.one')%>
+              </th>
+              <th>
+          <%=t('product.external_id')%>
+              </th>
+              <th>
+          <%=t('action.other')%>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @products.each do |product| %>
+              <tr>
+          <td>
+            <%=product.name%>
+          </td>
+          <td>
+            <%=product.external_id%>
+          </td>
+          <td class="td-actions">
+            <a data-toggle="tooltip" data-original-title="<%=t('action.edit')%>" href="#editProduct" class="btn btn-info btn-mini btn-glyphicon-only hint" onclick="passDataToProduct(['<%=product.id%>','<%=product.name%>','<%=product.external_id%>'], '#editProduct')"><i class="glyphicon glyphicon-edit"></i></a>
+            <a data-toggle="tooltip" data-original-title="<%=t('action.remove')%>" href="#delProduct" class="btn btn-danger btn-mini btn-glyphicon-only hint" onclick="passDataToProduct(['<%=product.id%>','<%=product.name%>'], '#delProduct')"><i class="glyphicon glyphicon-remove"></i></a>
+          </td>
+          </tr>
+         <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="addProduct" role="dialog" aria-labelledby="<%=t('dialog.add_product.title')%>" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 id="addProductLabel"><%=t('dialog.add_product.title')%></h3>
+      </div>
+      <form id="addProductform" action="/product/add" method="post">
+        <div class="modal-body">
+          <div class="control-group"><input name='new_product_name' type="text" class="input" id="new_product_name" value="" placeholder="<%=t('product.one')%>" autofocus /> <span class="help-inline"><%=t('product.one')%></span></div>
+          <div class="control-group"><input name='new_product_external_id' type="text" class="input" id="new_product_external_id" value="" placeholder="<%=t('product.external_id')%>" /> <span class="help-inline"><%=t('product.external_id')%></span></div>
+        </div>
+        <div class="modal-footer">
+          <a class="btn" data-dismiss="modal" aria-hidden="true"><%=t('action.cancel')%></a>
+          <button type="submit" class="btn btn-primary"><%=t('action.save')%></button>
+        </div>
+      </form>
+      
+    </div><!-- /.modal-content -->
+  </div> <!-- /.modal-dialog -->
+</div> <!-- /.modal -->
+
+ <div class="modal fade" id="delProduct" role="dialog" aria-labelledby="<%=t('dialog.del_product.title')%>" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 id="delProductLabel"><%=t('dialog.attention')%></h3>
+      </div>
+        <div class="modal-body">
+          <p><%= t('dialog.del_product.confirm', product: '<b id="dataInput"></b>')%></p>
+        </div>
+        <div class="modal-footer">
+          <form id="delProductform" action="/product/del" method="post">
+            <input type="hidden" name="del_product_id" id="del_product_id" value="" />
+            <a class="btn" data-dismiss="modal" aria-hidden="true"><%=t('action.cancel')%></a>
+            <button type="submit" class="btn btn-primary"><%=t('action.del')%></button>
+          </form>
+        </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id="editProduct" role="dialog" aria-labelledby="<%=t('dialog.edit_product.title')%>" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 id="editProductLabel"><%=t('dialog.edit_product.title')%></h3>
+      </div>
+      <form id="editProductform" action="/product/edit" method="post">
+        <div class="modal-body">
+          <input type="hidden" value="" name="edit_product_id" id="edit_product_id"/>
+          <div class="control-group"><input name='edit_product_name' type="text" class="input" id="edit_product_name" value="" placeholder="<%=t('product.one')%>" autofocus /> <span class="help-inline"><%=t('product.one')%></span></div>
+          <div class="control-group"><input name='edit_product_external_id' type="text" class="input" id="edit_product_external_id" value="" placeholder="<%=t('product.external_id')%>" /> <span class="help-inline"><%=t('product.external_id')%></span></div>
+        <div class="modal-footer">
+          <a class="btn" data-dismiss="modal" aria-hidden="true"><%=t('action.cancel')%></a>
+          <button type="submit" class="btn btn-primary"><%=t('action.edit')%></button>
+        </div>
+       </form>
+    </div> <!-- /.modal-content -->
+  </div> <!-- /.modal-dialog -->
+</div> <!-- /.modal -->
