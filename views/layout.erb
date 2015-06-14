@@ -22,7 +22,7 @@
       <script type="text/javascript" language="javascript" src="/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
       <script type="text/javascript" language="javascript"  src="/vendor/bootstrap-datepicker/locales/bootstrap-datepicker.es.min.js" charset="UTF-8"></script>
   <% end %>
-  <% if request.path_info.start_with?("/holidays") || request.path_info.start_with?("/products") || request.path_info.start_with?("/origin/failed") || request.path_info.start_with?("/callresults") || request.path_info.start_with?("/users") ||  request.path_info.start_with?("/campaigns") || request.path_info.start_with?("/countries") || request.path_info.start_with?("/provinces") %>
+  <% if request.path_info.start_with?("/products") | request.path_info.start_with?("/holidays") || request.path_info.start_with?("/products") || request.path_info.start_with?("/origin/failed") || request.path_info.start_with?("/callresults") || request.path_info.start_with?("/users") ||  request.path_info.start_with?("/campaigns") || request.path_info.start_with?("/countries") || request.path_info.start_with?("/provinces") %>
     <!-- DataTables -->
     <script type="text/javascript" language="javascript" src="/vendor/datatables/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" language="javascript" src="/vendor/datatables/js/dataTables.tableTools.min.js"></script>
@@ -116,7 +116,7 @@
     <!-- DataTables -->
     <script type="text/javascript">
       $(document).ready(function() {
-          $('#holidays').dataTable();
+          $('#products').dataTable();
       } );
     </script>
     <!-- END DataTables -->
@@ -151,12 +151,12 @@
                     <li><a href="/settings">System Settings</a></li>
                     <li class="divider"></li>
                     <li><a href="/campaigns"><%=t('campaign.other')%></a></li>
-                    <li><a href="/products"><%=t('products.other')%></a></li>
+                    <li><a href="/products"><%=t('product.other')%></a></li>
                     <li><a href="/callresults"><%=t('call_result.other')%></a></li>
                     <li class="divider"></li>
                     <li><a href="/countries"><%=t('country.other')%></a></li>
                     <li><a href="/provinces"><%=t('province.other')%></a></li>
-                    <li><a href="/holidays"><%=t('holidays.other')%></a></li>
+                    <li><a href="/holidays"><%=t('holiday.other')%></a></li>
                     <li class="divider"></li>
                   <%end%>
                   <li><a href="/password/change"><%=t('password.change')%></a></li>
