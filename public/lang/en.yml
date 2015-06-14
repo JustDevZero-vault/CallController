@@ -165,6 +165,7 @@ en:
     types: "Campaign types"
     add_type: "Add type"
     type_name: "Type name"
+    type_please: "Please, add campaign type first"
 
   role:
     one: "Role"
@@ -175,6 +176,7 @@ en:
     one: "Call Queue"
     other: "Call Queues"
     add: "Add call queue"
+    please: "Please, add a call queue first"
 
   task:
     one: "Task"

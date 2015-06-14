@@ -181,6 +181,15 @@ var passToDeleteCountry = function (data, modal_id) {
   $(".modal-footer #delete_country_id").val(data[0]);
   $(modal_id).modal('show');
 }
+var passDataCampaignType = function (data, modal_id) {
+  $(".modal-body #dataInput").text(data[0]);
+  $(".modal-body #dataInput").val(data[0]);
+  $(".modal-body #edit_campaign_type_name").text(data[0]);
+  $(".modal-body #edit_campaign_type_name").val(data[0]);
+  $(".modal-footer #del_campaign_type_id").val(data[1]);
+  $(".modal-footer #edit_campaign_id").val(data[1]);
+  $(modal_id).modal('show');
+}
 
 var passToModalCampaign = function (data, modal_id) {
   $(".modal-body #external_edit").text(data[0]);
@@ -202,8 +211,8 @@ var passToDeleteCallResult = function (data, modal_id) {
 }
 
 var passDataToCallResult = function (data, modal_id) { 
-  $(".modal-body #edit_call_result_id").text(data[1]);
-  $(".modal-body #edit_call_result_id").val(data[1]);
+  $(".modal-body #edit_call_result_id").text(data[0]);
+  $(".modal-body #edit_call_result_id").val(data[0]);
   
   $(".modal-body #edit_call_result_code").text(data[1]);
   $(".modal-body #edit_call_result_code").val(data[1]);

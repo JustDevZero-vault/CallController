@@ -47,7 +47,7 @@ class CallController < Sinatra::Application
     type = CampaignType.first(:id => params['campaigntype'])
     cp = Campaign.first(:external_id => params['external'])
     call_queue = CallQueue.first(:id => params['call_queue'])
-    if cp.nil?
+    if cp.nil? && !call_queue.nil? && !type.nil?
       Campaign.create(:external_id => params[:external], :campaign_type => type, :call_queue => call_queue)
     end
     

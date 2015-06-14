@@ -22,41 +22,30 @@ class CallController < Sinatra::Application
   #~ end
   
   post '/campaign/type/add' do
-#    type = CampaignType.first(:name => params['name'])
-    
-#    if type.nil?
-      CampaignType.first_or_create(:name => params['name'])
-#    end
-    campaignlist = '/campaigns'
-    redirect to campaignlist
+    ht = HTMLEntities.new
+    campaign_type = CampaignType.first_or_create(:name => ht.encode(params['name'], :named))
+    redirect to '/campaigns'
   end
   
   post '/campaign/type/edit' do
-    type = CampaignType.first(:id => params['id'])
-    
-    if !type.nil?
-      type.update(:name => params['name'])
-    end
-    campaignlist = '/campaigns'
-    redirect to campaignlist
+    ht = HTMLEntities.new
+    type = CampaignType.first(:id => params['edit_campaign_id'])
+    type.update(:name => ht.encode(params['edit_campaign_type_name'], :named)) if !type.nil? && !params['edit_campaign_id'].empty?
+    type.save
+    type.reload
+    redirect to '/campaigns'
   end
   
   
   post '/campaign/type/del' do
-    typ = CampaignType.first(:name => params['name'])
+    typ = CampaignType.first(:id => params['del_campaign_type_id'])
     
     if !typ.nil?
-      #~ campaign = Campaign.all(:campaign_type => typ)
-      #~ if !campaign.nil?
-        #~ campaign.destroy
-        #~ campaign.reload
-      #~ end
-      typ.destroy
+      typ.campaigns.all.destroy
       typ.reload
-    else
+      typ.destroy 
     end
-    campaignlist = '/campaigns'
-    redirect to campaignlist
+    redirect to '/campaigns'
   end
   
 end

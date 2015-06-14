@@ -23,6 +23,8 @@ class CallController < Sinatra::Application
     callresult = CallResult.first(:id, params['edit_call_result_id'])
     callresult.update(:code => params['edit_call_result_code']) if !params['edit_call_result_code'].nil?
     callresult.update(:description => ht.encode(params['edit_call_result_description'])) if !params['edit_call_result_description'].nil?
+    callresult.save
+    callresult.reload
     redirect to '/callresults'
     
   end

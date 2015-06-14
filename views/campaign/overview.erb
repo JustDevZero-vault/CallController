@@ -133,8 +133,8 @@
 								<%=cptype.name%>
 							</td>
 							<td class="td-actions">
-								<!--<a data-toggle="tooltip" data-original-title="<%=t('action.edit')%>" href="#editCampaignType" class="btn btn-info btn-mini btn-glyphicon-only hint" onclick="editRole(['<%=cptype.name%>'], '#editCampaignType')"><i class="btn-glyphicon-only glyphicon glyphicon-edit"></i></a>-->
-								<a data-toggle="tooltip" data-original-title="<%=t('action.remove')%>" href="#delCampaignType" class="btn btn-danger btn-mini btn-glyphicon-only hint" onclick="passDataToModal(['<%=cptype.name%>'], '#delCampaignType')"><i class="btn-glyphicon-only glyphicon glyphicon-remove"></i></a>
+								<a data-toggle="tooltip" data-original-title="<%=t('action.edit')%>" href="#editCampaignType" class="btn btn-info btn-mini btn-glyphicon-only hint" onclick="passDataCampaignType(['<%=cptype.name%>','<%=cptype.id%>'], '#editCampaignType')"><i class="btn-glyphicon-only glyphicon glyphicon-edit"></i></a>
+								<a data-toggle="tooltip" data-original-title="<%=t('action.remove')%>" href="#delCampaignType" class="btn btn-danger btn-mini btn-glyphicon-only hint" onclick="passDataCampaignType(['<%=cptype.name%>','<%=cptype.id%>'], '#delCampaignType')"><i class="btn-glyphicon-only glyphicon glyphicon-remove"></i></a>
 							</td>
 						</tr>
 						<% end %>
@@ -144,7 +144,6 @@
 		</div>
 	</div>
 </div>
-
 
   <div class="modal fade" id="addCampaignType" role="dialog" aria-labelledby="<%=t('campaign.add_type')%>" aria-hidden="true">
     <div class="modal-dialog">
@@ -178,11 +177,32 @@
           </div>
           <div class="modal-footer">
             <form id="delCampaignTypeform" action="/campaign/type/del" method="post">
-              <input type="hidden" name="name" id="dataInput" value="">
+              <input type="hidden" name="del_campaign_type_id" id="del_campaign_type_id" value="" />
               <a class="btn" data-dismiss="modal" aria-hidden="true"><%=t('action.cancel')%></a>
               <button type="submit" class="btn btn-primary"><%=t('action.del')%></button>
             </form>
           </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+  
+  <div class="modal fade" id="editCampaignType" role="dialog" aria-labelledby="<%=t('dialog.edit_campaign_type.title')%>" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h3 id="editCampaignLabel"><%=t('dialog.edit_campaign_type.title')%></h3>
+        </div>
+        <form id="editCampaignForm" action="/campaign/type/edit" method="post">
+          <div class="modal-body">
+            <div class="control-group"><input name='edit_campaign_type_name' type="text" class="input" id="edit_campaign_type_name" value="" placeholder="<%=t('campaign.type_name')%>" autofocus> <span class="help-inline"><%=t('campaign.type_name')%></span></div>
+          </div>
+          <div class="modal-footer">
+            <input type="hidden" name="edit_campaign_id" id="edit_campaign_id" value="" />
+            <a class="btn" data-dismiss="modal" aria-hidden="true"><%=t('action.cancel')%></a>
+            <button type="submit" class="btn btn-primary"><%=t('action.edit')%></button>
+          </div>
+         </form>
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
   </div><!-- /.modal -->
@@ -199,7 +219,7 @@
           <div class="modal-body">
             <div class="control-group"><input name='external' type="text" class="input" id="external" placeholder="<%=t('campaign.external_id')%>" autofocus> <span class="help-inline"><%=t('campaign.external_id')%></span></div>
             <div class="control-group">
-              <% if @campaigntypes.nil?%>
+              <% if @campaigntypes.nil? || @campaigntypes.empty? %>
               <span class="help-inline"><%=t('campaign.type_please')%></span>
               <% else %>
                 <select class="" name="campaigntype" id="campaigntype">
@@ -211,7 +231,7 @@
               <% end %>
             </div>
             <div class="control-group">
-              <% if @call_queues.nil?%>
+              <% if @call_queues.nil? || @call_queues.empty? %>
                 <span class="help-inline"><%=t('call_queue.please')%></span>
               <% else %>
                 <select class="" name="call_queue" id="call_queue">
@@ -232,12 +252,12 @@
     </div><!-- /.modal-dialog -->
   </div><!-- /.modal -->
   
-  <div class="modal fade" id="editCampaign" role="dialog" aria-labelledby="<%=t('dialog.edit_user.title')%>" aria-hidden="true">
+  <div class="modal fade" id="editCampaign" role="dialog" aria-labelledby="<%=t('dialog.edit_campaign.title')%>" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h3 id="editCampaignLabel"><%=t('dialog.edit_user.title')%></h3>
+          <h3 id="editCampaignLabel"><%=t('dialog.edit_campaign.title')%></h3>
         </div>
         <form id="editCampaignForm" action="/campaign/edit" method="post">
           <div class="modal-body">
@@ -275,7 +295,7 @@
          </form>
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
-  </div><!-- /.modal -->
+  </div><!-- /.modal -->  
  
   <div class="modal fade" id="delCampaign" role="dialog" aria-labelledby="<%=t('dialog.del_campaign.title')%>" aria-hidden="true">
     <div class="modal-dialog">
