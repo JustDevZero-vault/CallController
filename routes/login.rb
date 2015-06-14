@@ -16,6 +16,8 @@ class CallController < Sinatra::Application
   post '/login' do
     status 200
     u = User.auth(params['username'], params['password'])
+    
+    u = nil if !u.active
     if u
       session[:username] = u.username
       redirect '/'

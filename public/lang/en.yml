@@ -76,6 +76,15 @@ en:
     one: "Holiday"
     other: "Holidays"
     description: "Holidays&#8217;s description"
+    
+  call:
+    id: "Call id"
+    details: "Details"
+    other: "Calls"
+    call_date: "Call date"
+    callback_date: "Callback date"
+    callback: "Callback"
+    result: "Result"
   
   product:
     one: "Product"
