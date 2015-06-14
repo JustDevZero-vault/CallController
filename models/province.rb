@@ -24,7 +24,6 @@ class Province
       CSV.foreach(province_file,
                 :headers           => true,
                 :header_converters => :symbol,
-                :converters => :numeric
                 ) do |line|
         province = first(:code => line[:code])
         newline = {

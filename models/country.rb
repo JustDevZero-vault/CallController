@@ -22,7 +22,6 @@ class Country
     CSV.foreach("templates/countries.csv",
                 :headers           => true,
                 :header_converters => :symbol,
-                :converters => :numeric
                 ) do |line|
       country = first(:iso2 => line[:iso2])
       newline = {
