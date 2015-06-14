@@ -19,7 +19,7 @@ class CallController < Sinatra::Application
     redirect to '/holidays'
   end
   
-  post '/holiday/delete' do
+  post '/holiday/del' do
     holiday = Holiday.first(:id => params['del_holiday_id'])
     holiday.destroy if !holiday.nil?
     redirect to '/holidays'

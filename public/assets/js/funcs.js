@@ -149,10 +149,15 @@ var migrateProvinces = function () {
 var passDataToDatepicker = function (data, modal_id) {
   //~ $(".modal-body #edit_holiday_id").text(data[0]);
   $(".modal-body #edit_holiday_id").val(data[0]);
+  $(".modal-body #edit_holiday_id").val(data[0]);
+  $(".modal-footer #del_holiday_id").val(data[0]);
+  $(".modal-footer #del_holiday_id").val(data[0]);
   $(".modal-body #edit_holiday_date").text(data[1]);
   $(".modal-body #edit_holiday_date").val(data[1]);
   $(".modal-body #edit_holiday_description").text(data[2]);
   $(".modal-body #edit_holiday_description").val(data[2]);
+  $(".modal-body #dataInput").text(data[1]);
+  $(".modal-body #dataInput").val(data[1]);
   $("#edit_holiday_province_id option[value=" + data[3] + "]").attr('selected', 'selected'); 
   $(modal_id).modal('show');
 }
