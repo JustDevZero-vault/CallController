@@ -28,7 +28,7 @@
     <script type="text/javascript" src="/vendor/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.es.js" charset="UTF-8"></script>
 
   <% end %>
-  <% if request.path_info.start_with?("/products") || request.path_info.start_with?("/holidays") || request.path_info.start_with?("/products") || request.path_info.start_with?("/origin/failed") || request.path_info.start_with?("/callresults") || request.path_info.start_with?("/users") ||  request.path_info.start_with?("/campaigns") || request.path_info.start_with?("/countries") || request.path_info.start_with?("/provinces") %>
+  <% if request.path_info === '/' || request.path_info.start_with?("/products") || request.path_info.start_with?("/holidays") || request.path_info.start_with?("/products") || request.path_info.start_with?("/origin/failed") || request.path_info.start_with?("/callresults") || request.path_info.start_with?("/users") ||  request.path_info.start_with?("/campaigns") || request.path_info.start_with?("/countries") || request.path_info.start_with?("/provinces") %>
     <!-- DataTables -->
     <script type="text/javascript" language="javascript" src="/vendor/datatables/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" language="javascript" src="/vendor/datatables/js/dataTables.tableTools.min.js"></script>
@@ -123,6 +123,15 @@
     <script type="text/javascript">
       $(document).ready(function() {
           $('#products').dataTable();
+      } );
+    </script>
+    <!-- END DataTables -->
+  <% end %>
+  <% if request.path_info === '/' %>
+    <!-- DataTables -->
+    <script type="text/javascript">
+      $(document).ready(function() {
+          $('#sales').dataTable();
       } );
     </script>
     <!-- END DataTables -->

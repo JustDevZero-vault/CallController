@@ -2,11 +2,14 @@
 class CallController < Sinatra::Application
   get '/sale/edit/:id' do
       un = User.first(:username => (session[:username]) )
-      if un.is_agent?
+      user_queue = User.first(:username => 'queue')
         @sale = Sale.first(:id => params[:id] )
+        if ((un.is_agent? && @sale.user.id == un.id) || (un.is_agent? && @sale.user.id == user_queue.id) || un.is_admin? || un.is_supervisor? || un.is_manager? || un.is_coacher?)
         @results = CallResult.all(:code.not => 'Undefined')
         @products = Product.all
-        @sale.update(:user => un)
+        if un.is_agent?
+          @sale.update(:user => un)
+        end
       end
       erb :'sale_edit', :layout => false
   end
@@ -78,14 +81,13 @@ class CallController < Sinatra::Application
     end
   end
   
-  # get '/sales' do
-    # un = User.first(:id => (session[:username]) )
-    # if !un.nil?
-      # @sales = Sale.all(:user_id => user.id)
-      # sale_ids = @sales.all(:fields => 'id').to_a
-      # @comments = Comment.all(:sale_id => sale_ids )
-      # erb :'sale_list'
-    # end
-  # end
+  get '/sales/user/:user' do
+    un = User.first(:id => (session[:username]) )
+    if !un.nil? && (un.is_admin? || un.is_coacher? || un.is_manager? || un.is_supervisor?)
+      chosen_user = User.first(:id => params[:user] )
+      @sales = Sale.all(:user_id => chosen_user)
+      erb :'sale_user'
+    end
+  end
   
 end

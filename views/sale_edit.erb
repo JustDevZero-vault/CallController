@@ -33,7 +33,7 @@
             <% end %>
             <div class="control-group">
               <div class="input-group date">
-                <input name="callback_date" id="callback_date" type="text" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                <input name="callback_date" id="callback_date" value="<%=@sale.call_back_date.strftime('%Y-%m-%d %H:%M') if !@sale.call_back_date.nil?%>" type="text" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
               </div>
           </div>
           <div class="control-group"><input type="checkbox" class="input" id="return_to_main_queue" value="" /> <span class="help-inline"><%=t('call_queue.return')%></span></div>
@@ -48,9 +48,11 @@
 
 
 <script type="text/javascript">
+    $('#return_to_main_queue').hide();
     $('.input-group.date').hide();
     $( "#edit_result_code" ).change(function() {
       value = $('#edit_result_code').val();
+      $('#return_to_main_queue').show();
       if (value == 3) $('.input-group.date').show();
       if (value == 15) $('.input-group.date').show();
     });
