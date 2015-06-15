@@ -51,7 +51,7 @@ class CallController < Sinatra::Application
         call_result = CallResult.first(:code => params['edit_call_result_code'])
         sale.update(:call_result => call_result) if !call_result.nil?
         product = Product.first(:external_id => params['edit_product_external_id'])
-        sale.update(:product => product) if !product.nil?
+        sale.update(:product => product) if !product.nil? && params['edit_call_result_code'] == "13" 
         
         if !params['edit_call_callback_date'].nil? && !params['edit_call_callback_date'].empty? && !call_result.nil? == true && (params['edit_call_result_code'] == "3" || params['edit_call_result_code'] == "15")
           #~ sale.update(:call_back_date => params['edit_call_callback_date'].to_datetime.strftime('%Y-%m-%d %H:%M%S').to_datetime)
@@ -82,10 +82,10 @@ class CallController < Sinatra::Application
   end
   
   get '/sales/user/:user' do
-    un = User.first(:id => (session[:username]) )
+    un = User.first(:username => (session[:username]) )
     if !un.nil? && (un.is_admin? || un.is_coacher? || un.is_manager? || un.is_supervisor?)
-      chosen_user = User.first(:id => params[:user] )
-      @sales = Sale.all(:user_id => chosen_user)
+      chosen_user = User.first(:username => params[:user] )
+      @sales = Sale.all(:user => chosen_user)
       erb :'sale_user'
     end
   end

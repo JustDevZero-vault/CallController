@@ -25,10 +25,11 @@
             <div class="control-group">
                 <select class="" name="edit_product_external_id" id="edit_product_external_id">
                   <% @products.each do |product| %>
+                    <option></option>
                     <option value="<%=product.external_id%>"><%=product.name%></option>
                   <% end %>
                 </select>
-                <span class="help-inline"><%=t('product.one')%></span>
+                <span id="helpproduct" class="help-inline"><%=t('product.one')%></span>
             </div>
             <% end %>
             <div class="control-group">
@@ -36,7 +37,7 @@
                 <input name="callback_date" id="callback_date" value="<%=@sale.call_back_date.strftime('%Y-%m-%d %H:%M') if !@sale.call_back_date.nil?%>" type="text" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
               </div>
           </div>
-          <div class="control-group"><input type="checkbox" class="input" id="return_to_main_queue" value="" /> <span class="help-inline"><%=t('call_queue.return')%></span></div>
+          <div class="control-group"><input type="checkbox" class="input" id="return_to_main_queue" value="" /> <span id ="returnqueue" class="help-inline"><%=t('call_queue.return')%></span></div>
       </div>
       <div class="modal-footer">
         <a class="btn btn" onClick="window.location.reload()" data-dismiss="modal" aria-hidden="true"><%=t('action.close')%></a>
@@ -48,13 +49,33 @@
 
 
 <script type="text/javascript">
+    $('#returnqueue').hide();
     $('#return_to_main_queue').hide();
+    $('#edit_product_external_id').hide();
+    $('#helpproduct').hide();
     $('.input-group.date').hide();
     $( "#edit_result_code" ).change(function() {
       value = $('#edit_result_code').val();
-      $('#return_to_main_queue').show();
-      if (value == 3) $('.input-group.date').show();
-      if (value == 15) $('.input-group.date').show();
+      if (value == 3) {
+        $('#return_to_main_queue').show();
+        $('.input-group.date').show();
+        $('#returnqueue').show();
+      }
+      else if (value == 15) {
+        $('#return_to_main_queue').show();
+        $('.input-group.date').show();
+        $('#returnqueue').show();
+      }
+      else if (value == 13){ 
+        $('#edit_product_external_id').show();
+        $('#helpproduct').show();
+      } else {
+        $('#returnqueue').hide();
+        $('#return_to_main_queue').hide();
+        $('#edit_product_external_id').hide();
+        $('#helpproduct').hide();
+        $('.input-group.date').hide();
+      };y
     });
     $('.input-group.date').datetimepicker({
         startDate: "today",
