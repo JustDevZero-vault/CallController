@@ -39,7 +39,7 @@
 								<%=user.email%>
 							</td>
 							<td class="td-actions">
-								<% if user.receive_notifications == true %>                 
+								<% if user.receive_notifications == true %>
                   <a data-toggle="tooltip" data-original-title="<%=t('action.notifications.disable')%>" href="/users/<%=user.username%>/notifications/disable" class="btn btn-info btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-bell"></i></a>
 								<% else %>
                 <a data-toggle="tooltip" data-original-title="<%=t('action.notifications.enable')%>" href="/users/<%=user.username%>/notifications/enable" class="btn btn-default btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-bell"></i></a>

@@ -6,7 +6,11 @@ class CallController < Sinatra::Application
       erb :admin_dashboard
     else
       queue = User.first(:username => queue)
-      @my_sales = Sale.all(:user => user, :call_date => Date.today)
+      time = Time.new
+      my_sales1 = Sale.all(:user => user )
+      my_sales = Sale.all(:updated_at => (DateTime.now.beginning_of_day..DateTime.now) )
+      my_sales2 = Sale.all(:call_date => (DateTime.now.beginning_of_day..DateTime.now) )
+      @my_sales = my_sales1 & my_sales2 + my_sales
       erb :dashboard
     end
   end

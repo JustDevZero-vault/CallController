@@ -85,6 +85,7 @@ en:
     callback_date: "Callback date"
     callback: "Callback"
     result: "Result"
+    next: "Next call"
   
   product:
     one: "Product"
@@ -187,6 +188,7 @@ en:
     other: "Call Queues"
     add: "Add call queue"
     please: "Please, add a call queue first"
+    return: "Return to queue"
 
   task:
     one: "Task"

@@ -1,0 +1,56 @@
+<div class="modal fade" style="background: white;" id="nextCall" role="dialog" aria-labelledby="<%=t('dialog.next_call.title')%>" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <a type="button" onClick="window.location.reload()" class="close" data-dismiss="modal" aria-hidden="true">×</a>
+        <h3 id="addProvinceLabel"><%=t('call.next')%></h3>
+      </div>
+      <div class="modal-body">
+        <div class="control-group"><input type="text" class="input" id="full_name" value="<%=@sale.last_name%>, <%=@sale.first_name%>" readonly /> <span class="help-inline"><%=t('user.full_name')%></span></div>
+        <div class="control-group"><input type="text" class="input" id="phone" value="<%=@sale.phone%>" readonly /> <span class="help-inline"><%=t('phone')%></span></div>
+            <input type="hidden" name="edit_sale_id" id="edit_sale_id" value="<%=@sale.id%>"/>
+            <div class="control-group">
+              <% if @results.nil? || @results.empty? %>
+              <span class="help-inline"><%=t('call_result.please')%></span>
+              <% else %>
+                <select class="" name="edit_result_code" id="edit_result_code">
+                  <% @results.each do |result| %>
+                    <option value="<%=result.code%>"><%=result.description%></option>
+                  <% end %>
+                </select>
+                <span class="help-inline"><%=t('call_result.name')%></span>
+              <% end %>
+            </div>
+            <div class="control-group">
+              <div class="input-group date">
+                <input name="callback_date" id="callback_date" type="text" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+              </div>
+          </div>
+          <div class="control-group"><input type="checkbox" class="input" id="return_to_main_queue" value="" /> <span class="help-inline"><%=t('call_queue.return')%></span></div>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn" onClick="window.location.reload()" data-dismiss="modal" aria-hidden="true"><%=t('action.close')%></a>
+        <a class="btn btn-success" onClick="updateSale('<%=@sale.id%>')" data-dismiss="modal" aria-hidden="true"><%=t('action.save')%></a>
+      </div> <!-- /.modal-footer -->
+    </div> <!-- /.modal-content -->
+  </div> <!-- /.modal-dialog -->
+</div> <!-- /modal -->
+
+
+<script type="text/javascript">
+    $('.input-group.date').hide();
+    $( "#edit_result_code" ).change(function() {
+      value = $('#edit_result_code').val();
+      if (value == 3) $('.input-group.date').show();
+      if (value == 15) $('.input-group.date').show();
+    });
+    $('.input-group.date').datetimepicker({
+        startDate: "today",
+        weekStart: 1,
+        todayBtn: "linked",
+        language: "es",
+        orientation: "top auto",
+        calendarWeeks: true,
+        autoclose: true,
+    });
+</script>

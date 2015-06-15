@@ -17,7 +17,7 @@ class CallController < Sinatra::Application
     status 200
     u = User.auth(params['username'], params['password'])
     
-    u = nil if !u.active
+    u = nil if u && !u.active
     if u
       session[:username] = u.username
       redirect '/'

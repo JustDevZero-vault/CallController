@@ -14,6 +14,7 @@ class CallQueue
   property :updated_at, DateTime
   has n, :queue_members
   has n, :users, :through => :queue_members
+  has n, :campaigns
   
 
   def add_member(un)

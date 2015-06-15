@@ -57,37 +57,56 @@ $(function () {
 });
 
 var parseCampaign = function (campaignid) {
-  $.ajax({
+  //~ $.ajax({
+    //~ method: "POST",
+    //~ url: "/campaign/import",
+    //~ data: { campaign_id: campaignid }
+  //~ }).done(function() {
+    //~ alert( "success" );
+  //~ })
+  //~ .fail(function() {
+    //~ alert( "error" );
+  //~ })
+  //~ .always(function() {
+    //~ alert( "complete" );
+  //~ });
+  
+    $.ajax({
     method: "POST",
-    url: "/campaign/import",
-    data: { campaign_id: campaignid }
-  }).done(function() {
-    alert( "success" );
-  })
-  .fail(function() {
-    alert( "error" );
-  })
-  .always(function() {
-    alert( "complete" );
+    url: "/country/import",
+    data: { campaign_id: campaignid },
+    success: function(){
+      location.reload();
+    }
   });
   
 }
 
 var processCampaign = function (campaignid) {
+  //~ $.ajax({
+    //~ method: "POST",
+    //~ url: "/campaign/process",
+    //~ data: { campaign_id: campaignid }
+  //~ }).done(function() {
+    //~ alert( "success" );
+  //~ })
+  //~ .fail(function() {
+    //~ alert( "error" );
+  //~ })
+  //~ .always(function() {
+    //~ alert( "complete" );
+  //~ });
+  
   $.ajax({
     method: "POST",
     url: "/campaign/process",
-    data: { campaign_id: campaignid }
-  }).done(function() {
-    alert( "success" );
-  })
-  .fail(function() {
-    alert( "error" );
-  })
-  .always(function() {
-    alert( "complete" );
+    data: {
+      campaign_id: campaignid,
+    },
+    success: function(){
+      location.reload();
+    }
   });
-  
 }
 
 var activateLevelCampaign = function (campaignid, state) {
@@ -101,6 +120,30 @@ var activateLevelCampaign = function (campaignid, state) {
     success: function(){
       location.reload();
     }
+  });
+}
+
+var updateSale = function (edit_sale_id) {
+  var callback_date = $('#callback_date').val();
+  var result_code = $('#edit_result_code').val();
+  var check_value = ($('#return_to_main_queue').prop("checked") ? "1" : "0");
+  $.ajax({
+    method: "POST",
+    url: "/sale/edit",
+    data: {
+      edit_call_id: edit_sale_id,
+      edit_call_result_code: result_code,
+      edit_call_callback_date: callback_date,
+      return_to_main_queue: check_value,
+    }
+  }).done(function() {
+    alert( "success" );
+  })
+  .fail(function() {
+    alert( "error" );
+  })
+  .always(function() {
+    alert( "complete" );
   });
 }
 
@@ -326,6 +369,13 @@ var editRole = function (name) {
   $.get('/role/edit/' + name, function (data) {
     $('#roleeditor').html(data);
     $('#editRole').modal('show');
+  });
+};
+
+var nextCall = function (data) {
+  $.get('/sale/next', function (data) {
+    $('#calleditor').html(data);
+    $('#nextCall').modal('show');
   });
 };
 

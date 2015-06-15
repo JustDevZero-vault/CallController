@@ -3,46 +3,63 @@ class CallController < Sinatra::Application
   get '/sale/edit/:id' do
       un = User.first(:username => (session[:username]) )
       if un.is_agent?
-        sale = Sale.first(:id => (params['id']) )
+        @sale = Sale.first(:id => params[:id] )
+        @results = CallResult.all(:code.not => 'Undefined')
+        @sale.update(:user => un)
       end
-      erb :'sale_edit'
+      erb :'sale_edit', :layout => false
   end
   
   get '/sale/next' do
-      results = CallResult.all(:code => ['3', '15'] )
+      results = CallResult.all(:code => ['Undefined', '3', '15'], :order => [:id.asc] )
       user_name = session[:username]
       un = User.first(:username => user_name )
+      #~ collection = Sale
       if un.is_agent?
-        queue_member = QueueMembers.first(:user_id => user)
+      campaign_collection = []
+        queue_member = QueueMember.all(:user => un)
+        queue_member.each do |testq|
+          campaigns = testq.call_queue.campaigns
+          campaigns.each do |campaign|
+            campaign_collection << campaign if campaign.active
+          end
+        end
+        campaign_collection.each do |collect|
+          end
         users = User.all(:username => ['queue', user_name] )
-        @unmanaged_sales = Sale.all(:user => users, , :campaign.active => true, :result => results, :order => [:id.asc] )
+        unmanaged_sale = Sale.first(:user => users, :call_result => results, :campaign=> campaign_collection, :order => [:call_back_date.asc, :id.asc ] )
       end
-      erb :'sale_edit'
+      
+      redirect_value = '/sale/edit/' + unmanaged_sale.id.to_s
+      redirect to redirect_value
+      #~ erb :'sale_edit', :layout => false
   end
 
   post '/sale/edit' do
-    sale = Sale.first(:id => (params['edit_sale_id']) )
+    sale = Sale.first(:id => (params['edit_call_id']) )
     un = User.first(:username => (session[:username]) )
     user_queue = User.first(:username => 'queue')
+    notifi = Notification.create(:type => :error, :sticky => false, :message => params)
     if ((un.is_agent? && sale.user.id == un.id) || (un.is_agent? && sale.user.id == user_queue.id) || un.is_admin? || un.is_supervisor? || un.is_manager? || un.is_coacher?)
       if !sale.nil?
           
         sale.update(:user => un) if un.is_agent?
-        call_result = CallResult.first(:id => params['edit_sale_call_result_id'])
-        sale.update(:call_result => call_result)
+        call_result = CallResult.first(:code => params['edit_call_result_code'])
+        sale.update(:call_result => call_result) if !call_result.nil?
         
-        if !params['edit_sale_callback_date'].nil? && !params['edit_sale_callback_date'].empty? && !call_result.nil? && call_result.is_callback == true
-          sale.update(:callback_date => params['edit_sale_callback_date'].to_datetime)
+        if !params['edit_call_callback_date'].nil? && !params['edit_call_callback_date'].empty? && !call_result.nil? == true && (params['edit_call_result_code'] == "3" || params['edit_call_result_code'] == "15")
+          #~ sale.update(:call_back_date => params['edit_call_callback_date'].to_datetime.strftime('%Y-%m-%d %H:%M%S').to_datetime)
+          sale.update(:call_back_date => params['edit_call_callback_date'].to_datetime)
         else
-          sale.callback_date = ''
+          sale.update(:call_back_date => nil)
         end
-        sale.update(:user => user_queue) if !params['return_to_main_queue'].nil?
-        sale.update(:call_date => Date.today.to_datetime)
+        sale.update(:user => user_queue) if !params['return_to_main_queue'].nil? && params['return_to_main_queue'] != "0"
+        sale.update(:call_date => DateTime.now)
         sale.save
         sale.reload
       end
     end
-    redirect to '/sales'
+    redirect to '/'
   end
   
   get '/sale/:sale_id/comments' do
