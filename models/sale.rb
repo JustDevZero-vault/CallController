@@ -14,6 +14,8 @@ class Sale
   property :email, String
   property :phone, String
   property :city, String
+  property :edad, String
+  property :external_id, String
   property :call_date, DateTime
   property :call_back_date, DateTime
   property :created_at, DateTime
@@ -35,8 +37,8 @@ class Sale
                           :with => /^[\p{L} '&;]+$/i, :message => 'First Name with invalid characters'
   validates_format_of     :last_name,
                           :with => /^[\p{L} '&;]+$/i, :message => 'Last Name with invalid characters'
-  validates_format_of     :city,
-                          :with => /^[\p{L} '&;]+$/i, :message => 'City with invalid characters'
+  # validates_format_of     :city,
+                          # :with => /^[\p{L} '&;]+$/i, :message => 'City with invalid characters'
   validates_with_method   :province,
                           :method => :is_valid_province
                           

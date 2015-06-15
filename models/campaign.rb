@@ -59,21 +59,41 @@ class Campaign
     CSV.foreach(file_to_parse,
                 :headers           => true,
                 :header_converters => :symbol,
-                :converters => :numeric
+                # :converters => :numeric
                 ) do |line|
       error_string = ""
       line_hash = line.to_hash
       column_header = line.headers
       line_partial = line_hash.merge(include_fields)
-      origin = OriginSale.first(line_partial.to_hash)
+      new_hash = {}
+      new_hash = new_hash.merge(include_fields)
+      new_hash[:edad] = line_partial[:Edad]
+      new_hash[:external_id] = line_partial[:ID_user]
+      new_hash[:first_name] = line_partial[:Nombre]
+      new_hash[:last_name] = line_partial[:Apellidos]
+      
+      cp = line_partial[:cp].to_s.rjust(5, '0')
+      new_hash[:postal_code] = new_hash[:cp].to_s.rjust(5, '0')
+      firstcp = cp[0..1]
+       notification = Notification.create(:type => :error, :sticky => false, :message => firstcp)
+      province = Province.first(:postal_code => firstcp)
+      new_hash[:province] = province.name
+      new_hash[:postal_code] = cp
+      new_hash[:phone] = line_partial[:TELEFONO1_]
+      
+          
+      origin = OriginSale.first(new_hash.to_hash)
       include_fields[:user] = un
       hash_to_import = line_partial.merge(include_fields)
       if origin.nil?
-        error_string += "Phone is not valid on line #{counter.to_s} - #{line[:phone]}" if !OriginSale.is_valid_phone?(line[:phone])
-        error_string += "\nFirst Name is not valid on line #{counter.to_s}" if !(/^[\p{L} ']+$/i === line[:first_name])
-        error_string += "\nLast Name is not valid on line #{counter.to_s}" if !(/^[\p{L} ']+$/i === line[:last_name])
-        error_string += "\nCity is not valid on line #{counter.to_s}" if !(/^[\p{L} ']+$/i === line[:city])
-        error_string += "\nProvince is not valid on line #{counter.to_s}" if !(/^[\p{L} ']+$/i === line[:province])
+        error_string += "Phone is not valid on line #{counter.to_s} - #{line[:TELEFONO1_]}" if !OriginSale.is_valid_phone?(line[:telefono1_])
+        error_string += "\nFirst Name is not valid on line #{counter.to_s}" if !(/^[\p{L} ']+$/i === line[:nombre])
+        error_string += "\nLast Name is not valid on line #{counter.to_s}" if !(/^[\p{L} ']+$/i === line[:apellidos])
+        # error_string += "\nCity is not valid on line #{counter.to_s}" if !(/^[\p{L} ']+$/i === line[:city])
+        # error_string += "\nProvince is not valid on line #{counter.to_s}" if !(/^[\p{L} ']+$/i === line[:province])
+        error_string += "\nID_user is not valid on line #{counter.to_s}" if !(/^[\p{N}]+$/i === line[:id_user])
+        error_string += "\nCP is not valid on line #{counter.to_s}" if !(/^[\p{N}]+$/i === line[:cp])
+        error_string += "\nEdad is not valid on line #{counter.to_s}" if !(/^[\p{N}]+$/i === line[:edad])
         #~ File.open(failed_imports,'at') {|file| file.puts "Province is not valid on line #{counter.to_s}"} if !(line.province=/^[\p{L} ']+$/i)
         
         if error_string.length > 0
@@ -89,13 +109,18 @@ class Campaign
           end
           File.open(file_errors,'at') {|file| file.puts error_string}
         else
-          hash_to_import[:city] = ht.encode(hash_to_import[:city], :named)
-          hash_to_import[:province] = ht.encode(hash_to_import[:province], :named)
-          hash_to_import[:first_name] = ht.encode(hash_to_import[:first_name], :named)
-          hash_to_import[:last_name] = ht.encode(hash_to_import[:last_name], :named)
-          hash_to_import[:street] = ht.encode(hash_to_import[:street], :named)
-          hash_to_import[:email] = ht.encode(hash_to_import[:email], :named)
-          origin_sale = OriginSale.new(hash_to_import.to_hash)
+          # new_hash = {}
+          # new_hash[:city] = ht.encode(hash_to_import[:city], :named)
+          new_hash[:city] = " "
+          # hash_to_import[:province] = ht.encode(hash_to_import[:province], :named)
+          new_hash[:edad] = ht.encode(hash_to_import[:edad], :named)
+          new_hash[:first_name] = ht.encode(hash_to_import[:nombre], :named)
+          new_hash[:last_name] = ht.encode(hash_to_import[:apellidos], :named)
+          # new_hash[:street] = ht.encode(hash_to_import[:street], :named)
+          new_hash[:street] = " "
+          # new_hash[:email] = ht.encode(hash_to_import[:email], :named)
+          new_hash[:email] = " "
+          origin_sale = OriginSale.new(new_hash.to_hash)
           begin
             origin_sale.save
           rescue StandardError => e
@@ -140,6 +165,7 @@ class Campaign
             :first_name => origin.first_name,
             :last_name => origin.last_name,
             :street => origin.street,
+            :edad => origin.edad,
             :postal_code => origin.postal_code,
             :email => origin.email,
             :phone => origin.phone,

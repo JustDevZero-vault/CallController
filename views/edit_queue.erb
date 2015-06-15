@@ -19,7 +19,7 @@
             <select name='role' class="input-small" id="selectAddUser">
               <option></option>
               <% User.all.each do |user| %>
-                <% if !@queue.users.include?(user) && user.username != 'queue' %>
+                <% if user.is_agent? && !@queue.users.include?(user) && user.username != 'queue' %>
                   <option value="<%=user.username%>"><%=user.username%></option>
                 <% end %>
               <% end %>

@@ -11,6 +11,8 @@ class OriginSale
   property :last_name, String
   property :street, String
   property :postal_code, String
+  property :edad, String
+  property :external_id, String
   property :email, String, :messages => {:format => "Does not lot look like an email address to me.", :presence  => "We need an email address."}
   property :phone, String
   property :city, String

@@ -73,7 +73,7 @@ var parseCampaign = function (campaignid) {
   
     $.ajax({
     method: "POST",
-    url: "/country/import",
+    url: "/campaign/import",
     data: { campaign_id: campaignid },
     success: function(){
       location.reload();
