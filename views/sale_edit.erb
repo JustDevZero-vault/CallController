@@ -21,6 +21,16 @@
                 <span class="help-inline"><%=t('call_result.name')%></span>
               <% end %>
             </div>
+            <% if !@products.nil? && !@products.empty? %>
+            <div class="control-group">
+                <select class="" name="edit_product_external_id" id="edit_product_external_id">
+                  <% @products.each do |product| %>
+                    <option value="<%=product.external_id%>"><%=product.name%></option>
+                  <% end %>
+                </select>
+                <span class="help-inline"><%=t('product.one')%></span>
+            </div>
+            <% end %>
             <div class="control-group">
               <div class="input-group date">
                 <input name="callback_date" id="callback_date" type="text" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>

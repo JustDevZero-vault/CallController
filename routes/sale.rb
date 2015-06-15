@@ -5,6 +5,7 @@ class CallController < Sinatra::Application
       if un.is_agent?
         @sale = Sale.first(:id => params[:id] )
         @results = CallResult.all(:code.not => 'Undefined')
+        @products = Product.all
         @sale.update(:user => un)
       end
       erb :'sale_edit', :layout => false
@@ -46,6 +47,8 @@ class CallController < Sinatra::Application
         sale.update(:user => un) if un.is_agent?
         call_result = CallResult.first(:code => params['edit_call_result_code'])
         sale.update(:call_result => call_result) if !call_result.nil?
+        product = Product.first(:external_id => params['edit_product_external_id'])
+        sale.update(:product => product) if !product.nil?
         
         if !params['edit_call_callback_date'].nil? && !params['edit_call_callback_date'].empty? && !call_result.nil? == true && (params['edit_call_result_code'] == "3" || params['edit_call_result_code'] == "15")
           #~ sale.update(:call_back_date => params['edit_call_callback_date'].to_datetime.strftime('%Y-%m-%d %H:%M%S').to_datetime)

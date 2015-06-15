@@ -379,6 +379,13 @@ var nextCall = function (data) {
   });
 };
 
+var giveCall = function (saleid) {
+  $.get('/sale/edit/' + saleid, function (data) {
+    $('#calleditor').html(data);
+    $('#nextCall').modal('show');
+  });
+};
+
 var editQueue = function (name) {
   $.get('/queue/edit/' + name, function (data) {
     $('#queueeditor').html(data);

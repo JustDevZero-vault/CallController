@@ -30,47 +30,49 @@
               <th>
                 <%=t('product.one')%>
               </th>
-            <!--  <th>
+              <th>
                 <%=t('action.other')%>
-              </th>-->
+              </th>
             </tr>
           </thead>
           <tbody>
-            <% @my_sales.each do |my_sale| %>
+            <% @my_sales.each do |sale| %>
           <tr>
           <td>
-            <%=my_sale.id%>
+            <%=sale.id%>
           </td>
           <td>
-            <%if my_sale.call_result.code == '13'%>
+            <%if sale.call_result.code == '13'%>
               <i class="glyphicon glyphicon-ok"></i>
-            <%elsif my_sale.call_result.code == '15' %>
+            <%elsif sale.call_result.code == '15' %>
               <i class="glyphicon glyphicon-share-alt"></i>
-            <%elsif my_sale.call_result.code == '3' %>
+            <%elsif sale.call_result.code == '3' %>
               <i class="glyphicon glyphicon-share-alt"></i>
-            <%elsif my_sale.call_result.code == 'Undefined' %>
+            <%elsif sale.call_result.code == 'Undefined' %>
               <i class="glyphicon glyphicon-share-alt"></i>
             <%else %>
               <i class="glyphicon glyphicon-remove"></i>
             <% end %>
           </td>
           <td>
-            <%=my_sale.last_name%>, <%=my_sale.first_name%><br/>
-            <%=t('email')%>: <%=my_sale.email%><br/>
-            <%=t('phone')%>: <%=my_sale.phone%><br/>
+            <%=sale.last_name%>, <%=sale.first_name%><br/>
+            <%=t('email')%>: <%=sale.email%><br/>
+            <%=t('phone')%>: <%=sale.phone%><br/>
           </td>
           <td>
-            <%=my_sale.call_date.strftime('%Y-%m-%d %H:%M') if !my_sale.call_date.nil?%>
+            <%=sale.call_date.strftime('%Y-%m-%d %H:%M') if !sale.call_date.nil?%>
           </td>
           <td>
-            <%=my_sale.call_back_date.strftime('%Y-%m-%d %H:%M') if !my_sale.call_back_date.nil?%>
+            <%=sale.call_back_date.strftime('%Y-%m-%d %H:%M') if !sale.call_back_date.nil?%>
           </td>
           <td>
-            <%=my_sale.product.name if !my_sale.product.nil?%>
+            <%=sale.product.name if !sale.product.nil?%>
           </td>
-          <!--<td class="td-actions">
-            
-          </td>-->
+          <td class="td-actions">
+          <%if sale.call_result.code == '15' || sale.call_result.code ==  '3'|| sale.call_result.code ==  'Undefined' %>
+            <a data-toggle="tooltip" data-original-title="<%=t('action.edit')%>" href="#nextCall" class="btn btn-info btn-mini btn-glyphicon-only hint" onclick="giveCall('<%=sale.id%>')"><i class="glyphicon glyphicon-edit"></i></a>
+          <%end%>
+          </td>
           </tr>
          <% end %>
           </tbody>
