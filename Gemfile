@@ -19,6 +19,7 @@ gem 'i18n'
 gem 'bcrypt'
 gem 'redcarpet'
 gem 'viewpoint'
+gem 'charlock_holmes'
 #gem 'fastercsv'
 #gem 'sucker_punch'
 

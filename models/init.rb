@@ -14,6 +14,7 @@ require 'htmlentities'
 require 'redcarpet'
 require 'base64'
 require 'csv'
+require 'charlock_holmes'
 require 'dm_noisy_failures'
 
 

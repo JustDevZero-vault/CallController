@@ -43,8 +43,9 @@
                 <td class="td-actions">
                   <% if campaign.file_imported?  %>
                     <a data-toggle="tooltip" data-original-title="<%=t('action.upload')%>" href="/campaign/upload/<%=campaign.id.to_s%>" class="btn btn-default btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-upload"></i></a>
+                    <a data-toggle="tooltip" data-original-title="<%=t('action.download')%>" href="<%=campaign.file_name.gsub(Regexp.new('^public'), '')%>" class="btn btn-default btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-download"></i></a>
                     <% if campaign.processed != 'unprocessed' || campaign.parsed != 'unparsed'  %>
-                      <a data-toggle="tooltip" data-original-title="<%=t('action.purge')%>" href="#purgeCampaign" class="btn btn-warning btn-mini btn-icon-only hint" onclick="passDataToModal(['<%=campaign.external_id%>'], '#purgeCampaign')"><i class="glyphicon glyphicon-trash"></i></a>
+                      <a data-toggle="tooltip" data-original-title="<%=t('action.purge')%>" href="#purgeCampaign" class="btn btn-danger btn-mini btn-icon-only hint" onclick="passDataToModal(['<%=campaign.external_id%>'], '#purgeCampaign')"><i class="glyphicon glyphicon-trash"></i></a>
                     <% end %>
                   <% else %>
                     <a data-toggle="tooltip" data-original-title="<%=t('action.upload')%>" href="/campaign/upload/<%=campaign.id.to_s%>" class="btn btn-default btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-upload"></i></a>
@@ -88,8 +89,8 @@
                   <% end %>
                   <% if campaign.parsed == 'parsed_with_errors' %>
                   <a data-toggle="tooltip" onclick="parseCampaign('<%=campaign.id%>')" data-original-title="<%=t('parse_again')%>" class="btn btn-default btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-question-sign"></i></a>
-                    <a data-toggle="tooltip" data-original-title="Download lines <%=t('action.download_failed.')%>" href="<%=campaign.file_name.gsub(Regexp.new('^public'), '').gsub(Regexp.new('.csv$'), '.failed.csv')%>" class="btn btn-danger btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-exclamation-sign"></i></a>
-                    <a data-toggle="tooltip" data-original-title="Download errors <%=t('action.show_errors')%>" href="<%=campaign.file_name.gsub(Regexp.new('^public'), '').gsub(Regexp.new('.csv$'), '.errors.csv')%>" class="btn btn-danger btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-eye-open"></i></a>
+                    <a data-toggle="tooltip" data-original-title="<%=t('action.download_failed.')%>" href="<%=campaign.file_name.gsub(Regexp.new('^public'), '').gsub(Regexp.new('.csv$'), '.failed.csv')%>" class="btn btn-danger btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-exclamation-sign"></i></a>
+                    <a data-toggle="tooltip" data-original-title="<%=t('action.show_errors')%>" href="<%=campaign.file_name.gsub(Regexp.new('^public'), '').gsub(Regexp.new('.csv$'), '.errors.csv')%>" class="btn btn-danger btn-mini btn-icon-only hint"><i class="glyphicon glyphicon-eye-open"></i></a>
                   <% end %>
                 
                   <a data-toggle="tooltip" data-original-title="<%=t('action.edit')%>" href="#editCampaign" class="btn btn-info btn-mini btn-glyphicon-only hint" onclick="passToModalCampaign(['<%=campaign.external_id%>', '<%=campaign.id%>', '<%=campaign.campaign_type.id%>', '<%=campaign.call_queue.id%>'], '#editCampaign')"><i class="glyphicon glyphicon-edit"></i></a>
