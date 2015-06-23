@@ -29,8 +29,8 @@ class CallController < Sinatra::Application
   end
 
   before do
-    loc = request.env["HTTP_ACCEPT_LANGUAGE"] ? request.env["HTTP_ACCEPT_LANGUAGE"][0,2] : "es"
-    I18n.locale = I18n.available_locales.map(&:to_s).include?(loc) ? loc : "es"
+    loc = request.env["HTTP_ACCEPT_LANGUAGE"] ? request.env["HTTP_ACCEPT_LANGUAGE"][0,2] : "en"
+    I18n.locale = I18n.available_locales.map(&:to_s).include?(loc) ? loc : "en"
   end
 
   # Check if CallController was installed or user is logged in before doing anything
