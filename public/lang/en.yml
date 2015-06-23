@@ -97,6 +97,7 @@ en:
   username: "Username"
   active: "Active"
   processed: "Processed"
+  processing: "Processing"
   unprocessed: "Unprocessed"
   parsed: "Parsed"
   parsing: "Parsing"
@@ -192,6 +193,8 @@ en:
     add: "Add call queue"
     please: "Please, add a call queue first"
     return: "Return to queue"
+    not_for_you: "There are not calls in any queue for you, please talk to your manager."
+    not: "No calls available"
 
   task:
     one: "Task"

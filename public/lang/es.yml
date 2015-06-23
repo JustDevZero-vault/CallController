@@ -1,11 +1,11 @@
 es:
   menu:
-    documentation: "Documentaci&oacute;m"
+    documentation: "Documentaci&oacute;n"
     manage_users: "Editar usuarios"
     manage_users_queue: "Edit usuarios y colas"
     logout: "Salir"
-    dashboard: "Dashboard"
-    servers: "Servers"
+    dashboard: "Inicio"
+    servers: "Servidores"
     tasks: "Tareas"
     login: "Login"
 
@@ -72,7 +72,7 @@ es:
     default: "Resultado de llamada por defecto"
 
   holiday:
-    add: "Anyade festivo"
+    add: "A&ntilde;ade festivo"
     one: "Festivo"
     other: "Festivos"
     description: "Descripcion de festivo"
@@ -90,13 +90,14 @@ es:
   product:
     one: "Producto"
     other: "Productos"
-    add: "Anyade un producto"
-    external_id: "External ID"
+    add: "An&ntilde;ade un producto"
+    external_id: "ID externo"
   
-  legend: "Legenda"
+  legend: "Leyenda"
   username: "Usuario"
   active: "Activo"
   processed: "Procesado"
+  processing: "Procesando"
   unprocessed: "No procesado"
   parsed: "Parseado"
   parsing: "Parseando"
@@ -111,15 +112,15 @@ es:
   street: "Calle"
   phone: "Telefono"
   token:
-    invalid: "The token received is already invalid"
-    wait: "You must wait at least 5 minutes to ask a new password"
+    invalid: "El token solicitado es invalido"
+    wait: "Debes esperar al menos cinco minutos para volver a solicitar un password"
   password:
-    one: "Password"
-    repeat: "Repeat password"
-    match: "Password must match"
-    change: "Change password"
-    new: "New password"
-    wrong: "Wrong password"
+    one: "Contrase&ntilde;a"
+    repeat: "Repetir contrase&ntilde;a"
+    match: "Las contrase&ntilde;as deben coincidir"
+    change: "Cambiar ontrase&ntilde;a"
+    new: "Nueva contrase&ntilde;a"
+    wrong: "Contrase&ntilde;a erronea"
   email: "E-Mail"
   name: "Name"
   ip: "IP address"
@@ -128,190 +129,192 @@ es:
   packages: "Packages"
 
   member:
-    one: "Member"
-    other: "Members"
+    one: "Miembro"
+    other: "Miembros"
 
   error:
     not_found:
-      short: "Oops! we cannot find this place."
-      detail: "Why not try going back to the <a href='/'>dashboard</a> or using the top menu!"
+      short: "Oops! No podemos encontrar el lugar"
+      detail: "Prueba a volver al <a href='/'>inicio</a> o usar el menu"
     not_authorized:
-      short: "Yikes! It seems you can&#39;t go behind this point."
-      detail: "<a href='/'>Dashboard</a> is cool, go back to it or us the top menu"
+      short: "Yikes! Parece que no puedes continuar."
+      detail: "El <a href='/'>Inicio</a> esta bien, vuelve al inicio, o utiliza el menu para navegar"
     forbidden:
-      short: "Hmm... It looks like your pass is forbidden."
-      detail: "Why not go elsewhere, for example the <a href='/'>dashboard</a>."
+      short: "Hmm... Parece que tienes prohibido el paso"
+      detail: "Por favor, vuelve hacia atras, o en su defecto vuelve al <a href='/'>inicio</a>."
     internal500:
-      short: "Our apologies, something isn&#39;t working."
-      detail: "Thank you for your patience, as we fix that."
+      short: "Nuestras disculpas, algo no funciona."
+      detail: "Gracias por tu paciencia mientras intentamos arreglarlo"
     email:
-      invalid: "The email doesn&#39;t exist in our database."
+      invalid: "El email no existe en nuestra base de datos."
 
   vars:
-    title: "Custom variables"
-    name: "variable name"
-    value: "value"
+    title: "Variables personalizables"
+    name: "nombre de variable"
+    value: "valor"
 
   status:
     ok: "all ok"
-    warning: "warning"
-    down: "down"
-    not_monitored: "not monitored"
+    warning: "advertencia"
+    down: "caido"
+    not_monitored: "no monitorizado"
 
   user:
     one: "User"
     other: "Users"
-    add: "Add user"
-    first_name: "First Name"
-    last_name: "Last Name"
-    full_name: "Full name"
+    add: "A&ntilde;adir usuario"
+    first_name: "Nombre"
+    last_name: "Apellidos"
+    full_name: "Nombre completo"
 
   origin:
-    other: "Origin sales"
+    other: "Llamadas sin gestionar"
     
   campaign:
-    one: "Campaign"
-    other: "Campaigns"
-    add: "Add campaign"
-    external_id: "Campaign number"
-    file: "Campaign file"
-    type: "Campaign type"
-    types: "Campaign types"
-    add_type: "Add type"
-    type_name: "Type name"
-    type_please: "Please, add campaign type first"
+    one: "Campa&ntilde;a"
+    other: "Campa&ntilde;a"
+    add: "A&ntilde;adir campa&ntilde;a"
+    external_id: "Identificador de campa&ntilde;a"
+    file: "Archivo de campa&ntilde;a"
+    type: "Tipo de campa&ntilde;a"
+    types: "Tipos de campa&ntilde;as"
+    add_type: "A&ntilde;adir tipo"
+    type_name: "Nombre tipo"
+    type_please: "Por favor, a&ntilde;adir tipo de campa&ntilde;a primero"
 
   role:
-    one: "Role"
+    one: "Rol"
     other: "Roles"
-    add: "Add role"
+    add: "A&ntilde;adir rol"
 
   call_queue:
-    one: "Call Queue"
-    other: "Call Queues"
-    add: "Add call queue"
-    please: "Please, add a call queue first"
-    return: "Return to queue"
+    one: "Bolsa"
+    other: "Bolsas"
+    add: "A&ntilde;adir bolsa de llamadas"
+    please: "Por favor, a&ntilde;ade primero una bolsa de llamadas"
+    return: "Devolver a la bolsa"
+    not_for_you: "No hay llamadas disponibles para ti, consulta a tu manager."
+    not: "No hay llamadas."
 
   task:
-    one: "Task"
-    other: "Tasks"
-    started: "Started on %{date}"
-    finished: "Finished on %{date}"
+    one: "Tarea"
+    other: "Tareas"
+    started: "Empezada %{date}"
+    finished: "Finalizada %{date}"
     actions:
-      installing: "Installing"
-      executing: "Executing"
+      installing: "Instalando"
+      executing: "Ejecutando"
     status:
-      text: "Status:"
-      in_progress: "In Progress"
-      finished: "Finished"
-      failed: "Failed"
-    notifications: "Notifications:"
-    active: "Active Tasks"
-    completed: "Completed Tasks"
-    id: "Task ID"
-    description: "Description"
+      text: "Estado:"
+      in_progress: "En proceso"
+      finished: "Finalizada"
+      failed: "Fallida"
+    notifications: "Notificationes:"
+    active: "Tareas activas"
+    completed: "Tareas completadas"
+    id: "ID Tarea"
+    description: "Descripci&oacute;n"
 
   dialog:
-    unique: "(must be unique)"
-    attention: "Attention!"
+    unique: "(debe ser &uacute;nico)"
+    attention: "Atenci&oacute;n!"
     add_country:
-      title: "Add country"
+      title: "A&ntilde;adir pa&iacute;s"
     add_holiday:
-      title: "Add holiday"
+      title: "A&ntilde;adir festivo"
     add_product:
-      title: "Add product"
+      title: "A&ntilde;adir producto"
     del_country:
-      title: "Remove country"
-      confirm: "Are you sure you want to remove the country %{country}?"
+      title: "Eliminar pa&iacute;s"
+      confirm: "Estas seguro de que deseas eliminar el  %{country}?"
     del_product:
-      title: "Remove product"
-      confirm: "Are you sure you want to remove the product %{product}?"
+      title: "Eliminar producto"
+      confirm: "Estas seguro de querer eliminar el producto %{product}?"
     del_holiday:
-      title: "Remove holiday"
-      confirm: "Are you sure you want to remove the holiday %{holiday}?"
+      title: "Elimininar festivo"
+      confirm: "Estas seguro de querer eliminar el festivo %{holiday}?"
     purge_campaign:
-      title: "Purge campaign"
-      confirm: "Are you sure you want to purge the campaign %{campaign}?<br/>Take in mind that all comments and sales will be deleted"
+      title: "Purgar campa&ntilde;a"
+      confirm: "Estas seguro de querer purgar la campa&ntilde;a %{campaign}?<br/>Ten en mente que eso eliminara todos los comentarios y ventas."
     del_call_result:
-      title: "Remove call result"
-      confirm: "Are you sure you want to remove the call result %{call_result}?"
+      title: "Eliminar resultados de llamada"
+      confirm: "Estas seguro de querer eliminar el resultado de llamada %{call_result}?"
     edit_country:
-      title: "Edit country"
+      title: "Editar pa&iacute;s"
     edit_origin:
-      title: "Edit origin sale"
+      title: "Editar llamada llamada de origen"
     migrate_country:
-      confirm: "Are you sure you want to migrate the countries?"
+      confirm: "Estas seguro de que deseas migrar los pa&iacute;ses?"
     add_province:
-      title: "Add province"
+      title: "A&atilde;adir provincia"
     del_province:
-      title: "Remove province"
-      confirm: "Are you sure you want to remove the province %{province}?"
+      title: "Eliminar provincia"
+      confirm: "Estas seguro de querer eliminar la provincia %{province}?"
     edit_province:
-      title: "Edit province"
+      title: "Editar provincia"
     migrate_province:
-      confirm: "Are you sure you want to migrate the provinces?"
+      confirm: "Estas seguro de que deseas migrar las pa&iacute;ses?"
     add_user:
-      title: "Add User"
+      title: "Editar usuario"
     add_role:
-      title: "Add Role"
-      name: "Role Name"
-      name_long: "name for the new role"
-      capability: "Capability"
-      capability_long: "capability name for the new role"
+      title: "A&ntilde;adir rol"
+      name: "Nombre del rol"
+      name_long: "nombre del nuevo rol"
+      capability: "Capacidad"
+      capability_long: "nombre capacidad del nuevo rol"
     add_queue:
-      title: "Add Call Queue"
-      name: "Queue Name"
-      name_long: "Name for the new queue"
+      title: "A&ntilde;adir bolsa de llamadas"
+      name: "Nombre de bolsa de llamadas"
+      name_long: "Nombre para la nueva de bolsa de llamadas"
     add_call_result:
-      title: "Add Call Result"
+      title: "A&ntilde;adir resultado de llamada"
     del_user:
-      title: "Remove User"
-      confirm: "Are you sure you want to remove the user %{user}?"
+      title: "Eliminar usuario"
+      confirm: "Estas seguro que deseas eliminar el usuario %{user}?<br/>Tal vez preferirias desactivarlo en su lugar."
     del_campaign:
-      title: "Delete campaign"
-      confirm: "Are you sure you want to remove the campaign %{campaign}?"
+      title: "Eliminar campa&ntilde;a"
+      confirm: "Estas seguro que deseas eliminar la campa&ntilde;a %{campaign}?"
     del_campaign_type:
-      title: "Delete campaign type"
-      confirm: "Are you sure you want to remove the campaign type %{campaign_type}?"
+      title: "Eliminar tipo de campa&ntilde;a"
+      confirm: "Estas seguro que deseas eliminar el tipo de campa&ntilde;a %{campaign_type}?"
     del_role:
-      title: "Remove Role"
-      confirm: "Are you sure you want to delete the role %{role}?"
+      title: "Eliminar rol"
+      confirm: "Estas seguro que deseas eliminar el rol %{role}?"
     del_queue:
-      title: "Remove Call Queue"
-      confirm: "Are you sure you want to delete the call queue %{queue}?"
+      title: "Borrar bolsa de llamadas"
+      confirm: "Estas seguro que deseas borrar la bolsa de llamadas %{queue}?"
     edit_product:
-      title: "Edit Product"
+      title: "Editar Producto"
     edit_user:
-      title: "Edit User"
-      new_pass: "New Password"
-      change_pass: "Change password"
-      change_email: "Change email address"
+      title: "Editar usuario"
+      new_pass: "Nueva contrase&ntilde;a"
+      change_pass: "Cambiar contrase&ntilde;a"
+      change_email: "Cambiar email"
     edit_role:
-      title: "Edit Role"
-      name: "role name"
-      capabilities: "Capabilities:"
-      members: "Role members:"
+      title: "Editar rol"
+      name: "Nombre del rol"
+      capabilities: "Capacidades:"
+      members: "Miembros:"
     edit_queue:
-      title: "Edit Call Queue"
-      name: "Queue name"
-      members: "Queue members:"
+      title: "Edit bolsa de llamadas"
+      name: "Nombre bolsa"
+      members: "Miembros de la bolsa:"
     install:
       title: "Quick Install"
       packages: "Package(s) to install (separated by spaces)"
   docu:
-    index: "Index"
-    installing: "Installing"
-    basics: "Basics"
-    configurations: "Configurations"
+    index: "Indice"
+    installing: "Instalaci&oacute;n"
+    basics: "Basica"
+    configurations: "Configuraciones"
     variables: "Variables"
-    conditionals: "Conditionals"
+    conditionals: "Condicionales"
 
   update:
     title: "Updating CallController"
-    upgrade: "There is an CallController update available, do you want to automatically download and install it? (CallController will be restarted)"
-    actions: "The following actions will be performed:"
-    link: "Click here to confirm the update"
+    upgrade: "Hay una actualizaci&oacute;n disponible de CallController, quieres que se descargue e instale autom&acute;ticamente (CallController ser&acute; reiniciado)"
+    actions: "Las siguientes actualizaciones pueden ser llevadas a cabo"
+    link: "Haz click aqu&iacute; para confirmar la actualizaci&oacute;n"
 
   dashboard:
     task:
