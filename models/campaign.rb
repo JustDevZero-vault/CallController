@@ -9,6 +9,7 @@ class Campaign
   property :id, Serial, :key => true
   property :external_id, String
   property :file_name, String, :length => 255
+  property :file_name_fixed, String, :length => 255
   property :parsed, String, :default => 'unparsed'
   property :processed, String, :default => 'unprocessed'
   property :active, Boolean, :default => false
@@ -51,18 +52,23 @@ class Campaign
     codifications = ['UTF-8', 'IBM424_rtl']
     
     file_to_parse = self.file_name
-    file_fixed = file_to_parse.gsub(Regexp.new('.csv$'), '.fixed.csv')
+    file_fixed = self.file_name_fixed
     if File.exist?(file_fixed)
       file_to_parse = file_fixed
+      failed_imports = file_to_parse.gsub(Regexp.new(/.csv$/), '.failed.csv')
+      file_errors = file_to_parse.gsub(Regexp.new(/.csv$/), '.errors.csv')
+      File.delete(file_errors) if File.exist?(file_errors)
+      File.delete(failed_imports) if File.exist?(failed_imports)
     else
       file_to_parse = self.file_name
     end
+    
     file_content = File.read(file_to_parse)
     detector = CharlockHolmes::EncodingDetector.new
     file_detection = detector.detect(file_content)
     converter = CharlockHolmes::Converter
-    if file_detection[:encoding] == 'windows-1252'
-      exec "iconv -f windows-1252 " + file_to_parse + " -t UTF-8 -o " + file_to_parse
+    if file_detection[:encoding] != 'UTF-8'
+      exec "iconv -f " + file_detection[:encoding] + " " + file_to_parse + " -t UTF-8 -o " + file_to_parse
     end
     CSV.foreach(file_to_parse,
                 :headers           => true,
@@ -302,6 +308,14 @@ class Campaign
       result_value = false
       if !self.file_name.nil? && !self.file_name.empty?
           result_value = File.exist?(self.file_name)
+      end
+      return result_value
+    end
+    
+    def file_fix_imported?
+      result_value = false
+      if !self.file_name_fixed.nil? && !self.file_name_fixed.empty?
+          result_value = File.exist?(self.file_name_fixed)
       end
       return result_value
     end
