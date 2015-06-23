@@ -2,7 +2,7 @@
 class CallController < Sinatra::Application
  
   before /^(\/campaign)/ do
-    unless user.is_admin? || user.is_manager?
+    unless !user.nil? && (user.is_admin? || user.is_manager?)
       redirect "/"
     end
   end

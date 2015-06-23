@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 class CallController < Sinatra::Application
   before /^(\/role)/ do
-    unless user.is_admin? || user.is_manager?
+    unless !user.nil? && (user.is_admin? || user.is_manager?)
       redirect "/"
     end
   end

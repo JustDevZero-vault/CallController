@@ -2,7 +2,7 @@
 class CallController < Sinatra::Application
 
   before /^(\/origin)/ do
-    unless user.is_admin? || user.is_manager?
+    unless !user.nil? && (user.is_admin? || user.is_manager?)
       redirect "/"
     end
   end
