@@ -2,7 +2,7 @@
 class CallController < Sinatra::Application
  
   before /^(\/campaign)/ do
-    unless user.is_admin? || user.is_manager?
+    unless !user.nil? && (user.is_admin? || user.is_manager?)
       redirect "/"
     end
   end
@@ -101,6 +101,9 @@ class CallController < Sinatra::Application
         final_file = year_month_day_folder + params['file'][:filename]
         if !!!( final_file =~ /.fixed.csv$/)
           campaign.update(:file_name => final_file)
+          campaign.update(:file_name_fixed => nil)
+        else
+          campaign.update(:file_name_fixed => final_file)
         end
      else
     end
@@ -114,9 +117,9 @@ class CallController < Sinatra::Application
     if !cn.nil?
       #~ CampaignInstance.create(campaign.id, un, 'import')
       
-       # Thread.new do
+       Thread.new do
         cn.process_import(un)
-       # end
+       end
       
     end
     #~ redirect to '/campaigns'
