@@ -5,6 +5,7 @@
         <a type="button" onClick="window.location.reload()" class="close" data-dismiss="modal" aria-hidden="true">×</a>
         <h3 id="addProvinceLabel"><%=t('call.next')%></h3>
       </div>
+      <form id="myform" href="#">
       <div class="modal-body">
         <div class="control-group"><input type="text" class="input" id="full_name" value="<%=@sale.last_name%>, <%=@sale.first_name%>" readonly /> <span class="help-inline"><%=t('user.full_name')%></span></div>
         <div class="control-group"><input type="text" class="input" id="phone" value="<%=@sale.phone%>" readonly /> <span class="help-inline"><%=t('phone')%></span></div>
@@ -34,15 +35,16 @@
             <% end %>
             <div class="control-group">
               <div class="input-group date">
-                <input name="callback_date" id="callback_date" value="<%=@sale.call_back_date.strftime('%Y-%m-%d %H:%M') if !@sale.call_back_date.nil?%>" type="text" class="form-control"><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
+                <input name="callback_date" required data-validation-required-message="Test" id="callback_date" value="<%=@sale.call_back_date.strftime('%Y-%m-%d %H:%M') if !@sale.call_back_date.nil?%>" type="text" class="form-control" /><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
               </div>
           </div>
           <div class="control-group"><input type="checkbox" class="input" id="return_to_main_queue" value="" /> <span id ="returnqueue" class="help-inline"><%=t('call_queue.return')%></span></div>
       </div>
       <div class="modal-footer">
         <a class="btn btn" onClick="window.location.reload()" data-dismiss="modal" aria-hidden="true"><%=t('action.close')%></a>
-        <a class="btn btn-success" onClick="updateSale('<%=@sale.id%>')" data-dismiss="modal" aria-hidden="true"><%=t('action.save')%></a>
+        <button class="btn btn-success" onClick="updateSale('<%=@sale.id%>')" data-dismiss="modal" aria-hidden="true"><%=t('action.save')%></button>
       </div> <!-- /.modal-footer -->
+      </form>
     </div> <!-- /.modal-content -->
   </div> <!-- /.modal-dialog -->
 </div> <!-- /modal -->
@@ -60,11 +62,13 @@
         $('#return_to_main_queue').show();
         $('.input-group.date').show();
         $('#returnqueue').show();
+        $('#callback_date').focus();
       }
       else if (value == 15) {
         $('#return_to_main_queue').show();
         $('.input-group.date').show();
         $('#returnqueue').show();
+        $('#callback_date').focus();
       }
       else if (value == 13){ 
         $('#edit_product_external_id').show();
@@ -77,6 +81,7 @@
         $('.input-group.date').hide();
       };y
     });
+    
     $('.input-group.date').datetimepicker({
         startDate: "today",
         weekStart: 1,
@@ -85,5 +90,6 @@
         orientation: "top auto",
         calendarWeeks: true,
         autoclose: true,
+        minValue : "now",
     });
 </script>

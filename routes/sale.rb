@@ -14,8 +14,15 @@ class CallController < Sinatra::Application
       erb :'sale_edit', :layout => false
   end
   
+  
+  get '/nosales' do
+    erb :'error_page/no_call', :layout => false
+  end
+  
   get '/sale/next' do
-      results = CallResult.all(:code => ['Undefined', '3', '15'], :order => [:id.asc] )
+      # results = CallResult.all(:code => ['Undefined', '3', '15'], :order => [:id.desc] )
+      results = CallResult.all(:code => ['3', '15', 'Undefined'] )
+      redirect_value = '/nosales'
       user_name = session[:username]
       un = User.first(:username => user_name )
       #~ collection = Sale
@@ -28,22 +35,22 @@ class CallController < Sinatra::Application
             campaign_collection << campaign if campaign.active
           end
         end
-        campaign_collection.each do |collect|
-          end
         users = User.all(:username => ['queue', user_name] )
-        unmanaged_sale = Sale.first(:user => users, :call_result => results, :campaign=> campaign_collection, :order => [:call_back_date.asc, :id.asc ] )
+        if !campaign_collection.nil?
+          unmanaged_sale = Sale.first(:user => users, :call_result => results, :campaign=> campaign_collection, :order => [:call_back_date.desc, :id.asc ], :call_back_date.lte => DateTime.now )
+          unmanaged_sale = Sale.first(:user => users, :call_result => results, :campaign=> campaign_collection, :order => [:call_back_date.desc, :id.asc ], :call_back_date => nil ) if unmanaged_sale.nil?
+          redirect_value = '/sale/edit/' + unmanaged_sale.id.to_s if !unmanaged_sale.nil?
+        end
       end
-      
-      redirect_value = '/sale/edit/' + unmanaged_sale.id.to_s
       redirect to redirect_value
-      #~ erb :'sale_edit', :layout => false
+      # erb "test", :layout => false
+      
   end
 
   post '/sale/edit' do
     sale = Sale.first(:id => (params['edit_call_id']) )
     un = User.first(:username => (session[:username]) )
     user_queue = User.first(:username => 'queue')
-    notifi = Notification.create(:type => :error, :sticky => false, :message => params)
     if ((un.is_agent? && sale.user.id == un.id) || (un.is_agent? && sale.user.id == user_queue.id) || un.is_admin? || un.is_supervisor? || un.is_manager? || un.is_coacher?)
       if !sale.nil?
           
@@ -53,9 +60,16 @@ class CallController < Sinatra::Application
         product = Product.first(:external_id => params['edit_product_external_id'])
         sale.update(:product => product) if !product.nil? && params['edit_call_result_code'] == "13" 
         
-        if !params['edit_call_callback_date'].nil? && !params['edit_call_callback_date'].empty? && !call_result.nil? == true && (params['edit_call_result_code'] == "3" || params['edit_call_result_code'] == "15")
+        if !params['edit_call_callback_date'].nil? && !params['edit_call_callback_date'].empty? && !call_result.nil? && (params['edit_call_result_code'] == "3" || params['edit_call_result_code'] == "15")
           #~ sale.update(:call_back_date => params['edit_call_callback_date'].to_datetime.strftime('%Y-%m-%d %H:%M%S').to_datetime)
-          sale.update(:call_back_date => params['edit_call_callback_date'].to_datetime)
+          captured_date = params['edit_call_callback_date'].to_datetime
+          if captured_date.past?
+              sale.update(:call_back_date => captured_date) if un.is_admin? || un.is_supervisor? || un.is_manager? || un.is_coacher?
+          else
+            sale.update(:call_back_date => captured_date)
+          end
+        elsif params['edit_call_callback_date'].nil? || params['edit_call_callback_date'].empty? && !call_result.nil? && (params['edit_call_result_code'] == "3" || params['edit_call_result_code'] == "15")
+          sale.update(:call_back_date => DateTime.now + 3600)
         else
           sale.update(:call_back_date => nil)
         end
