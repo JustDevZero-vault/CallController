@@ -5,7 +5,10 @@ class CallController < Sinatra::Application
       my_sales = Sale.all(:updated_at => (DateTime.now.beginning_of_day..DateTime.now) )
       my_sales2 = Sale.all(:call_date => (DateTime.now.beginning_of_day..DateTime.now) )
       my_sales3 = Sale.all(:call_date => nil)
-      @sales_today = my_sales2 + my_sales + my_sales3
+      sales_today = my_sales2 + my_sales + my_sales3
+      @sale_limit = 10
+      @sales_count = sales_today.count
+      @sales_today = sales_today.all(:limit => @sale_limit)
       @users = User.all
       erb :admin_dashboard
     else
