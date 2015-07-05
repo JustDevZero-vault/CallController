@@ -1,3 +1,5 @@
+[![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=justdevzero&url=https://github.com/JustDevZero/CallController&title=CallController&language=&tags=github&category=software) 
+
 Hello!
 ====
 
