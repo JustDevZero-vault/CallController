@@ -3,13 +3,15 @@
 Hello!
 ====
 
-This is a current WIP project based on [Sinatra](http://www.sinatrarb.com/) and [Twitter Bootstrap](http://getbootstrap.com/).
+This was a current WIP project based on [Sinatra](http://www.sinatrarb.com/) and [Twitter Bootstrap](http://getbootstrap.com/).
 
-This project is like a microCRM, is not complex as a full CRM, but it will allow you to upload a list of clients to allow your comercials to call their.
+This project intention was to act like a microCRM, is not complex as a full CRM, but it should allow the user to upload a list of clients to allow your comercials to call them.
 
 The Sales manager imports a list in csv format and this is stored in a MySQL(or whatevah db) and then the saleman/comercials clicks to view the number of an already client and ask him if he want't something.
 
 TLDR: "So who should my salesman call now?"
+
+Status: This project is now dead.
 
 Go!
 ===
